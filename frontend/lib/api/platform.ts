@@ -191,6 +191,44 @@ export function usePlatformActionLog(filters: ActionLogFilters) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Impersonation
+// ---------------------------------------------------------------------------
+
+export function useCreateImpersonationToken(tenantId: number) {
+  return useMutation({
+    mutationFn: () =>
+      apiRequest<{ token: string }>(`/api/v1/platform/tenants/${tenantId}/impersonate/`, {
+        method: 'POST',
+      }),
+  });
+}
+
+export function useExchangeImpersonationToken() {
+  return useMutation({
+    mutationFn: ({ token, restaurant_id }: { token: string; restaurant_id: string }) =>
+      apiRequest('/api/v1/platform/auth/impersonate-exchange/', {
+        method: 'POST',
+        body: { token, restaurant_id },
+      }),
+  });
+}
+
+export function useEndImpersonation() {
+  return useMutation({
+    mutationFn: () =>
+      apiRequest('/api/v1/platform/auth/end-impersonation/', { method: 'POST' }),
+  });
+}
+
+export function useIsImpersonating(): boolean {
+  return useQuery<{ impersonating: boolean }>({
+    queryKey: ['impersonation-status'],
+    queryFn: () => apiRequest('/api/v1/platform/auth/impersonation-status/'),
+    staleTime: 30_000,
+  }).data?.impersonating === true;
+}
+
 export type SubscriptionOverridePatch = {
   plan?: string;
   location_limit_override?: number | null;
