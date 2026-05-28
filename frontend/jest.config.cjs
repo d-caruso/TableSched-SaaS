@@ -4,7 +4,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   passWithNoTests: true,
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': ['<rootDir>/$1', '<rootDir>/node_modules/tablesched-frontend/$1'],
     '^@core/(.*)$': '<rootDir>/node_modules/tablesched-frontend/$1',
     '^@saas/(.*)$': '<rootDir>/$1',
     '^tamagui$': '<rootDir>/__mocks__/tamagui.ts',
