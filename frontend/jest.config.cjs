@@ -11,5 +11,6 @@ module.exports = {
     '^@tamagui/core$': '<rootDir>/__mocks__/tamagui.ts',
     '^@tamagui/text$': '<rootDir>/__mocks__/tamagui.ts',
     '^sentry-expo$': '<rootDir>/__mocks__/sentry-expo.ts',
+    '^expo-constants$': '<rootDir>/__mocks__/expo-constants.ts',
   },
 };
