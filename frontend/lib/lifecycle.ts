@@ -27,6 +27,13 @@ export function installSuspensionErrorHandler(
           queryClient.invalidateQueries({ queryKey: ['subscription'] });
           showToast(t('saas:lifecycle.writeBlockedToast'), TOAST_VARIANT.ERROR);
         }
+        if (
+          apiErr?.status === 429 &&
+          typeof apiErr?.body?.detail === 'string' &&
+          apiErr.body.detail.includes('API key')
+        ) {
+          showToast(t('saas:apiKeys.rateLimitedToast'), TOAST_VARIANT.ERROR);
+        }
       },
     },
   });
