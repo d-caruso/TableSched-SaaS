@@ -91,7 +91,10 @@
       "cancelConfirmBody": "The tenant's data will be retained for the grace period, then permanently deleted.",
       "deleteConfirmTitle": "Delete tenant schema?",
       "deleteConfirmBody": "This permanently deletes all tenant data. This action cannot be undone.",
-      "deleteTypeSlugLabel": "Type the tenant slug to confirm"
+      "deleteTypeSlugLabel": "Type the tenant slug to confirm",
+      "apiKeysSummaryTitle": "API keys",
+      "apiKeysSummaryActiveCount": "{{count}} active key(s).",
+      "apiKeysSummaryRecent": "Most recent: {{name}} — {{date}}"
     },
     "subscription": {
       "title": "Subscription overrides",
@@ -118,5 +121,31 @@
       "deletionScheduled": "Tenant deletion scheduled.",
       "subscriptionUpdated": "Subscription updated."
     }
+  },
+  "apiKeys": {
+    "title": "API keys",
+    "subtitle": "Use API keys to integrate TableSched with your booking widget, POS, or internal tooling.",
+    "rateLimitNote": "Rate limit: 100 requests/hour, 1,000 requests/day per key. Max 5 active keys.",
+    "maxReached": "You have reached the maximum of 5 active keys.",
+    "createButton": "+ Create key",
+    "createModalTitle": "Create API key",
+    "createModalNameLabel": "Key name",
+    "createdModalTitle": "Save this key now",
+    "createdModalBody": "You won't see it again.",
+    "copyButton": "Copy to clipboard",
+    "copyToast": "Key copied to clipboard.",
+    "lastUsedNever": "Never used",
+    "lastUsedRelative": "Last used {{date}}",
+    "revokeConfirmTitle": "Revoke key?",
+    "revokeConfirmBody": "Revoke \"{{name}}\"? Requests using this key will fail immediately. This cannot be undone.",
+    "revokedToast": "API key revoked.",
+    "renameError": "Failed to rename key.",
+    "usageTitle": "Usage",
+    "usageThisMonth": "This month",
+    "usageMonthRow": "{{year}}-{{month}}",
+    "rateLimitedToast": "API key rate limit reached. Please wait before retrying.",
+    "upsellTitle": "API access (Enterprise)",
+    "upsellBody": "Programmatic API keys, monthly usage tracking, 100 req/hr · 1,000 req/day per key.",
+    "upsellCta": "Upgrade to Enterprise →"
   }
 }

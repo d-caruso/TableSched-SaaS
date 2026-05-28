@@ -7,6 +7,7 @@ jest.mock('@saas/lib/api/platform', () => ({
   useReactivateTenant: jest.fn(),
   useCancelTenant: jest.fn(),
   useDeleteTenantSchema: jest.fn(),
+  usePlatformApiKeysSummary: jest.fn(() => ({ isLoading: false, data: undefined })),
 }));
 jest.mock('@saas/lib/lifecycle', () => ({ useCanWrite: () => true }));
 jest.mock('@saas/lib/toast', () => ({
