@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "TableSched SaaS",
+    "slug": "tablesched-saas",
+    "scheme": "tablesched-saas",
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "platforms": ["ios", "android", "web"],
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "app",
+          "origin": "https://saas.tablesched.com"
+        }
+      ]
+    ]
+  }
+}

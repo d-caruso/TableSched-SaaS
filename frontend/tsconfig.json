@@ -1,0 +1,18 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@core/*": ["node_modules/tablesched-frontend/*"],
+      "@saas/*": ["./*"]
+    }
+  },
+  "exclude": [
+    "dist",
+    ".expo",
+    "node_modules"
+  ]
+}
