@@ -4,6 +4,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "types": ["jest"],
     "paths": {
       "@/*": ["./*", "node_modules/tablesched-frontend/*"],
       "@core/*": ["node_modules/tablesched-frontend/*"],
