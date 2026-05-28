@@ -26,7 +26,6 @@ export default function ImpersonateCallbackScreen() {
       .catch(() => {
         setStatus('error');
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (status === 'error') {
