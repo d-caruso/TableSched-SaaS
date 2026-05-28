@@ -136,3 +136,25 @@ export function useDeleteTenantSchema(id: number) {
     },
   });
 }
+
+export type SubscriptionOverridePatch = {
+  plan?: string;
+  location_limit_override?: number | null;
+  trial_ends_at?: string | null;
+  status?: string;
+};
+
+export function useOverrideSubscription(id: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (patch: SubscriptionOverridePatch) =>
+      apiRequest(`/api/v1/platform/tenants/${id}/subscription/`, {
+        method: 'PATCH',
+        body: patch,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-tenant', id] });
+      queryClient.invalidateQueries({ queryKey: ['platform-tenants'] });
+    },
+  });
+}
