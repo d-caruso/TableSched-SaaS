@@ -11,25 +11,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.api_access.models import APIKey, APIUsageLog, MAX_ACTIVE_KEYS_PER_ACCOUNT
+from apps.api_access.permissions import IsEnterpriseOrgMember
 from apps.api_access.serializers import APIKeyCreateSerializer, APIKeySerializer, APIUsageLogSerializer
-from apps.platform.permissions import IsPlatformStaff
 
 
 def _hash(raw: str) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
-<<<<<<< Updated upstream:apps/api_access/views.py
-def _get_billing_account(request):
-    return request.user  # APIKeyAuthentication returns (billing_account, api_key)
-
-
-class APIKeyListCreateView(APIView):
-    """GET: list active keys. POST: create new key (max 5)."""
-
-    def get(self, request):
-        billing_account = request.user
-=======
 class APIKeyListCreateView(APIView):
     """GET: list active keys. POST: create new key (max 5)."""
 
@@ -38,16 +27,11 @@ class APIKeyListCreateView(APIView):
 
     def get(self, request):
         billing_account = request.tenant.billing_account
->>>>>>> Stashed changes:backend/apps/api_access/views.py
         keys = APIKey.objects.filter(billing_account=billing_account, is_active=True)
         return Response(APIKeySerializer(keys, many=True).data)
 
     def post(self, request):
-<<<<<<< Updated upstream:apps/api_access/views.py
-        billing_account = request.user
-=======
         billing_account = request.tenant.billing_account
->>>>>>> Stashed changes:backend/apps/api_access/views.py
         active_count = APIKey.objects.filter(
             billing_account=billing_account, is_active=True
         ).count()
@@ -78,16 +62,11 @@ class APIKeyListCreateView(APIView):
 class APIKeyRevokeView(APIView):
     """DELETE: revoke a key (set is_active=False)."""
 
-<<<<<<< Updated upstream:apps/api_access/views.py
-    def delete(self, request, pk):
-        billing_account = request.user
-=======
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsEnterpriseOrgMember]
 
     def delete(self, request, pk):
         billing_account = request.tenant.billing_account
->>>>>>> Stashed changes:backend/apps/api_access/views.py
         try:
             api_key = APIKey.objects.get(pk=pk, billing_account=billing_account, is_active=True)
         except APIKey.DoesNotExist:
@@ -100,16 +79,11 @@ class APIKeyRevokeView(APIView):
 class APIUsageLogView(APIView):
     """GET: monthly usage log for a specific key."""
 
-<<<<<<< Updated upstream:apps/api_access/views.py
-    def get(self, request, pk):
-        billing_account = request.user
-=======
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsEnterpriseOrgMember]
 
     def get(self, request, pk):
         billing_account = request.tenant.billing_account
->>>>>>> Stashed changes:backend/apps/api_access/views.py
         try:
             api_key = APIKey.objects.get(pk=pk, billing_account=billing_account)
         except APIKey.DoesNotExist:
