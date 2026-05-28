@@ -78,3 +78,59 @@ test('all lifecycle keys are present in DE', () => {
     expect(deKeys).toContain(key);
   });
 });
+
+// Explicit platform namespace parity
+const PLATFORM_KEYS = [
+  'platform.title',
+  'platform.returnToRestaurant',
+  'platform.tenants.title',
+  'platform.tenants.empty',
+  'platform.tenants.search',
+  'platform.tenants.filterAll',
+  'platform.tenants.filterActive',
+  'platform.tenants.filterPastDue',
+  'platform.tenants.filterSuspended',
+  'platform.tenants.filterCancelled',
+  'platform.tenant.suspendConfirmTitle',
+  'platform.tenant.suspendConfirmBody',
+  'platform.tenant.cancelConfirmTitle',
+  'platform.tenant.cancelConfirmBody',
+  'platform.tenant.deleteConfirmTitle',
+  'platform.tenant.deleteConfirmBody',
+  'platform.tenant.deleteTypeSlugLabel',
+  'platform.subscription.title',
+  'platform.subscription.planLabel',
+  'platform.subscription.locationOverrideLabel',
+  'platform.subscription.trialEndsAtLabel',
+  'platform.subscription.statusOverrideDisclosure',
+  'platform.impersonate.confirmTitle',
+  'platform.impersonate.confirmBody',
+  'platform.impersonate.banner',
+  'platform.impersonate.endSession',
+  'platform.impersonate.callbackInProgress',
+  'platform.impersonate.callbackError',
+  'platform.actionLog.title',
+  'platform.toasts.suspended',
+  'platform.toasts.reactivated',
+  'platform.toasts.cancelled',
+  'platform.toasts.deletionScheduled',
+  'platform.toasts.subscriptionUpdated',
+];
+
+test('all platform keys are present in EN', () => {
+  PLATFORM_KEYS.forEach((key) => {
+    expect(enKeys).toContain(key);
+  });
+});
+
+test('all platform keys are present in IT', () => {
+  PLATFORM_KEYS.forEach((key) => {
+    expect(itKeys).toContain(key);
+  });
+});
+
+test('all platform keys are present in DE', () => {
+  PLATFORM_KEYS.forEach((key) => {
+    expect(deKeys).toContain(key);
+  });
+});

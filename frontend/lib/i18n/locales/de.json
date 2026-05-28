@@ -70,5 +70,53 @@
     "eventReasonOwnerCancelled": "Vom Inhaber gekündigt",
     "pastDueBanner": "Ihre letzte Zahlung ist fehlgeschlagen. Aktualisieren Sie Ihre Karte, um Ihr Konto aktiv zu halten.",
     "updatePayment": "Zahlung aktualisieren"
+  },
+  "platform": {
+    "title": "Plattform-Admin",
+    "returnToRestaurant": "Zurück zu meinem Restaurant",
+    "tenants": {
+      "title": "Mandanten",
+      "empty": "Keine Mandanten gefunden.",
+      "search": "Mandanten suchen",
+      "filterAll": "Alle",
+      "filterActive": "Aktiv",
+      "filterPastDue": "Überfällig",
+      "filterSuspended": "Gesperrt",
+      "filterCancelled": "Gekündigt"
+    },
+    "tenant": {
+      "suspendConfirmTitle": "Mandant sperren?",
+      "suspendConfirmBody": "Dies blockiert alle Schreiboperationen für den Mandanten.",
+      "cancelConfirmTitle": "Mandantenabonnement kündigen?",
+      "cancelConfirmBody": "Die Daten des Mandanten werden für die Karenzzeit aufbewahrt und dann dauerhaft gelöscht.",
+      "deleteConfirmTitle": "Mandantenschema löschen?",
+      "deleteConfirmBody": "Dadurch werden alle Mandantendaten dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteTypeSlugLabel": "Mandanten-Slug zur Bestätigung eingeben"
+    },
+    "subscription": {
+      "title": "Abonnement-Überschreibungen",
+      "planLabel": "Plan",
+      "locationOverrideLabel": "Standortlimit-Überschreibung",
+      "trialEndsAtLabel": "Testende",
+      "statusOverrideDisclosure": "Status überschreiben (selten)"
+    },
+    "impersonate": {
+      "confirmTitle": "Mandant imitieren?",
+      "confirmBody": "Sie sind dabei, als Mitarbeiter auf {{tenant}} zuzugreifen. Diese Aktion wird protokolliert. Die Sitzung läuft in 15 Minuten ab.",
+      "banner": "Sie imitieren {{tenant}}. Aktionen werden protokolliert.",
+      "endSession": "Sitzung beenden",
+      "callbackInProgress": "Imitation wird gestartet…",
+      "callbackError": "Imitation fehlgeschlagen. Der Link ist möglicherweise abgelaufen."
+    },
+    "actionLog": {
+      "title": "Aktionsprotokoll"
+    },
+    "toasts": {
+      "suspended": "Mandant gesperrt.",
+      "reactivated": "Mandant reaktiviert.",
+      "cancelled": "Mandantenabonnement gekündigt.",
+      "deletionScheduled": "Mandantenlöschung geplant.",
+      "subscriptionUpdated": "Abonnement aktualisiert."
+    }
   }
 }
