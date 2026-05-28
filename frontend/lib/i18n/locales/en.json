@@ -70,5 +70,53 @@
     "eventReasonOwnerCancelled": "Cancelled by owner",
     "pastDueBanner": "Your last payment failed. Update your card to keep your account active.",
     "updatePayment": "Update payment"
+  },
+  "platform": {
+    "title": "Platform admin",
+    "returnToRestaurant": "Return to my restaurant",
+    "tenants": {
+      "title": "Tenants",
+      "empty": "No tenants found.",
+      "search": "Search tenants",
+      "filterAll": "All",
+      "filterActive": "Active",
+      "filterPastDue": "Past due",
+      "filterSuspended": "Suspended",
+      "filterCancelled": "Cancelled"
+    },
+    "tenant": {
+      "suspendConfirmTitle": "Suspend tenant?",
+      "suspendConfirmBody": "This will block all write operations for the tenant.",
+      "cancelConfirmTitle": "Cancel tenant subscription?",
+      "cancelConfirmBody": "The tenant's data will be retained for the grace period, then permanently deleted.",
+      "deleteConfirmTitle": "Delete tenant schema?",
+      "deleteConfirmBody": "This permanently deletes all tenant data. This action cannot be undone.",
+      "deleteTypeSlugLabel": "Type the tenant slug to confirm"
+    },
+    "subscription": {
+      "title": "Subscription overrides",
+      "planLabel": "Plan",
+      "locationOverrideLabel": "Location limit override",
+      "trialEndsAtLabel": "Trial ends at",
+      "statusOverrideDisclosure": "Override status (rare)"
+    },
+    "impersonate": {
+      "confirmTitle": "Impersonate tenant?",
+      "confirmBody": "You are about to access {{tenant}} as a tenant staff member. This action is logged. The session expires in 15 minutes.",
+      "banner": "Impersonating {{tenant}}. Actions are logged.",
+      "endSession": "End session",
+      "callbackInProgress": "Starting impersonation session…",
+      "callbackError": "Impersonation failed. The link may have expired."
+    },
+    "actionLog": {
+      "title": "Action log"
+    },
+    "toasts": {
+      "suspended": "Tenant suspended.",
+      "reactivated": "Tenant reactivated.",
+      "cancelled": "Tenant subscription cancelled.",
+      "deletionScheduled": "Tenant deletion scheduled.",
+      "subscriptionUpdated": "Subscription updated."
+    }
   }
 }

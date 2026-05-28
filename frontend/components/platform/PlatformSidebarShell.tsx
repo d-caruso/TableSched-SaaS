@@ -1,0 +1,51 @@
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
+import { YStack, XStack, Text } from 'tamagui';
+import { AppButton } from '@saas/components/ui/AppButton';
+
+type Props = { children: React.ReactNode };
+
+export function PlatformSidebarShell({ children }: Props) {
+  const { t } = useTranslation();
+  const router = useRouter();
+
+  return (
+    <XStack flex={1}>
+      <YStack
+        width={200}
+        borderRightWidth={1}
+        borderRightColor="$borderColor"
+        padding="$3"
+        gap="$2"
+        testID="platform-sidebar"
+      >
+        <Text fontWeight="700" marginBottom="$2">
+          {t('saas:platform.title')}
+        </Text>
+        <AppButton
+          variant="ghost"
+          skipWriteGate
+          onPress={() => router.push('/platform/tenants')}
+        >
+          {t('saas:platform.tenants.title')}
+        </AppButton>
+        <AppButton
+          variant="ghost"
+          skipWriteGate
+          onPress={() => router.push('/platform/action-log')}
+        >
+          {t('saas:platform.actionLog.title')}
+        </AppButton>
+        <AppButton
+          variant="ghost"
+          skipWriteGate
+          marginTop="auto"
+          onPress={() => router.push('/')}
+        >
+          {t('saas:platform.returnToRestaurant')}
+        </AppButton>
+      </YStack>
+      <YStack flex={1}>{children}</YStack>
+    </XStack>
+  );
+}

@@ -70,5 +70,53 @@
     "eventReasonOwnerCancelled": "Cancellato dal proprietario",
     "pastDueBanner": "L'ultimo pagamento non è andato a buon fine. Aggiorna la tua carta per mantenere l'account attivo.",
     "updatePayment": "Aggiorna pagamento"
+  },
+  "platform": {
+    "title": "Admin di piattaforma",
+    "returnToRestaurant": "Torna al mio ristorante",
+    "tenants": {
+      "title": "Tenant",
+      "empty": "Nessun tenant trovato.",
+      "search": "Cerca tenant",
+      "filterAll": "Tutti",
+      "filterActive": "Attivo",
+      "filterPastDue": "Pagamento scaduto",
+      "filterSuspended": "Sospeso",
+      "filterCancelled": "Cancellato"
+    },
+    "tenant": {
+      "suspendConfirmTitle": "Sospendere il tenant?",
+      "suspendConfirmBody": "Questo bloccherà tutte le operazioni di scrittura per il tenant.",
+      "cancelConfirmTitle": "Cancellare l'abbonamento del tenant?",
+      "cancelConfirmBody": "I dati del tenant saranno conservati per il periodo di grazia, poi eliminati definitivamente.",
+      "deleteConfirmTitle": "Eliminare lo schema del tenant?",
+      "deleteConfirmBody": "Questo elimina definitivamente tutti i dati del tenant. Questa azione non può essere annullata.",
+      "deleteTypeSlugLabel": "Digita lo slug del tenant per confermare"
+    },
+    "subscription": {
+      "title": "Override abbonamento",
+      "planLabel": "Piano",
+      "locationOverrideLabel": "Override limite location",
+      "trialEndsAtLabel": "Fine periodo di prova",
+      "statusOverrideDisclosure": "Override stato (raro)"
+    },
+    "impersonate": {
+      "confirmTitle": "Impersonare il tenant?",
+      "confirmBody": "Stai per accedere a {{tenant}} come membro dello staff del tenant. Questa azione viene registrata. La sessione scade in 15 minuti.",
+      "banner": "Stai impersonando {{tenant}}. Le azioni vengono registrate.",
+      "endSession": "Termina sessione",
+      "callbackInProgress": "Avvio della sessione di impersonificazione…",
+      "callbackError": "Impersonificazione fallita. Il link potrebbe essere scaduto."
+    },
+    "actionLog": {
+      "title": "Log azioni"
+    },
+    "toasts": {
+      "suspended": "Tenant sospeso.",
+      "reactivated": "Tenant riattivato.",
+      "cancelled": "Abbonamento tenant cancellato.",
+      "deletionScheduled": "Eliminazione tenant programmata.",
+      "subscriptionUpdated": "Abbonamento aggiornato."
+    }
   }
 }
