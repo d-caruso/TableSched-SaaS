@@ -39,3 +39,42 @@ test('DE has no extra keys not in EN', () => {
     expect(enKeys).toContain(key);
   });
 });
+
+// Explicit lifecycle namespace parity
+const LIFECYCLE_KEYS = [
+  'lifecycle.writeBlockedToast',
+  'lifecycle.suspendedBanner',
+  'lifecycle.suspendedTooltip',
+  'lifecycle.restorePayment',
+  'lifecycle.cancelledTitle',
+  'lifecycle.cancelledBody',
+  'lifecycle.cancelledCustomerBanner',
+  'lifecycle.reactivateOnboard',
+  'lifecycle.exportData',
+  'lifecycle.reactivatedToast',
+  'lifecycle.historyTitle',
+  'lifecycle.eventReasonInvoicePaymentFailed',
+  'lifecycle.eventReasonInvoicePaid',
+  'lifecycle.eventReasonPlatformAdmin',
+  'lifecycle.eventReasonOwnerCancelled',
+  'lifecycle.pastDueBanner',
+  'lifecycle.updatePayment',
+];
+
+test('all lifecycle keys are present in EN', () => {
+  LIFECYCLE_KEYS.forEach((key) => {
+    expect(enKeys).toContain(key);
+  });
+});
+
+test('all lifecycle keys are present in IT', () => {
+  LIFECYCLE_KEYS.forEach((key) => {
+    expect(itKeys).toContain(key);
+  });
+});
+
+test('all lifecycle keys are present in DE', () => {
+  LIFECYCLE_KEYS.forEach((key) => {
+    expect(deKeys).toContain(key);
+  });
+});
