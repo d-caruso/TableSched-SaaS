@@ -12,6 +12,7 @@ import {
   useCancelTenant,
   useDeleteTenantSchema,
 } from '@saas/lib/api/platform';
+import { ApiKeysSummaryBlock } from '@saas/components/platform/ApiKeysSummaryBlock';
 import { showToast, TOAST_VARIANT } from '@saas/lib/toast';
 
 type ModalAction = 'suspend' | 'cancel' | 'delete' | null;
@@ -151,6 +152,9 @@ export default function TenantDetailScreen() {
             </AppButton>
           )}
         </YStack>
+
+        {/* API keys summary (Enterprise only) */}
+        <ApiKeysSummaryBlock tenantId={tenantId} tier={sub.plan.slug} />
 
         {/* Recent lifecycle events link */}
         <AppButton

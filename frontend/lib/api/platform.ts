@@ -192,6 +192,28 @@ export function usePlatformActionLog(filters: ActionLogFilters) {
 }
 
 // ---------------------------------------------------------------------------
+// API keys summary (platform admin — read-only, Enterprise only)
+// ---------------------------------------------------------------------------
+
+export type ApiKeysSummary = {
+  active_count: number;
+  most_recent_key_name: string | null;
+  most_recent_used_at: string | null;
+};
+
+export function usePlatformApiKeysSummary(tenantId: number, tier: string) {
+  return useQuery<ApiKeysSummary>({
+    queryKey: ['platform-api-keys-summary', tenantId],
+    queryFn: () =>
+      apiRequest<ApiKeysSummary>(
+        `/api/v1/platform/tenants/${tenantId}/api-keys-summary/`,
+      ),
+    enabled: tier === 'enterprise',
+    staleTime: 60_000,
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Impersonation
 // ---------------------------------------------------------------------------
 
