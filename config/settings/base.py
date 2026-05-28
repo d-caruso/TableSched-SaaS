@@ -59,6 +59,7 @@ _TENANT_APPS = _core.TENANT_APPS
 INSTALLED_APPS = list(_SHARED_APPS) + [
     "apps.billing",
     "apps.platform",
+    "apps.api_access",
 ] + [app for app in _TENANT_APPS if app not in _SHARED_APPS]
 
 # Plan limit permission class injected into core views via get_plan_limit_permission().
