@@ -53,34 +53,62 @@ def stripe_subscription_webhook(request):
 
 
 def _dispatch(event) -> None:
+    from apps.billing.lifecycle import cancel_tenant, reactivate_tenant, suspend_tenant
     from apps.billing.models import Plan, Subscription
 
     event_type = event["type"]
     data = event["data"]["object"]
+    stripe_event_id = event.get("id", "")
 
     if event_type in ("customer.subscription.created", "customer.subscription.updated"):
         _handle_subscription_upsert(data, Subscription, Plan)
 
     elif event_type == "customer.subscription.deleted":
-        stripe_sub_id = data["id"]
-        Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(
-            status=Subscription.STATUS_CANCELLED,
-            cancelled_at=timezone.now(),
-        )
+        sub = Subscription.objects.filter(stripe_subscription_id=data["id"]).first()
+        if sub:
+            for restaurant in sub.billing_account.restaurants.all():
+                cancel_tenant(
+                    restaurant,
+                    reason="owner_cancelled",
+                    notes=f"Stripe event: {stripe_event_id}",
+                )
 
     elif event_type == "invoice.paid":
         stripe_sub_id = data.get("subscription")
         if stripe_sub_id:
-            Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(
-                status=Subscription.STATUS_ACTIVE,
-            )
+            sub = Subscription.objects.select_related("billing_account").filter(
+                stripe_subscription_id=stripe_sub_id
+            ).first()
+            if sub:
+                if sub.status == Subscription.STATUS_SUSPENDED:
+                    for restaurant in sub.billing_account.restaurants.all():
+                        reactivate_tenant(restaurant, stripe_event_id=stripe_event_id)
+                else:
+                    Subscription.objects.filter(pk=sub.pk).update(
+                        status=Subscription.STATUS_ACTIVE,
+                    )
+            # Update current_period_end regardless.
+            raw_end = data.get("lines", {}).get("data", [{}])[0].get("period", {}).get("end")
+            if raw_end and stripe_sub_id:
+                from datetime import datetime, timezone as dt_tz
+                period_end = datetime.fromtimestamp(raw_end, tz=dt_tz.utc)
+                Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(
+                    current_period_end=period_end,
+                )
 
     elif event_type == "invoice.payment_failed":
         stripe_sub_id = data.get("subscription")
         if stripe_sub_id:
-            Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(
-                status=Subscription.STATUS_PAST_DUE,
-            )
+            sub = Subscription.objects.select_related("billing_account").filter(
+                stripe_subscription_id=stripe_sub_id
+            ).first()
+            if sub and sub.status == Subscription.STATUS_ACTIVE:
+                for restaurant in sub.billing_account.restaurants.all():
+                    suspend_tenant(
+                        restaurant,
+                        reason="invoice.payment_failed",
+                        stripe_event_id=stripe_event_id,
+                    )
 
 
 def _handle_subscription_upsert(data, Subscription, Plan) -> None:
