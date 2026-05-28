@@ -6,24 +6,29 @@ import hashlib
 import secrets
 
 from rest_framework import status
+from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.api_access.models import APIKey, APIUsageLog, MAX_ACTIVE_KEYS_PER_ACCOUNT
 from apps.api_access.serializers import APIKeyCreateSerializer, APIKeySerializer, APIUsageLogSerializer
-from apps.platform.permissions import IsPlatformStaff
 
 
 def _hash(raw: str) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
-def _get_billing_account(request):
-    return request.user  # APIKeyAuthentication returns (billing_account, api_key)
+class IsAPIKeyAuthenticated(BasePermission):
+    """Allow only requests authenticated via APIKeyAuthentication."""
+
+    def has_permission(self, request, view):
+        return isinstance(request.auth, APIKey)
 
 
 class APIKeyListCreateView(APIView):
     """GET: list active keys. POST: create new key (max 5)."""
+
+    permission_classes = [IsAPIKeyAuthenticated]
 
     def get(self, request):
         billing_account = request.user
@@ -62,6 +67,8 @@ class APIKeyListCreateView(APIView):
 class APIKeyRevokeView(APIView):
     """DELETE: revoke a key (set is_active=False)."""
 
+    permission_classes = [IsAPIKeyAuthenticated]
+
     def delete(self, request, pk):
         billing_account = request.user
         try:
@@ -75,6 +82,8 @@ class APIKeyRevokeView(APIView):
 
 class APIUsageLogView(APIView):
     """GET: monthly usage log for a specific key."""
+
+    permission_classes = [IsAPIKeyAuthenticated]
 
     def get(self, request, pk):
         billing_account = request.user
