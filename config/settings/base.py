@@ -76,3 +76,12 @@ import environ as _environ  # noqa: E402
 _env = _environ.Env()
 _saas_max_free = _env.int("SAAS_MAX_FREE_TENANTS", default=0)
 SAAS_MAX_FREE_TENANTS: int | None = _saas_max_free if _saas_max_free > 0 else None
+
+# Insert TenantSuspensionMiddleware after TenantSubfolderMiddleware so that
+# request.tenant is already populated when the suspension check runs.
+_tenant_mw = "django_tenants.middleware.TenantSubfolderMiddleware"
+_suspension_mw = "apps.common.middleware.TenantSuspensionMiddleware"
+if _tenant_mw in MIDDLEWARE and _suspension_mw not in MIDDLEWARE:  # type: ignore[name-defined]
+    _idx = MIDDLEWARE.index(_tenant_mw)  # type: ignore[name-defined]
+    MIDDLEWARE = list(MIDDLEWARE)  # type: ignore[name-defined]
+    MIDDLEWARE.insert(_idx + 1, _suspension_mw)
