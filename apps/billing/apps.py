@@ -12,3 +12,19 @@ class BillingConfig(AppConfig):
         )
         tenant_activated.connect(handle_tenant_activated)
         tenant_onboarding_committed.connect(handle_tenant_onboarding_committed)
+        self._register_scheduled_tasks()
+
+    def _register_scheduled_tasks(self) -> None:
+        try:
+            from django_q.models import Schedule
+
+            Schedule.objects.get_or_create(
+                name="billing.report_daily_sms_overage",
+                defaults={
+                    "func": "apps.billing.tasks.report_daily_sms_overage",
+                    "schedule_type": Schedule.DAILY,
+                    "repeats": -1,
+                },
+            )
+        except Exception:
+            pass  # DB not ready (migrations not applied yet); skip silently.
