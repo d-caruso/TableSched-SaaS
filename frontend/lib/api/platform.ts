@@ -137,6 +137,60 @@ export function useDeleteTenantSchema(id: number) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Lifecycle events (per-tenant)
+// ---------------------------------------------------------------------------
+
+type PaginatedLifecycleEvents = {
+  results: PlatformLifecycleEvent[];
+  next: string | null;
+};
+
+export function usePlatformLifecycleEvents(tenantId: number) {
+  return useInfiniteQuery<PaginatedLifecycleEvents>({
+    queryKey: ['platform-lifecycle-events', tenantId],
+    queryFn: ({ pageParam }) => {
+      const qs = pageParam ? `?cursor=${pageParam}` : '';
+      return apiRequest<PaginatedLifecycleEvents>(
+        `/api/v1/platform/tenants/${tenantId}/lifecycle-events/${qs}`,
+      );
+    },
+    getNextPageParam: (last) => last.next ?? undefined,
+    initialPageParam: undefined,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Action log (global)
+// ---------------------------------------------------------------------------
+
+export type ActionLogFilters = {
+  actor?: string;
+  action?: string;
+  tenant?: string;
+};
+
+type PaginatedActionLog = {
+  results: PlatformActionLogEntry[];
+  next: string | null;
+};
+
+export function usePlatformActionLog(filters: ActionLogFilters) {
+  return useInfiniteQuery<PaginatedActionLog>({
+    queryKey: ['platform-action-log', filters],
+    queryFn: ({ pageParam }) => {
+      const qs = new URLSearchParams();
+      if (filters.actor) qs.set('actor', filters.actor);
+      if (filters.action) qs.set('action', filters.action);
+      if (filters.tenant) qs.set('tenant', filters.tenant);
+      if (pageParam) qs.set('cursor', pageParam as string);
+      return apiRequest<PaginatedActionLog>(`/api/v1/platform/action-log/?${qs.toString()}`);
+    },
+    getNextPageParam: (last) => last.next ?? undefined,
+    initialPageParam: undefined,
+  });
+}
+
 export type SubscriptionOverridePatch = {
   plan?: string;
   location_limit_override?: number | null;
