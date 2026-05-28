@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingsQuotaChip renders error chip at 100% 1`] = `
+<View
+  testID="bookings-quota-chip"
+>
+  <View>
+    <Text>
+      saas:billing.bookingsThisMonth
+    </Text>
+    <Text>
+      50
+       / 
+      50
+    </Text>
+  </View>
+  <View>
+    <View />
+  </View>
+  <Text>
+    saas:limits.locationsReached:{"cap":50}
+  </Text>
+</View>
+`;
+
+exports[`BookingsQuotaChip renders neutral chip below 80% 1`] = `
+<View
+  testID="bookings-quota-chip"
+>
+  <View>
+    <Text>
+      saas:billing.bookingsThisMonth
+    </Text>
+    <Text>
+      30
+       / 
+      50
+    </Text>
+  </View>
+  <View>
+    <View />
+  </View>
+</View>
+`;
+
+exports[`BookingsQuotaChip renders warning chip at 80-99% 1`] = `
+<View
+  testID="bookings-quota-chip"
+>
+  <View>
+    <Text>
+      saas:billing.bookingsThisMonth
+    </Text>
+    <Text>
+      40
+       / 
+      50
+    </Text>
+  </View>
+  <View>
+    <View />
+  </View>
+</View>
+`;

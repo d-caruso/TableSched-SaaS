@@ -1,0 +1,21 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "types": ["jest"],
+    "paths": {
+      "@/*": ["./*", "node_modules/tablesched-frontend/*"],
+      "@core/*": ["node_modules/tablesched-frontend/*"],
+      "@saas/*": ["./*"],
+      "sentry-expo": ["node_modules/sentry-expo"]
+    }
+  },
+  "exclude": [
+    "dist",
+    ".expo",
+    "node_modules",
+    "../../TableSched/frontend"
+  ]
+}

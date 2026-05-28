@@ -69,3 +69,5 @@ dmypy.json
 *.pem
 *.key
 secrets.json
+!frontend/lib/
+!frontend/lib/**
