@@ -9,6 +9,7 @@ import sys
 from django.urls import include, path
 
 from apps.billing.views import stripe_subscription_webhook
+from apps.platform import urls as platform_urls
 
 
 def _load_core_urlconf(filename: str):
@@ -38,6 +39,8 @@ urlpatterns = [
         stripe_subscription_webhook,
         name="stripe-subscription-webhook",
     ),
+    # Platform admin API.
+    path("api/v1/platform/", include(platform_urls)),
     # All core public URL patterns.
     *_core_public.urlpatterns,
 ]
