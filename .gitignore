@@ -69,3 +69,15 @@ dmypy.json
 *.pem
 *.key
 secrets.json
+# Node
+node_modules/
+frontend/node_modules/
+
+# Tamagui build cache
+frontend/.tamagui/
+
+# Claude Code local settings
+.claude/
+
+!frontend/lib/
+!frontend/lib/**

@@ -1,0 +1,8 @@
+export default {
+  expoConfig: {
+    extra: {
+      API_BASE_URL: 'http://localhost:8000',
+      SENTRY_DSN: '',
+    },
+  },
+};

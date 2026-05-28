@@ -1,0 +1,151 @@
+{
+  "billing": {
+    "title": "Fatturazione",
+    "currentPlan": "Piano attuale",
+    "tierFree": "Gratuito",
+    "tierPremium": "Premium",
+    "tierEnterprise": "Enterprise",
+    "price": "{{price}}/mese",
+    "priceFree": "Gratuito",
+    "trialEndsIn": "La prova termina tra {{days}} giorni",
+    "renewsOn": "Si rinnova il {{date}}",
+    "managePayment": "Gestisci fatturazione",
+    "cancelSubscription": "Cancella abbonamento",
+    "upgrade": "Aggiorna",
+    "choosePlan": "Scegli un piano",
+    "usageTitle": "Utilizzo nel periodo",
+    "bookingsThisMonth": "Prenotazioni questo mese",
+    "bookingsUnlimited": "Illimitato",
+    "smsToday": "SMS inviati oggi",
+    "smsNotIncluded": "Non incluso",
+    "locations": "Locali",
+    "staff": "Staff",
+    "tables": "Tavoli",
+    "rooms": "Sale",
+    "unlimited": "Illimitato",
+    "upgradeTitle": "Aggiorna il tuo piano",
+    "upgradeSubtitle": "Amplia il tuo ristorante con più funzionalità",
+    "choosePremium": "Scegli Premium",
+    "chooseEnterprise": "Scegli Enterprise",
+    "perMonth": "/mese"
+  },
+  "limits": {
+    "tablesReached": "Limite tavoli raggiunto ({{cap}}). Aggiorna per aggiungerne altri.",
+    "roomsReached": "Limite sale raggiunto ({{cap}}). Aggiorna per aggiungerne altre.",
+    "staffReached": "Limite staff raggiunto ({{cap}}). Aggiorna per aggiungerne altri.",
+    "locationsReached": "Limite locali raggiunto ({{cap}}). Aggiorna per aggiungerne altri.",
+    "bookingsReachedCustomer": "Questo ristorante ha raggiunto il limite di prenotazioni per questo mese. Riprova il mese prossimo.",
+    "upgradeLink": "Aggiorna"
+  },
+  "sms": {
+    "quotaTitle": "Quota SMS",
+    "poolResetNote": "La quota si azzera alle 00:00 UTC.",
+    "overageActive": "Eccedenza attiva: {{extra}} SMS sopra quota fatturati a €0,07/SMS.",
+    "notIncluded": "Le notifiche SMS non sono incluse nel piano gratuito.",
+    "upgradeCta": "Aggiorna per abilitare gli SMS"
+  },
+  "signup": {
+    "choosePlan": "Scegli il tuo piano",
+    "trialBanner": "Inizia con una prova gratuita di {{days}} giorni — nessuna carta richiesta.",
+    "free": "Gratuito",
+    "freeDescription": "Inizia con le funzionalità di base.",
+    "premiumDescription": "Tutto il necessario per crescere.",
+    "enterpriseDescription": "Per ristoranti con più sedi."
+  },
+  "lifecycle": {
+    "writeBlockedToast": "Il tuo account è sospeso. Questa azione non è disponibile.",
+    "suspendedBanner": "Il tuo account è sospeso. Alcune funzionalità sono in sola lettura fino al ripristino del pagamento.",
+    "suspendedTooltip": "Il tuo account è sospeso. Ripristina il pagamento per usare questa funzionalità.",
+    "restorePayment": "Ripristina pagamento",
+    "cancelledTitle": "Il tuo abbonamento è cancellato.",
+    "cancelledBody": "I tuoi dati saranno conservati fino al {{date}} ({{daysRemaining}} giorni rimanenti). Dopo saranno eliminati definitivamente.",
+    "cancelledCustomerBanner": "Questo ristorante ha cancellato il proprio abbonamento.",
+    "reactivateOnboard": "Riattiva (ricomincia l'onboarding)",
+    "exportData": "Esporta dati (CSV)",
+    "reactivatedToast": "Pagamento ricevuto — il tuo account è di nuovo attivo.",
+    "historyTitle": "Storico del ciclo di vita",
+    "eventReasonInvoicePaymentFailed": "Pagamento fallito",
+    "eventReasonInvoicePaid": "Pagamento ricevuto",
+    "eventReasonPlatformAdmin": "Azione amministratore",
+    "eventReasonOwnerCancelled": "Cancellato dal proprietario",
+    "pastDueBanner": "L'ultimo pagamento non è andato a buon fine. Aggiorna la tua carta per mantenere l'account attivo.",
+    "updatePayment": "Aggiorna pagamento"
+  },
+  "platform": {
+    "title": "Admin di piattaforma",
+    "returnToRestaurant": "Torna al mio ristorante",
+    "tenants": {
+      "title": "Tenant",
+      "empty": "Nessun tenant trovato.",
+      "search": "Cerca tenant",
+      "filterAll": "Tutti",
+      "filterActive": "Attivo",
+      "filterPastDue": "Pagamento scaduto",
+      "filterSuspended": "Sospeso",
+      "filterCancelled": "Cancellato"
+    },
+    "tenant": {
+      "suspendConfirmTitle": "Sospendere il tenant?",
+      "suspendConfirmBody": "Questo bloccherà tutte le operazioni di scrittura per il tenant.",
+      "cancelConfirmTitle": "Cancellare l'abbonamento del tenant?",
+      "cancelConfirmBody": "I dati del tenant saranno conservati per il periodo di grazia, poi eliminati definitivamente.",
+      "deleteConfirmTitle": "Eliminare lo schema del tenant?",
+      "deleteConfirmBody": "Questo elimina definitivamente tutti i dati del tenant. Questa azione non può essere annullata.",
+      "deleteTypeSlugLabel": "Digita lo slug del tenant per confermare",
+      "apiKeysSummaryTitle": "Chiavi API",
+      "apiKeysSummaryActiveCount": "{{count}} chiave/i attiva/e.",
+      "apiKeysSummaryRecent": "Più recente: {{name}} — {{date}}"
+    },
+    "subscription": {
+      "title": "Override abbonamento",
+      "planLabel": "Piano",
+      "locationOverrideLabel": "Override limite location",
+      "trialEndsAtLabel": "Fine periodo di prova",
+      "statusOverrideDisclosure": "Override stato (raro)"
+    },
+    "impersonate": {
+      "confirmTitle": "Impersonare il tenant?",
+      "confirmBody": "Stai per accedere a {{tenant}} come membro dello staff del tenant. Questa azione viene registrata. La sessione scade in 15 minuti.",
+      "banner": "Stai impersonando {{tenant}}. Le azioni vengono registrate.",
+      "endSession": "Termina sessione",
+      "callbackInProgress": "Avvio della sessione di impersonificazione…",
+      "callbackError": "Impersonificazione fallita. Il link potrebbe essere scaduto."
+    },
+    "actionLog": {
+      "title": "Log azioni"
+    },
+    "toasts": {
+      "suspended": "Tenant sospeso.",
+      "reactivated": "Tenant riattivato.",
+      "cancelled": "Abbonamento tenant cancellato.",
+      "deletionScheduled": "Eliminazione tenant programmata.",
+      "subscriptionUpdated": "Abbonamento aggiornato."
+    }
+  },
+  "apiKeys": {
+    "title": "Chiavi API",
+    "subtitle": "Usa le chiavi API per integrare TableSched con il tuo widget prenotazioni, POS o strumenti interni.",
+    "rateLimitNote": "Limite: 100 richieste/ora, 1.000 richieste/giorno per chiave. Max 5 chiavi attive.",
+    "maxReached": "Hai raggiunto il massimo di 5 chiavi attive.",
+    "createButton": "+ Crea chiave",
+    "createModalTitle": "Crea chiave API",
+    "createModalNameLabel": "Nome chiave",
+    "createdModalTitle": "Salva questa chiave ora",
+    "createdModalBody": "Non la vedrai di nuovo.",
+    "copyButton": "Copia negli appunti",
+    "copyToast": "Chiave copiata negli appunti.",
+    "lastUsedNever": "Mai usata",
+    "lastUsedRelative": "Ultimo utilizzo {{date}}",
+    "revokeConfirmTitle": "Revocare la chiave?",
+    "revokeConfirmBody": "Revocare \"{{name}}\"? Le richieste che usano questa chiave falliranno immediatamente. Non è possibile annullare l'operazione.",
+    "revokedToast": "Chiave API revocata.",
+    "renameError": "Impossibile rinominare la chiave.",
+    "usageTitle": "Utilizzo",
+    "usageThisMonth": "Questo mese",
+    "usageMonthRow": "{{year}}-{{month}}",
+    "rateLimitedToast": "Limite di frequenza API raggiunto. Attendi prima di riprovare.",
+    "upsellTitle": "Accesso API (Enterprise)",
+    "upsellBody": "Chiavi API programmatiche, monitoraggio utilizzo mensile, 100 req/ora · 1.000 req/giorno per chiave.",
+    "upsellCta": "Passa a Enterprise →"
+  }
+}
