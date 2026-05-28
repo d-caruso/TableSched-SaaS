@@ -5,6 +5,8 @@ from __future__ import annotations
 from django.db import models
 from django.db.models import UniqueConstraint
 
+from django.contrib.auth import get_user_model
+
 from apps.tenants.models import BillingAccount, Restaurant
 
 
@@ -103,3 +105,32 @@ class DailySmsUsage(models.Model):
 
     def __str__(self) -> str:
         return f"{self.billing_account_id} {self.date}: {self.count}"
+
+
+class TenantLifecycleEvent(models.Model):
+    """Append-only log of all tenant subscription state transitions."""
+
+    REASON_PAYMENT_FAILED = "invoice.payment_failed"
+    REASON_PAYMENT_RECEIVED = "invoice.paid"
+    REASON_PLATFORM_ADMIN = "platform_admin"
+    REASON_OWNER_CANCELLED = "owner_cancelled"
+    REASON_RETENTION_EXPIRED = "retention_expired"
+
+    restaurant = models.ForeignKey(
+        Restaurant, on_delete=models.PROTECT, related_name="lifecycle_events"
+    )
+    from_status = models.CharField(max_length=32)
+    to_status = models.CharField(max_length=32)
+    reason = models.CharField(max_length=64)
+    triggered_by = models.ForeignKey(
+        get_user_model(), null=True, blank=True, on_delete=models.SET_NULL
+    )
+    stripe_event_id = models.CharField(max_length=128, blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.restaurant_id}: {self.from_status} → {self.to_status} ({self.reason})"
