@@ -87,3 +87,31 @@ if _tenant_mw in MIDDLEWARE and _suspension_mw not in MIDDLEWARE:  # type: ignor
     _idx = MIDDLEWARE.index(_tenant_mw)  # type: ignore[name-defined]
     MIDDLEWARE = list(MIDDLEWARE)  # type: ignore[name-defined]
     MIDDLEWARE.insert(_idx + 1, _suspension_mw)
+
+# Append API usage tracking middleware.
+_usage_mw = "apps.api_access.middleware.APIUsageMiddleware"
+if _usage_mw not in MIDDLEWARE:  # type: ignore[name-defined]
+    MIDDLEWARE = list(MIDDLEWARE)  # type: ignore[name-defined]
+    MIDDLEWARE.append(_usage_mw)
+
+# Add APIKeyAuthentication to DRF authentication classes.
+REST_FRAMEWORK = dict(REST_FRAMEWORK)  # type: ignore[name-defined]
+_api_key_auth = "apps.api_access.authentication.APIKeyAuthentication"
+_auth_classes = list(REST_FRAMEWORK.get("DEFAULT_AUTHENTICATION_CLASSES", []))
+if _api_key_auth not in _auth_classes:
+    _auth_classes.insert(0, _api_key_auth)
+REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = _auth_classes
+
+# Add API key rate throttles.
+_throttle_classes = list(REST_FRAMEWORK.get("DEFAULT_THROTTLE_CLASSES", []))
+for _tc in [
+    "apps.api_access.throttling.APIKeyHourlyThrottle",
+    "apps.api_access.throttling.APIKeyDailyThrottle",
+]:
+    if _tc not in _throttle_classes:
+        _throttle_classes.append(_tc)
+REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _throttle_classes
+REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {}).update({
+    "api_key_hourly": "100/hour",
+    "api_key_daily": "1000/day",
+})
