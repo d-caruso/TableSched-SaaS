@@ -50,7 +50,7 @@ def suspend_tenant(
     sub = get_subscription(restaurant.billing_account)
     if sub is None:
         return
-    _transition(
+    transitioned = _transition(
         sub=sub,
         restaurant=restaurant,
         from_status=Subscription.STATUS_ACTIVE,
@@ -60,6 +60,8 @@ def suspend_tenant(
         stripe_event_id=stripe_event_id,
         notes=notes,
     )
+    if not transitioned:
+        return
     # Fire core signal so other subsystems can react (e.g. send notification).
     from apps.tenants.signals import tenant_suspended
     tenant_suspended.send(sender=restaurant.__class__, tenant=restaurant, reason=reason)
@@ -89,7 +91,7 @@ def cancel_tenant(
     if sub is None:
         return
     from_status = sub.status
-    _transition(
+    transitioned = _transition(
         sub=sub,
         restaurant=restaurant,
         from_status=from_status,
@@ -98,6 +100,8 @@ def cancel_tenant(
         triggered_by=triggered_by,
         notes=notes,
     )
+    if not transitioned:
+        return
     Subscription.objects.filter(pk=sub.pk).update(cancelled_at=timezone.now())
     schedule_schema_deletion(restaurant)
 
@@ -111,7 +115,8 @@ def _transition(
     triggered_by=None,
     stripe_event_id: str = "",
     notes: str = "",
-) -> None:
+) -> bool:
+    """Perform a status transition. Returns True if the transition was applied, False if skipped."""
     if (from_status, to_status) not in _LEGAL_TRANSITIONS:
         raise ValueError(
             f"Illegal lifecycle transition: {from_status!r} → {to_status!r}"
@@ -127,7 +132,7 @@ def _transition(
                 "reason": reason,
             },
         )
-        return  # Idempotent — already in target or wrong source state.
+        return False
 
     Subscription.objects.filter(pk=sub.pk).update(status=to_status)
     sub.status = to_status  # Keep in-memory object in sync.
@@ -147,13 +152,13 @@ def _transition(
         "to_status": to_status,
         "reason": reason,
     })
+    return True
 
 
 def schedule_schema_deletion(restaurant) -> None:
     """Schedule delete_tenant_schema to run after the 90-day retention window."""
     try:
         from django_q.models import Schedule
-        from django_q.tasks import schedule as q_schedule
 
         run_at = timezone.now() + timedelta(days=_RETENTION_DAYS)
         Schedule.objects.get_or_create(

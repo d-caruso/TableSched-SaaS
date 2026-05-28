@@ -99,7 +99,7 @@ REST_FRAMEWORK = dict(REST_FRAMEWORK)  # type: ignore[name-defined]
 _api_key_auth = "apps.api_access.authentication.APIKeyAuthentication"
 _auth_classes = list(REST_FRAMEWORK.get("DEFAULT_AUTHENTICATION_CLASSES", []))
 if _api_key_auth not in _auth_classes:
-    _auth_classes.insert(0, _api_key_auth)
+    _auth_classes.append(_api_key_auth)
 REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = _auth_classes
 
 # Add API key rate throttles.
@@ -111,7 +111,9 @@ for _tc in [
     if _tc not in _throttle_classes:
         _throttle_classes.append(_tc)
 REST_FRAMEWORK["DEFAULT_THROTTLE_CLASSES"] = _throttle_classes
-REST_FRAMEWORK.setdefault("DEFAULT_THROTTLE_RATES", {}).update({
+_throttle_rates = dict(REST_FRAMEWORK.get("DEFAULT_THROTTLE_RATES", {}))
+_throttle_rates.update({
     "api_key_hourly": "100/hour",
     "api_key_daily": "1000/day",
 })
+REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = _throttle_rates

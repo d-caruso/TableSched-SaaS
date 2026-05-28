@@ -5,6 +5,8 @@ from __future__ import annotations
 import logging
 from datetime import date, timedelta
 
+from django.db.models import F
+
 logger = logging.getLogger("billing")
 
 
@@ -37,7 +39,7 @@ def report_daily_sms_overage() -> None:
 
         report_sms_overage_to_stripe(billing_account, overage)
         DailySmsUsage.objects.filter(pk=row.pk).update(
-            overage_reported_count=row.overage_reported_count + overage
+            overage_reported_count=F("overage_reported_count") + overage
         )
         logger.info("sms_overage_reported", extra={
             "billing_account_id": billing_account.pk,

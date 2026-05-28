@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import json
 import logging
 
 import stripe
 from django.conf import settings
 from django.http import HttpResponse
-from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -144,4 +142,13 @@ def _handle_subscription_upsert(data, Subscription, Plan) -> None:
     if plan:
         updates["plan"] = plan
 
-    Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(**updates)
+    # Try to match by stripe_subscription_id first (subsequent webhooks).
+    matched = Subscription.objects.filter(stripe_subscription_id=stripe_sub_id).update(**updates)
+
+    if not matched and stripe_customer_id:
+        # First-time link: subscription row exists but has no stripe_subscription_id yet.
+        # Match by customer ID and stamp the subscription ID so future webhooks find it.
+        Subscription.objects.filter(
+            stripe_customer_id=stripe_customer_id,
+            stripe_subscription_id="",
+        ).update(stripe_subscription_id=stripe_sub_id, **updates)

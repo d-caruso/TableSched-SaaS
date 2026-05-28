@@ -55,7 +55,7 @@ def exchange_impersonation_token(raw_token: str, restaurant_id) -> "Restaurant":
 def override_subscription(restaurant, actor, **fields) -> "Subscription":
     from apps.billing.models import Subscription
 
-    allowed = {"location_limit_override", "plan", "trial_ends_at", "status"}
+    allowed = {"location_limit_override", "plan", "trial_ends_at"}
     updates = {k: v for k, v in fields.items() if k in allowed}
     if not updates:
         raise ValidationError("No valid fields to update.")
@@ -63,10 +63,11 @@ def override_subscription(restaurant, actor, **fields) -> "Subscription":
     Subscription.objects.filter(billing_account__restaurants=restaurant).update(**updates)
     sub = Subscription.objects.get(billing_account__restaurants=restaurant)
 
+    log_detail = {k: (v.pk if hasattr(v, "pk") else v) for k, v in updates.items()}
     PlatformActionLog.objects.create(
         actor=actor,
         action="override_limit",
         target_restaurant=restaurant,
-        detail=updates,
+        detail=log_detail,
     )
     return sub

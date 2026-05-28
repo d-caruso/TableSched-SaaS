@@ -35,7 +35,7 @@ class TenantDetailSerializer(serializers.ModelSerializer):
 class SubscriptionOverrideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
-        fields = ["location_limit_override", "plan", "trial_ends_at", "status"]
+        fields = ["location_limit_override", "plan", "trial_ends_at"]
         extra_kwargs = {field: {"required": False} for field in fields}
 
 

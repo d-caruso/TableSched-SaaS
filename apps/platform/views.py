@@ -34,6 +34,7 @@ from apps.platform.services import (
 from apps.tenants.models import Restaurant
 
 _PLATFORM_PERMISSIONS = [IsAuthenticated, IsPlatformStaff]
+_PLATFORM_AUTH = [SessionAuthentication]
 
 
 def _get_restaurant(pk):
@@ -54,21 +55,23 @@ def _log(actor, action, restaurant=None, detail=None):
 # ---------------------------------------------------------------------------
 
 class TenantListView(generics.ListAPIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
     serializer_class = TenantListSerializer
 
     def get_queryset(self):
-        qs = Restaurant.objects.order_by("name")
+        restaurants = list(Restaurant.objects.order_by("name"))
         subs = {
             sub.billing_account_id: sub
             for sub in Subscription.objects.select_related("plan").all()
         }
-        for r in qs:
+        for r in restaurants:
             r._subscription = subs.get(r.billing_account_id)
-        return qs
+        return restaurants
 
 
 class TenantDetailView(generics.RetrieveAPIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
     serializer_class = TenantDetailSerializer
     queryset = Restaurant.objects.all()
@@ -79,6 +82,7 @@ class TenantDetailView(generics.RetrieveAPIView):
 # ---------------------------------------------------------------------------
 
 class TenantSuspendView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def post(self, request, pk):
@@ -95,6 +99,7 @@ class TenantSuspendView(APIView):
 
 
 class TenantReactivateView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def post(self, request, pk):
@@ -105,6 +110,7 @@ class TenantReactivateView(APIView):
 
 
 class TenantCancelView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def post(self, request, pk):
@@ -121,11 +127,16 @@ class TenantCancelView(APIView):
 
 
 class TenantDeleteView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def post(self, request, pk):
         restaurant = _get_restaurant(pk)
-        sub = getattr(restaurant.billing_account, "subscription", None)
+        try:
+            billing_account = restaurant.billing_account
+            sub = getattr(billing_account, "subscription", None)
+        except Exception:
+            sub = None
         if sub is None or sub.status != Subscription.STATUS_CANCELLED:
             return Response(
                 {"detail": "Tenant must be in 'cancelled' status before deletion."},
@@ -141,6 +152,7 @@ class TenantDeleteView(APIView):
 # ---------------------------------------------------------------------------
 
 class SubscriptionOverrideView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def patch(self, request, pk):
@@ -156,6 +168,7 @@ class SubscriptionOverrideView(APIView):
 # ---------------------------------------------------------------------------
 
 class TenantLifecycleEventListView(generics.ListAPIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
     serializer_class = TenantLifecycleEventSerializer
 
@@ -165,6 +178,7 @@ class TenantLifecycleEventListView(generics.ListAPIView):
 
 
 class PlatformActionLogListView(generics.ListAPIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
     serializer_class = PlatformActionLogSerializer
     queryset = PlatformActionLog.objects.all()
@@ -175,6 +189,7 @@ class PlatformActionLogListView(generics.ListAPIView):
 # ---------------------------------------------------------------------------
 
 class ImpersonateView(APIView):
+    authentication_classes = _PLATFORM_AUTH
     permission_classes = _PLATFORM_PERMISSIONS
 
     def post(self, request, pk):

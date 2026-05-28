@@ -15,6 +15,7 @@ class BillingConfig(AppConfig):
         self._register_scheduled_tasks()
 
     def _register_scheduled_tasks(self) -> None:
+        import django.db
         try:
             from django_q.models import Schedule
 
@@ -26,5 +27,9 @@ class BillingConfig(AppConfig):
                     "repeats": -1,
                 },
             )
+        except django.db.OperationalError:
+            # DB not reachable or migrations not yet applied — skip silently.
+            pass
         except Exception:
-            pass  # DB not ready (migrations not applied yet); skip silently.
+            import logging
+            logging.getLogger("billing").exception("failed_to_register_scheduled_tasks")

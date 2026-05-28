@@ -22,7 +22,9 @@ class Migration(migrations.Migration):
                 ("notes", models.TextField(blank=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("restaurant", models.ForeignKey(
-                    on_delete=django.db.models.deletion.PROTECT,
+                    blank=True,
+                    null=True,
+                    on_delete=django.db.models.deletion.SET_NULL,
                     related_name="lifecycle_events",
                     to="tenants.restaurant",
                 )),

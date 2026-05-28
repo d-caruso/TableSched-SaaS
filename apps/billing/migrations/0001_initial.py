@@ -1,6 +1,21 @@
 from django.db import migrations, models
 import django.db.models.deletion
 
+# Local copies of Subscription status constants — kept here so the migration
+# remains self-contained and independent of model changes.
+_STATUS_ACTIVE = "active"
+_STATUS_TRIALING = "trialing"
+_STATUS_PAST_DUE = "past_due"
+_STATUS_SUSPENDED = "suspended"
+_STATUS_CANCELLED = "cancelled"
+_STATUS_CHOICES = [
+    (_STATUS_ACTIVE, "Active"),
+    (_STATUS_TRIALING, "Trialing"),
+    (_STATUS_PAST_DUE, "Past due"),
+    (_STATUS_SUSPENDED, "Suspended"),
+    (_STATUS_CANCELLED, "Cancelled"),
+]
+
 
 class Migration(migrations.Migration):
     initial = True
@@ -34,13 +49,8 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("status", models.CharField(
-                    choices=[
-                        ("active", "Active"),
-                        ("trialing", "Trialing"),
-                        ("past_due", "Past due"),
-                        ("cancelled", "Cancelled"),
-                    ],
-                    default="active",
+                    choices=_STATUS_CHOICES,
+                    default=_STATUS_ACTIVE,
                     max_length=32,
                 )),
                 ("stripe_subscription_id", models.CharField(blank=True, db_index=True, max_length=128)),

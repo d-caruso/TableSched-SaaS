@@ -39,11 +39,13 @@ class Subscription(models.Model):
     STATUS_ACTIVE = "active"
     STATUS_TRIALING = "trialing"
     STATUS_PAST_DUE = "past_due"
+    STATUS_SUSPENDED = "suspended"
     STATUS_CANCELLED = "cancelled"
     STATUS_CHOICES = [
         (STATUS_ACTIVE, "Active"),
         (STATUS_TRIALING, "Trialing"),
         (STATUS_PAST_DUE, "Past due"),
+        (STATUS_SUSPENDED, "Suspended"),
         (STATUS_CANCELLED, "Cancelled"),
     ]
 
@@ -117,7 +119,8 @@ class TenantLifecycleEvent(models.Model):
     REASON_RETENTION_EXPIRED = "retention_expired"
 
     restaurant = models.ForeignKey(
-        Restaurant, on_delete=models.PROTECT, related_name="lifecycle_events"
+        Restaurant, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name="lifecycle_events"
     )
     from_status = models.CharField(max_length=32)
     to_status = models.CharField(max_length=32)
