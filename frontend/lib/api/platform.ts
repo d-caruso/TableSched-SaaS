@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@core/lib/api/client';
 
 // ---------------------------------------------------------------------------
@@ -97,5 +97,42 @@ export function usePlatformTenants(params: TenantListParams) {
     },
     getNextPageParam: (last) => last.next ?? undefined,
     initialPageParam: undefined,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Tenant detail
+// ---------------------------------------------------------------------------
+
+export function usePlatformTenant(id: number) {
+  return useQuery<PlatformTenantView>({
+    queryKey: ['platform-tenant', id],
+    queryFn: () => apiRequest<PlatformTenantView>(`/api/v1/platform/tenants/${id}/`),
+    staleTime: 30_000,
+  });
+}
+
+function useTenantMutation(id: number, path: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiRequest(`/api/v1/platform/tenants/${id}/${path}/`, { method: 'POST' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-tenant', id] });
+      queryClient.invalidateQueries({ queryKey: ['platform-tenants'] });
+    },
+  });
+}
+
+export function useSuspendTenant(id: number) { return useTenantMutation(id, 'suspend'); }
+export function useReactivateTenant(id: number) { return useTenantMutation(id, 'reactivate'); }
+export function useCancelTenant(id: number) { return useTenantMutation(id, 'cancel'); }
+
+export function useDeleteTenantSchema(id: number) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiRequest(`/api/v1/platform/tenants/${id}/delete/`, { method: 'POST' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['platform-tenants'] });
+    },
   });
 }
