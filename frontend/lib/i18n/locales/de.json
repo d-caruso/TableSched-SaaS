@@ -1,4 +1,16 @@
 {
+  "common": {
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "done": "Fertig",
+    "close": "Schließen",
+    "back": "Zurück",
+    "save": "Speichern",
+    "clear": "Löschen",
+    "loading": "Laden…",
+    "open": "Öffnen",
+    "create": "Erstellen"
+  },
   "billing": {
     "title": "Abrechnung",
     "currentPlan": "Aktueller Plan",
@@ -69,7 +81,8 @@
     "eventReasonPlatformAdmin": "Plattform-Admin-Aktion",
     "eventReasonOwnerCancelled": "Vom Inhaber gekündigt",
     "pastDueBanner": "Ihre letzte Zahlung ist fehlgeschlagen. Aktualisieren Sie Ihre Karte, um Ihr Konto aktiv zu halten.",
-    "updatePayment": "Zahlung aktualisieren"
+    "updatePayment": "Zahlung aktualisieren",
+    "needHelp": "Brauchen Sie Hilfe?"
   },
   "platform": {
     "title": "Plattform-Admin",
@@ -82,7 +95,12 @@
       "filterActive": "Aktiv",
       "filterPastDue": "Überfällig",
       "filterSuspended": "Gesperrt",
-      "filterCancelled": "Gekündigt"
+      "filterCancelled": "Gekündigt",
+      "open": "Öffnen",
+      "sortBy": "Sortieren nach",
+      "sortCreated": "Erstellt",
+      "sortName": "Name",
+      "sortBookings": "Buchungen"
     },
     "tenant": {
       "suspendConfirmTitle": "Mandant sperren?",
@@ -94,25 +112,68 @@
       "deleteTypeSlugLabel": "Mandanten-Slug zur Bestätigung eingeben",
       "apiKeysSummaryTitle": "API-Schlüssel",
       "apiKeysSummaryActiveCount": "{{count}} aktiver/aktive Schlüssel.",
-      "apiKeysSummaryRecent": "Zuletzt verwendet: {{name}} — {{date}}"
+      "apiKeysSummaryRecent": "Zuletzt verwendet: {{name}} — {{date}}",
+      "noActiveKeys": "Keine aktiven Schlüssel.",
+      "editSubscription": "Abonnement bearbeiten",
+      "profileTitle": "Profil",
+      "slug": "Slug",
+      "owner": "Inhaber",
+      "created": "Erstellt",
+      "subscriptionTitle": "Abonnement",
+      "plan": "Plan",
+      "status": "Status",
+      "renews": "Verlängerung",
+      "trialEnds": "Testende",
+      "locationOverride": "Standort-Override",
+      "usageTitle": "Nutzung",
+      "locations": "Standorte",
+      "staff": "Mitarbeiter",
+      "tables": "Tische",
+      "rooms": "Räume",
+      "bookingsThisMonth": "Buchungen diesen Monat",
+      "smsToday": "SMS heute",
+      "actionsTitle": "Aktionen",
+      "suspend": "Sperren",
+      "reactivate": "Reaktivieren",
+      "cancel": "Abonnement kündigen",
+      "deleteSchema": "Schema löschen",
+      "viewLifecycleHistory": "Verlauf anzeigen →",
+      "actionFailed": "Aktion fehlgeschlagen.",
+      "reason": "Grund",
+      "triggeredBy": "Ausgelöst von"
     },
     "subscription": {
       "title": "Abonnement-Überschreibungen",
       "planLabel": "Plan",
       "locationOverrideLabel": "Standortlimit-Überschreibung",
       "trialEndsAtLabel": "Testende",
-      "statusOverrideDisclosure": "Status überschreiben (selten)"
+      "trialEndsAtPlaceholder": "JJJJ-MM-TT",
+      "statusOverrideDisclosure": "Status überschreiben (selten)",
+      "saveFailed": "Speichern fehlgeschlagen.",
+      "unsavedTitle": "Nicht gespeicherte Änderungen",
+      "unsavedBody": "Änderungen verwerfen und zurückgehen?",
+      "unsavedStay": "Bleiben",
+      "unsavedDiscard": "Verwerfen"
     },
     "impersonate": {
+      "button": "Imitieren",
+      "tokenError": "Imitierungs-Token konnte nicht erstellt werden.",
       "confirmTitle": "Mandant imitieren?",
       "confirmBody": "Sie sind dabei, als Mitarbeiter auf {{tenant}} zuzugreifen. Diese Aktion wird protokolliert. Die Sitzung läuft in 15 Minuten ab.",
       "banner": "Sie imitieren {{tenant}}. Aktionen werden protokolliert.",
       "endSession": "Sitzung beenden",
       "callbackInProgress": "Imitation wird gestartet…",
-      "callbackError": "Imitation fehlgeschlagen. Der Link ist möglicherweise abgelaufen."
+      "callbackError": "Imitation fehlgeschlagen. Der Link ist möglicherweise abgelaufen.",
+      "backToAdmin": "Zurück zur Plattform-Administration"
     },
     "actionLog": {
-      "title": "Aktionsprotokoll"
+      "title": "Aktionsprotokoll",
+      "filterActorPlaceholder": "Akteur-E-Mail",
+      "filterActionPlaceholder": "Aktionstyp",
+      "filterTenantPlaceholder": "Mandanten-Slug",
+      "empty": "Keine Aktionen gefunden.",
+      "showDetail": "Detail anzeigen",
+      "hideDetail": "Detail ausblenden"
     },
     "toasts": {
       "suspended": "Mandant gesperrt.",
@@ -146,6 +207,15 @@
     "rateLimitedToast": "API-Schlüssel-Ratenlimit erreicht. Bitte warten Sie vor dem nächsten Versuch.",
     "upsellTitle": "API-Zugang (Enterprise)",
     "upsellBody": "Programmgesteuerte API-Schlüssel, monatliches Nutzungs-Tracking, 100 Req/Std. · 1.000 Req/Tag pro Schlüssel.",
-    "upsellCta": "Auf Enterprise upgraden →"
+    "upsellCta": "Auf Enterprise upgraden →",
+    "noKeys": "Noch keine API-Schlüssel.",
+    "createError": "Schlüssel konnte nicht erstellt werden.",
+    "revokeError": "Schlüssel konnte nicht widerrufen werden.",
+    "viewUsage": "Nutzung",
+    "revoke": "Widerrufen",
+    "createNamePlaceholder": "z.B. PROD",
+    "callCount": "{{count}} Aufrufe",
+    "limitsTitle": "Aktuelle Limits",
+    "limitsDetail": "Stündlich: {{hourly}} · Täglich: {{daily}}"
   }
 }

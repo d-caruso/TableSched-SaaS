@@ -94,23 +94,27 @@ export default function SubscriptionOverridesScreen() {
       showToast(t('saas:platform.toasts.subscriptionUpdated'), TOAST_VARIANT.SUCCESS);
       router.back();
     } catch {
-      showToast('Save failed', TOAST_VARIANT.ERROR);
+      showToast(t('saas:platform.subscription.saveFailed'), TOAST_VARIANT.ERROR);
     }
   }
 
   function handleBack() {
     if (dirty) {
-      Alert.alert('Unsaved changes', 'Discard changes and go back?', [
-        { text: 'Stay', style: 'cancel' },
-        { text: 'Discard', onPress: () => router.back() },
-      ]);
+      Alert.alert(
+        t('saas:platform.subscription.unsavedTitle'),
+        t('saas:platform.subscription.unsavedBody'),
+        [
+          { text: t('saas:platform.subscription.unsavedStay'), style: 'cancel' },
+          { text: t('saas:platform.subscription.unsavedDiscard'), onPress: () => router.back() },
+        ],
+      );
     } else {
       router.back();
     }
   }
 
   if (isLoading || !tenant) {
-    return <YStack flex={1} padding="$4"><Text>Loading…</Text></YStack>;
+    return <YStack flex={1} padding="$4"><Text>{t('saas:common.loading')}</Text></YStack>;
   }
 
   return (
@@ -153,7 +157,7 @@ export default function SubscriptionOverridesScreen() {
             onPress={() => update('locationOverride', '')}
             testID="clear-override-btn"
           >
-            Clear
+            {t('saas:common.clear')}
           </AppButton>
         </XStack>
       </YStack>
@@ -165,7 +169,7 @@ export default function SubscriptionOverridesScreen() {
           <Input
             value={form.trialEndsAt}
             onChangeText={(v) => update('trialEndsAt', v)}
-            placeholder="YYYY-MM-DD"
+            placeholder={t('saas:platform.subscription.trialEndsAtPlaceholder')}
             width={140}
             testID="trial-ends-input"
           />
@@ -175,7 +179,7 @@ export default function SubscriptionOverridesScreen() {
             onPress={() => update('trialEndsAt', '')}
             testID="clear-trial-btn"
           >
-            Clear
+            {t('saas:common.clear')}
           </AppButton>
         </XStack>
       </YStack>
@@ -209,7 +213,7 @@ export default function SubscriptionOverridesScreen() {
 
       <XStack gap="$2" justifyContent="flex-end">
         <AppButton variant="ghost" skipWriteGate onPress={handleBack} testID="back-btn">
-          Back
+          {t('saas:common.back')}
         </AppButton>
         <AppButton
           variant="primary"
@@ -218,7 +222,7 @@ export default function SubscriptionOverridesScreen() {
           disabled={!dirty}
           testID="save-btn"
         >
-          Save
+          {t('saas:common.save')}
         </AppButton>
       </XStack>
     </YStack>

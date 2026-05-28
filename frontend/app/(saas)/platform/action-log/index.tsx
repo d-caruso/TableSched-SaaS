@@ -6,11 +6,12 @@ import { AppButton } from '@saas/components/ui/AppButton';
 import { usePlatformActionLog, PlatformActionLogEntry } from '@saas/lib/api/platform';
 
 function DetailBlock({ detail }: { detail: Record<string, unknown> }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <YStack>
       <AppButton variant="ghost" skipWriteGate onPress={() => setOpen((v) => !v)} testID="detail-toggle">
-        {open ? 'Hide detail' : 'Show detail'}
+        {open ? t('saas:platform.actionLog.hideDetail') : t('saas:platform.actionLog.showDetail')}
       </AppButton>
       {open && (
         <Text fontFamily="monospace" fontSize="$1" testID="detail-json">
@@ -66,28 +67,28 @@ export default function ActionLogScreen() {
         <Input
           value={actor}
           onChangeText={setActor}
-          placeholder="Actor email"
+          placeholder={t('saas:platform.actionLog.filterActorPlaceholder')}
           flex={1}
           testID="filter-actor"
         />
         <Input
           value={action}
           onChangeText={setAction}
-          placeholder="Action type"
+          placeholder={t('saas:platform.actionLog.filterActionPlaceholder')}
           flex={1}
           testID="filter-action"
         />
         <Input
           value={tenant}
           onChangeText={setTenant}
-          placeholder="Tenant slug"
+          placeholder={t('saas:platform.actionLog.filterTenantPlaceholder')}
           flex={1}
           testID="filter-tenant"
         />
       </XStack>
 
       {entries.length === 0 ? (
-        <Text color="$colorSubtle" testID="action-log-empty">No actions found.</Text>
+        <Text color="$colorSubtle" testID="action-log-empty">{t('saas:platform.actionLog.empty')}</Text>
       ) : (
         <FlatList
           data={entries}

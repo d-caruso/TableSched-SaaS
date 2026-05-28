@@ -9,7 +9,8 @@
       "@/*": ["./*", "node_modules/tablesched-frontend/*"],
       "@core/*": ["node_modules/tablesched-frontend/*"],
       "@saas/*": ["./*"],
-      "sentry-expo": ["node_modules/sentry-expo"]
+      "sentry-expo": ["node_modules/sentry-expo"],
+      "expo-image-picker": ["__mocks__/expo-image-picker"]
     }
   },
   "exclude": [

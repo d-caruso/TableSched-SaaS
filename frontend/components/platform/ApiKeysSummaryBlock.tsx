@@ -20,7 +20,9 @@ export function ApiKeysSummaryBlock({ tenantId, tier }: Props) {
         })}
       </Text>
       {data.active_count === 0 ? (
-        <Text color="$colorSubtle" testID="api-keys-summary-empty">No active keys.</Text>
+        <Text color="$colorSubtle" testID="api-keys-summary-empty">
+          {t('saas:platform.tenant.noActiveKeys')}
+        </Text>
       ) : data.most_recent_key_name && data.most_recent_used_at ? (
         <Text testID="api-keys-summary-recent">
           {t('saas:platform.tenant.apiKeysSummaryRecent', {

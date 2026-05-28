@@ -20,7 +20,7 @@ export function ImpersonateButton({ tenantId, tenantName, restaurantId }: Props)
       const url = `/platform/impersonate/callback?token=${encodeURIComponent(token)}&restaurant_id=${encodeURIComponent(restaurantId)}`;
       Linking.openURL(url);
     } catch {
-      showToast('Failed to create impersonation token', TOAST_VARIANT.ERROR);
+      showToast(t('saas:platform.impersonate.tokenError'), TOAST_VARIANT.ERROR);
     }
   }
 
@@ -32,13 +32,13 @@ export function ImpersonateButton({ tenantId, tenantName, restaurantId }: Props)
         onPress={() => setModalVisible(true)}
         testID="impersonate-btn"
       >
-        Impersonate
+        {t('saas:platform.impersonate.button')}
       </AppButton>
       <ConfirmDestructiveModal
         visible={modalVisible}
         title={t('saas:platform.impersonate.confirmTitle')}
         body={t('saas:platform.impersonate.confirmBody', { tenant: tenantName })}
-        confirmLabel="Impersonate"
+        confirmLabel={t('saas:platform.impersonate.button')}
         onConfirm={handleConfirm}
         onCancel={() => setModalVisible(false)}
       />

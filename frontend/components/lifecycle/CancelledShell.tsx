@@ -54,6 +54,10 @@ export function CancelledShell({ cancelledAt }: Props) {
       <AppButton variant="ghost" onPress={() => {}}>
         {t('saas:lifecycle.exportData')}
       </AppButton>
+
+      <Text fontSize="$3" color="$colorSubtle" marginTop="$2">
+        {t('saas:lifecycle.needHelp')} contact@tablesched.com
+      </Text>
     </YStack>
   );
 }

@@ -1,5 +1,5 @@
-import { Slot } from "expo-router";
+import { RootShell } from '@saas/components/lifecycle/RootShell';
 
 export default function SaaSLayout() {
-  return <Slot />;
+  return <RootShell />;
 }

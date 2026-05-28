@@ -17,6 +17,7 @@ function ReasonLabel({ reason }: { reason: string | null }) {
 }
 
 function EventCard({ event }: { event: PlatformLifecycleEvent }) {
+  const { t } = useTranslation();
   const date = new Date(event.created_at).toLocaleString();
   return (
     <YStack
@@ -33,11 +34,11 @@ function EventCard({ event }: { event: PlatformLifecycleEvent }) {
         </Text>
       </XStack>
       <XStack gap="$2">
-        <Text>Reason: </Text>
+        <Text>{t('saas:platform.tenant.reason')}: </Text>
         <ReasonLabel reason={event.reason} />
       </XStack>
       {event.triggered_by && (
-        <Text fontSize="$2" color="$colorSubtle">Triggered by: {event.triggered_by}</Text>
+        <Text fontSize="$2" color="$colorSubtle">{t('saas:platform.tenant.triggeredBy')}: {event.triggered_by}</Text>
       )}
     </YStack>
   );
