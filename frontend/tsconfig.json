@@ -5,14 +5,16 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
+      "@/*": ["./*", "node_modules/tablesched-frontend/*"],
       "@core/*": ["node_modules/tablesched-frontend/*"],
-      "@saas/*": ["./*"]
+      "@saas/*": ["./*"],
+      "sentry-expo": ["node_modules/sentry-expo"]
     }
   },
   "exclude": [
     "dist",
     ".expo",
-    "node_modules"
+    "node_modules",
+    "../../TableSched/frontend"
   ]
 }
