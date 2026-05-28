@@ -91,7 +91,10 @@
       "cancelConfirmBody": "Die Daten des Mandanten werden für die Karenzzeit aufbewahrt und dann dauerhaft gelöscht.",
       "deleteConfirmTitle": "Mandantenschema löschen?",
       "deleteConfirmBody": "Dadurch werden alle Mandantendaten dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
-      "deleteTypeSlugLabel": "Mandanten-Slug zur Bestätigung eingeben"
+      "deleteTypeSlugLabel": "Mandanten-Slug zur Bestätigung eingeben",
+      "apiKeysSummaryTitle": "API-Schlüssel",
+      "apiKeysSummaryActiveCount": "{{count}} aktiver/aktive Schlüssel.",
+      "apiKeysSummaryRecent": "Zuletzt verwendet: {{name}} — {{date}}"
     },
     "subscription": {
       "title": "Abonnement-Überschreibungen",
@@ -118,5 +121,31 @@
       "deletionScheduled": "Mandantenlöschung geplant.",
       "subscriptionUpdated": "Abonnement aktualisiert."
     }
+  },
+  "apiKeys": {
+    "title": "API-Schlüssel",
+    "subtitle": "Verwenden Sie API-Schlüssel, um TableSched mit Ihrem Buchungs-Widget, POS oder internen Tools zu integrieren.",
+    "rateLimitNote": "Limit: 100 Anfragen/Stunde, 1.000 Anfragen/Tag pro Schlüssel. Max. 5 aktive Schlüssel.",
+    "maxReached": "Sie haben das Maximum von 5 aktiven Schlüsseln erreicht.",
+    "createButton": "+ Schlüssel erstellen",
+    "createModalTitle": "API-Schlüssel erstellen",
+    "createModalNameLabel": "Schlüsselname",
+    "createdModalTitle": "Speichern Sie diesen Schlüssel jetzt",
+    "createdModalBody": "Sie werden ihn nicht mehr sehen.",
+    "copyButton": "In Zwischenablage kopieren",
+    "copyToast": "Schlüssel in Zwischenablage kopiert.",
+    "lastUsedNever": "Noch nie verwendet",
+    "lastUsedRelative": "Zuletzt verwendet {{date}}",
+    "revokeConfirmTitle": "Schlüssel widerrufen?",
+    "revokeConfirmBody": "\"{{name}}\" widerrufen? Anfragen mit diesem Schlüssel schlagen sofort fehl. Dies kann nicht rückgängig gemacht werden.",
+    "revokedToast": "API-Schlüssel widerrufen.",
+    "renameError": "Schlüssel konnte nicht umbenannt werden.",
+    "usageTitle": "Nutzung",
+    "usageThisMonth": "Diesen Monat",
+    "usageMonthRow": "{{year}}-{{month}}",
+    "rateLimitedToast": "API-Schlüssel-Ratenlimit erreicht. Bitte warten Sie vor dem nächsten Versuch.",
+    "upsellTitle": "API-Zugang (Enterprise)",
+    "upsellBody": "Programmgesteuerte API-Schlüssel, monatliches Nutzungs-Tracking, 100 Req/Std. · 1.000 Req/Tag pro Schlüssel.",
+    "upsellCta": "Auf Enterprise upgraden →"
   }
 }

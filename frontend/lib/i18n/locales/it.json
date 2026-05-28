@@ -91,7 +91,10 @@
       "cancelConfirmBody": "I dati del tenant saranno conservati per il periodo di grazia, poi eliminati definitivamente.",
       "deleteConfirmTitle": "Eliminare lo schema del tenant?",
       "deleteConfirmBody": "Questo elimina definitivamente tutti i dati del tenant. Questa azione non può essere annullata.",
-      "deleteTypeSlugLabel": "Digita lo slug del tenant per confermare"
+      "deleteTypeSlugLabel": "Digita lo slug del tenant per confermare",
+      "apiKeysSummaryTitle": "Chiavi API",
+      "apiKeysSummaryActiveCount": "{{count}} chiave/i attiva/e.",
+      "apiKeysSummaryRecent": "Più recente: {{name}} — {{date}}"
     },
     "subscription": {
       "title": "Override abbonamento",
@@ -118,5 +121,31 @@
       "deletionScheduled": "Eliminazione tenant programmata.",
       "subscriptionUpdated": "Abbonamento aggiornato."
     }
+  },
+  "apiKeys": {
+    "title": "Chiavi API",
+    "subtitle": "Usa le chiavi API per integrare TableSched con il tuo widget prenotazioni, POS o strumenti interni.",
+    "rateLimitNote": "Limite: 100 richieste/ora, 1.000 richieste/giorno per chiave. Max 5 chiavi attive.",
+    "maxReached": "Hai raggiunto il massimo di 5 chiavi attive.",
+    "createButton": "+ Crea chiave",
+    "createModalTitle": "Crea chiave API",
+    "createModalNameLabel": "Nome chiave",
+    "createdModalTitle": "Salva questa chiave ora",
+    "createdModalBody": "Non la vedrai di nuovo.",
+    "copyButton": "Copia negli appunti",
+    "copyToast": "Chiave copiata negli appunti.",
+    "lastUsedNever": "Mai usata",
+    "lastUsedRelative": "Ultimo utilizzo {{date}}",
+    "revokeConfirmTitle": "Revocare la chiave?",
+    "revokeConfirmBody": "Revocare \"{{name}}\"? Le richieste che usano questa chiave falliranno immediatamente. Non è possibile annullare l'operazione.",
+    "revokedToast": "Chiave API revocata.",
+    "renameError": "Impossibile rinominare la chiave.",
+    "usageTitle": "Utilizzo",
+    "usageThisMonth": "Questo mese",
+    "usageMonthRow": "{{year}}-{{month}}",
+    "rateLimitedToast": "Limite di frequenza API raggiunto. Attendi prima di riprovare.",
+    "upsellTitle": "Accesso API (Enterprise)",
+    "upsellBody": "Chiavi API programmatiche, monitoraggio utilizzo mensile, 100 req/ora · 1.000 req/giorno per chiave.",
+    "upsellCta": "Passa a Enterprise →"
   }
 }

@@ -134,3 +134,46 @@ test('all platform keys are present in DE', () => {
     expect(deKeys).toContain(key);
   });
 });
+
+// apiKeys namespace parity
+const API_KEYS_KEYS = [
+  'apiKeys.title',
+  'apiKeys.subtitle',
+  'apiKeys.rateLimitNote',
+  'apiKeys.maxReached',
+  'apiKeys.createButton',
+  'apiKeys.createModalTitle',
+  'apiKeys.createModalNameLabel',
+  'apiKeys.createdModalTitle',
+  'apiKeys.createdModalBody',
+  'apiKeys.copyButton',
+  'apiKeys.copyToast',
+  'apiKeys.lastUsedNever',
+  'apiKeys.lastUsedRelative',
+  'apiKeys.revokeConfirmTitle',
+  'apiKeys.revokeConfirmBody',
+  'apiKeys.revokedToast',
+  'apiKeys.renameError',
+  'apiKeys.usageTitle',
+  'apiKeys.usageThisMonth',
+  'apiKeys.usageMonthRow',
+  'apiKeys.rateLimitedToast',
+  'apiKeys.upsellTitle',
+  'apiKeys.upsellBody',
+  'apiKeys.upsellCta',
+  'platform.tenant.apiKeysSummaryTitle',
+  'platform.tenant.apiKeysSummaryActiveCount',
+  'platform.tenant.apiKeysSummaryRecent',
+];
+
+test('all apiKeys keys are present in EN', () => {
+  API_KEYS_KEYS.forEach((key) => { expect(enKeys).toContain(key); });
+});
+
+test('all apiKeys keys are present in IT', () => {
+  API_KEYS_KEYS.forEach((key) => { expect(itKeys).toContain(key); });
+});
+
+test('all apiKeys keys are present in DE', () => {
+  API_KEYS_KEYS.forEach((key) => { expect(deKeys).toContain(key); });
+});
