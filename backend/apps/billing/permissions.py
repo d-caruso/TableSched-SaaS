@@ -6,6 +6,13 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from apps.billing.services import check_booking_quota, get_effective_limits
 
+# Resource identifiers — use these as `limit_resource` values on views.
+RESOURCE_LOCATION = "location"
+RESOURCE_STAFF    = "staff"
+RESOURCE_TABLE    = "table"
+RESOURCE_ROOM     = "room"
+RESOURCE_BOOKING  = "booking"
+
 
 def _get_billing_account(request):
     """Derive the billing account from the current tenant (restaurant)."""
@@ -16,29 +23,30 @@ def _get_billing_account(request):
 
 
 def _check_limit(resource: str, limits, tenant) -> bool:
-    if resource == "location":
+    if resource == RESOURCE_LOCATION:
         from apps.tenants.models import Restaurant
         count = Restaurant.objects.filter(billing_account=tenant.billing_account).count()
         return count < limits.max_locations
 
-    if resource == "staff":
+    if resource == RESOURCE_STAFF:
         from apps.memberships.models import StaffMembership
-        count = StaffMembership.objects.count()
+        # Tenant-schema model — query is already scoped to current tenant by django-tenants.
+        count = StaffMembership.objects.filter(is_active=True).count()
         return count < limits.max_staff_per_location
 
-    if resource == "table":
+    if resource == RESOURCE_TABLE:
         if limits.max_tables is None:
             return True
         from apps.restaurants.models import Table
         return Table.objects.count() < limits.max_tables
 
-    if resource == "room":
+    if resource == RESOURCE_ROOM:
         if limits.max_rooms is None:
             return True
         from apps.restaurants.models import Room
         return Room.objects.count() < limits.max_rooms
 
-    if resource == "booking":
+    if resource == RESOURCE_BOOKING:
         return check_booking_quota(tenant)
 
     return True
@@ -49,7 +57,7 @@ class PlanLimitPermission(BasePermission):
 
     Views declare which resource they gate:
         class RoomListCreateView(...):
-            limit_resource = "room"
+            limit_resource = RESOURCE_ROOM
 
     Safe methods (GET, HEAD, OPTIONS) are always allowed.
     """
