@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { apiRequest } from '@core/lib/api/client';
 
 // ---------------------------------------------------------------------------
@@ -66,4 +66,36 @@ export function useAppConfig() {
 export function useIsPlatformStaff(): boolean {
   const { data } = useAppConfig();
   return data?.features?.platformAdmin === true;
+}
+
+// ---------------------------------------------------------------------------
+// Tenant list — paginated
+// ---------------------------------------------------------------------------
+
+export type TenantListParams = {
+  search?: string;
+  status?: string;
+  ordering?: string;
+  cursor?: string;
+};
+
+type PaginatedTenants = {
+  results: PlatformTenantView[];
+  next: string | null;
+};
+
+export function usePlatformTenants(params: TenantListParams) {
+  return useInfiniteQuery<PaginatedTenants>({
+    queryKey: ['platform-tenants', params],
+    queryFn: ({ pageParam }) => {
+      const qs = new URLSearchParams();
+      if (params.search) qs.set('search', params.search);
+      if (params.status) qs.set('status', params.status);
+      if (params.ordering) qs.set('ordering', params.ordering);
+      if (pageParam) qs.set('cursor', pageParam as string);
+      return apiRequest<PaginatedTenants>(`/api/v1/platform/tenants/?${qs.toString()}`);
+    },
+    getNextPageParam: (last) => last.next ?? undefined,
+    initialPageParam: undefined,
+  });
 }
