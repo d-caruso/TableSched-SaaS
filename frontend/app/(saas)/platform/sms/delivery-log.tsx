@@ -21,10 +21,8 @@ const PROVIDER_OPTIONS = ['all', 'twilio', 'infobip', 'smsapi'];
 
 function DeliveryLogRow({ entry }: { entry: SmsDeliveryLogEntry }) {
   const { t } = useTranslation();
-  const date =
-    new Date(entry.sent_at).toLocaleDateString() +
-    ' ' +
-    new Date(entry.sent_at).toLocaleTimeString();
+  const d = new Date(entry.sent_at);
+  const date = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
   const color = statusColor(entry.status);
 
   return (
