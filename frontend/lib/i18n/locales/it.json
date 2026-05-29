@@ -175,6 +175,28 @@
       "showDetail": "Mostra dettaglio",
       "hideDetail": "Nascondi dettaglio"
     },
+    "sms": {
+      "navLabel": "SMS",
+      "healthTitle": "Stato provider",
+      "healthSubtitle": "Ultime 24 ore",
+      "providerHealthy": "Operativo",
+      "providerDegraded": "Degradato",
+      "deliveryRate": "Tasso di consegna",
+      "totalSent": "Inviati",
+      "deliveryLogTitle": "Log consegne SMS",
+      "deliveryLogEmpty": "Nessun messaggio corrisponde ai filtri selezionati.",
+      "filterProvider": "Provider",
+      "filterStatus": "Stato",
+      "filterDateFrom": "Da",
+      "filterDateTo": "A",
+      "statusPending": "In attesa",
+      "statusDelivered": "Consegnato",
+      "statusFailed": "Fallito",
+      "routingTitle": "Tabella di routing SMS",
+      "routingEmpty": "Nessuna regola di routing configurata.",
+      "routingDefault": "Predefinito",
+      "errorCode": "Errore"
+    },
     "toasts": {
       "suspended": "Tenant sospeso.",
       "reactivated": "Tenant riattivato.",

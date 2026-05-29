@@ -175,6 +175,28 @@
       "showDetail": "Show detail",
       "hideDetail": "Hide detail"
     },
+    "sms": {
+      "navLabel": "SMS",
+      "healthTitle": "Provider health",
+      "healthSubtitle": "Last 24 hours",
+      "providerHealthy": "Healthy",
+      "providerDegraded": "Degraded",
+      "deliveryRate": "Delivery rate",
+      "totalSent": "Sent",
+      "deliveryLogTitle": "SMS delivery log",
+      "deliveryLogEmpty": "No messages match the selected filters.",
+      "filterProvider": "Provider",
+      "filterStatus": "Status",
+      "filterDateFrom": "From",
+      "filterDateTo": "To",
+      "statusPending": "Pending",
+      "statusDelivered": "Delivered",
+      "statusFailed": "Failed",
+      "routingTitle": "SMS routing table",
+      "routingEmpty": "No routing rules configured.",
+      "routingDefault": "Default",
+      "errorCode": "Error"
+    },
     "toasts": {
       "suspended": "Tenant suspended.",
       "reactivated": "Tenant reactivated.",
