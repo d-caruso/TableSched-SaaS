@@ -46,13 +46,15 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
         <Text fontSize="$3" fontWeight="600" testID={`rate-${item.provider}`}>
           {pct}%
         </Text>
-        <Text
-          fontSize="$2"
-          color={color}
+        <XStack
+          backgroundColor={color}
+          paddingHorizontal="$2"
+          paddingVertical="$1"
+          borderRadius="$2"
           testID={`badge-${item.provider}`}
         >
-          {label}
-        </Text>
+          <Text fontSize="$2" color="white">{label}</Text>
+        </XStack>
         <Text fontSize="$2" color="$colorSubtle" testID={`sent-${item.provider}`}>
           {t('saas:platform.sms.totalSent')}: {item.total_sent}
         </Text>

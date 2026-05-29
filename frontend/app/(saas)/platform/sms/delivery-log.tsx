@@ -40,7 +40,15 @@ function DeliveryLogRow({ entry }: { entry: SmsDeliveryLogEntry }) {
       <Text fontSize="$2" color="$colorSubtle" testID={`row-date-${entry.id}`}>{date}</Text>
       <Text fontSize="$2" testID={`row-phone-${entry.id}`}>{maskPhone(entry.phone)}</Text>
       <Text fontSize="$2" testID={`row-provider-${entry.id}`}>{entry.provider}</Text>
-      <Text fontSize="$2" color={color} testID={`row-status-${entry.id}`}>{t(`saas:platform.sms.status${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}`)}</Text>
+      <XStack
+        backgroundColor={color}
+        paddingHorizontal="$2"
+        paddingVertical="$1"
+        borderRadius="$2"
+        testID={`row-status-${entry.id}`}
+      >
+        <Text fontSize="$2" color="white">{t(`saas:platform.sms.status${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}`)}</Text>
+      </XStack>
       {entry.error_code !== '' && (
         <Text fontSize="$2" color="$red9" testID={`row-error-${entry.id}`}>
           {t('saas:platform.sms.errorCode')}: {entry.error_code}
