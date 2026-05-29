@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import datetime
+
 from django.db import models
 from django.db.models import UniqueConstraint
 
@@ -13,16 +15,17 @@ MAX_ACTIVE_KEYS_PER_ACCOUNT = 5
 class APIKey(models.Model):
     """Per-BillingAccount API key. Raw key shown once; only SHA-256 hash stored."""
 
-    billing_account = models.ForeignKey(
+    billing_account_id: int
+    billing_account: BillingAccount = models.ForeignKey(
         BillingAccount, on_delete=models.CASCADE, related_name="api_keys"
     )
-    name = models.CharField(max_length=128)
-    key_hash = models.CharField(max_length=128, unique=True, db_index=True)
-    key_prefix = models.CharField(max_length=8)
-    is_active = models.BooleanField(default=True)
-    last_used_at = models.DateTimeField(null=True, blank=True)
-    expires_at = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    name: str = models.CharField(max_length=128)
+    key_hash: str = models.CharField(max_length=128, unique=True, db_index=True)
+    key_prefix: str = models.CharField(max_length=8)
+    is_active: bool = models.BooleanField(default=True)
+    last_used_at: datetime.datetime | None = models.DateTimeField(null=True, blank=True)
+    expires_at: datetime.datetime | None = models.DateTimeField(null=True, blank=True)
+    created_at: datetime.datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -34,12 +37,13 @@ class APIKey(models.Model):
 class APIUsageLog(models.Model):
     """Monthly call count per API key."""
 
-    api_key = models.ForeignKey(
+    api_key_id: int
+    api_key: APIKey = models.ForeignKey(
         APIKey, on_delete=models.CASCADE, related_name="usage_logs"
     )
-    year = models.PositiveSmallIntegerField()
-    month = models.PositiveSmallIntegerField()
-    call_count = models.PositiveIntegerField(default=0)
+    year: int = models.PositiveSmallIntegerField()
+    month: int = models.PositiveSmallIntegerField()
+    call_count: int = models.PositiveIntegerField(default=0)
 
     class Meta:
         constraints = [

@@ -55,8 +55,7 @@ class TestTwilioDLR:
     def _post(self, params: dict, signature: str, url: str = "http://testserver/saas/sms/dlr/twilio/"):
         request = self.factory.post(url, data=params)
         request.META["HTTP_X_TWILIO_SIGNATURE"] = signature
-        # Simulate build_absolute_uri returning the url
-        request.build_absolute_uri = lambda: url
+        setattr(request, "build_absolute_uri", MagicMock(return_value=url))
         return request
 
     def test_valid_signature_delivered(self, settings):

@@ -6,7 +6,7 @@ import environ
 environ.Env.read_env(os.path.join(os.path.dirname(__file__), '..', '..', '.env.prod'))
 
 from config.settings.base import *  # noqa: F401, F403
-from config.settings.base import ALLOWED_HOSTS as _BASE_ALLOWED_HOSTS  # noqa: F401
+from config.settings.base import INSTALLED_APPS, PLAN_LIMIT_PERMISSION_CLASS  # noqa: F401
 
 DEBUG = False
 PUBLIC_DOMAIN = os.environ.get("PUBLIC_DOMAIN", "")

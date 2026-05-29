@@ -13,7 +13,7 @@ from apps.sms.providers.smsapi.adapter import SMSAPISMSAdapter
 
 def _validate_ip(request: HttpRequest) -> bool:
     """Validate that the request originates from an allowed SMSAPI IP address."""
-    allowed_ips = getattr(settings, "SMSAPI_WEBHOOK_ALLOWED_IPS", set())
+    allowed_ips: set = getattr(settings, "SMSAPI_WEBHOOK_ALLOWED_IPS", set())
     if not allowed_ips:
         return False
     ip = request.META.get("HTTP_X_FORWARDED_FOR", request.META.get("REMOTE_ADDR", ""))

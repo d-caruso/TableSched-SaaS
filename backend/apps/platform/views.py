@@ -199,7 +199,7 @@ class ImpersonateView(APIView):
 
 
 class ImpersonateExchangeView(APIView):
-    permission_classes = []  # Token is the credential.
+    permission_classes: list[type] = []  # Token is the credential.
     authentication_classes = [SessionAuthentication]
 
     def post(self, request):
