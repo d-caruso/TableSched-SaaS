@@ -175,6 +175,28 @@
       "showDetail": "Detail anzeigen",
       "hideDetail": "Detail ausblenden"
     },
+    "sms": {
+      "navLabel": "SMS",
+      "healthTitle": "Anbieter-Status",
+      "healthSubtitle": "Letzte 24 Stunden",
+      "providerHealthy": "Betriebsbereit",
+      "providerDegraded": "Beeinträchtigt",
+      "deliveryRate": "Zustellrate",
+      "totalSent": "Gesendet",
+      "deliveryLogTitle": "SMS-Zustellprotokoll",
+      "deliveryLogEmpty": "Keine Nachrichten entsprechen den ausgewählten Filtern.",
+      "filterProvider": "Anbieter",
+      "filterStatus": "Status",
+      "filterDateFrom": "Von",
+      "filterDateTo": "Bis",
+      "statusPending": "Ausstehend",
+      "statusDelivered": "Zugestellt",
+      "statusFailed": "Fehlgeschlagen",
+      "routingTitle": "SMS-Routing-Tabelle",
+      "routingEmpty": "Keine Routing-Regeln konfiguriert.",
+      "routingDefault": "Standard",
+      "errorCode": "Fehler"
+    },
     "toasts": {
       "suspended": "Mandant gesperrt.",
       "reactivated": "Mandant reaktiviert.",

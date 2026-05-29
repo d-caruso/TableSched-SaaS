@@ -177,3 +177,39 @@ test('all apiKeys keys are present in IT', () => {
 test('all apiKeys keys are present in DE', () => {
   API_KEYS_KEYS.forEach((key) => { expect(deKeys).toContain(key); });
 });
+
+// SMS gateway namespace parity
+const SMS_KEYS = [
+  'platform.sms.navLabel',
+  'platform.sms.healthTitle',
+  'platform.sms.healthSubtitle',
+  'platform.sms.providerHealthy',
+  'platform.sms.providerDegraded',
+  'platform.sms.deliveryRate',
+  'platform.sms.totalSent',
+  'platform.sms.deliveryLogTitle',
+  'platform.sms.deliveryLogEmpty',
+  'platform.sms.filterProvider',
+  'platform.sms.filterStatus',
+  'platform.sms.filterDateFrom',
+  'platform.sms.filterDateTo',
+  'platform.sms.statusPending',
+  'platform.sms.statusDelivered',
+  'platform.sms.statusFailed',
+  'platform.sms.routingTitle',
+  'platform.sms.routingEmpty',
+  'platform.sms.routingDefault',
+  'platform.sms.errorCode',
+];
+
+test('all SMS keys are present in EN', () => {
+  SMS_KEYS.forEach((key) => { expect(enKeys).toContain(key); });
+});
+
+test('all SMS keys are present in IT', () => {
+  SMS_KEYS.forEach((key) => { expect(itKeys).toContain(key); });
+});
+
+test('all SMS keys are present in DE', () => {
+  SMS_KEYS.forEach((key) => { expect(deKeys).toContain(key); });
+});
