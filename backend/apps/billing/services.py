@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-
 import stripe
 from django.conf import settings
 from django.db.models import F

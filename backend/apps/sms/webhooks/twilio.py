@@ -5,8 +5,6 @@ from __future__ import annotations
 import hashlib
 import hmac
 import base64
-from urllib.parse import urlencode
-
 from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt

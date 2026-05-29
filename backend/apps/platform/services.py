@@ -33,8 +33,7 @@ def create_impersonation_token(restaurant, created_by) -> str:
     return raw_token
 
 
-def exchange_impersonation_token(raw_token: str, restaurant_id) -> "Restaurant":
-    from apps.tenants.models import Restaurant
+def exchange_impersonation_token(raw_token: str, restaurant_id):
 
     token_hash = _hash_token(raw_token)
     now = timezone.now()
@@ -52,7 +51,7 @@ def exchange_impersonation_token(raw_token: str, restaurant_id) -> "Restaurant":
     return token.restaurant
 
 
-def override_subscription(restaurant, actor, **fields) -> "Subscription":
+def override_subscription(restaurant, actor, **fields):
     from apps.billing.models import Subscription
 
     allowed = {"location_limit_override", "plan", "trial_ends_at"}

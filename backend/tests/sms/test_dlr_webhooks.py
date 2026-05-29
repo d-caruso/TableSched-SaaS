@@ -8,7 +8,6 @@ import hmac
 import json
 from unittest.mock import MagicMock, patch
 
-import pytest
 from django.test import RequestFactory
 
 

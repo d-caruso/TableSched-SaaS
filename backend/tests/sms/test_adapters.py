@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from apps.sms.protocol import DeliveryStatus, PermanentSMSError, TransientSMSError
+from apps.sms.protocol import PermanentSMSError, TransientSMSError
 
 
 # ---------------------------------------------------------------------------
