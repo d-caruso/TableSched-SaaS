@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
-import pathlib
+import os
 import sys
 
 from django.urls import include, path
@@ -22,10 +22,10 @@ def _load_core_urlconf(filename: str):
             continue
         if "config" not in mapping:
             continue
-        candidate = pathlib.Path(mapping["config"]) / filename
-        if not candidate.exists():
+        candidate = os.path.join(mapping["config"], filename)
+        if not os.path.exists(candidate):
             continue
-        spec = importlib.util.spec_from_file_location(f"_core_config_{filename}", str(candidate))
+        spec = importlib.util.spec_from_file_location(f"_core_config_{filename}", candidate)
         module = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
         spec.loader.exec_module(module)  # type: ignore[union-attr]
         return module

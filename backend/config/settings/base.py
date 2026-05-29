@@ -10,7 +10,7 @@ then loading core's base.py by absolute file path to bypass the namespace.
 from __future__ import annotations
 
 import importlib.util
-import pathlib
+import os
 import sys
 
 
@@ -28,15 +28,12 @@ def _load_core_settings():
             continue
         if "config" not in mapping:
             continue
-        core_config_dir = pathlib.Path(mapping["config"])
-        candidate = core_config_dir / "settings" / "base.py"
-        if not candidate.exists():
+        candidate = os.path.join(mapping["config"], "settings", "base.py")
+        if not os.path.exists(candidate):
             continue
         # Load by absolute path to bypass the 'config' namespace collision.
-        # str() avoids a Python 3.12 pathlib slot-initialization bug when a
-        # PosixPath is stored as module.__file__ and then stringified.
         spec = importlib.util.spec_from_file_location(
-            "_tablesched_core_settings_base", str(candidate)
+            "_tablesched_core_settings_base", candidate
         )
         module = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
         spec.loader.exec_module(module)  # type: ignore[union-attr]
