@@ -1,10 +1,9 @@
 """SaaS production settings."""
 
 import os
-import pathlib
 import environ
 
-environ.Env.read_env(pathlib.Path(__file__).resolve().parents[2] / ".env.prod")
+environ.Env.read_env(os.path.join(os.path.dirname(__file__), '..', '..', '.env.prod'))
 
 from config.settings.base import *  # noqa: F401, F403
 from config.settings.base import ALLOWED_HOSTS as _BASE_ALLOWED_HOSTS  # noqa: F401
