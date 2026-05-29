@@ -56,6 +56,9 @@ jobs:
       - name: Install SaaS
         run: pip install -e ".[dev]"
 
+      - name: Create .env.test
+        run: touch backend/.env.test
+
       - name: Migrate
         run: python manage.py migrate_schemas --shared --run-syncdb
 
@@ -122,6 +125,9 @@ jobs:
 
       - name: Install SaaS
         run: pip install -e ".[dev]"
+
+      - name: Create .env.test
+        run: touch backend/.env.test
 
       - name: Pytest (${{ matrix.folder }})
         run: pytest -q tests/${{ matrix.folder }}/
