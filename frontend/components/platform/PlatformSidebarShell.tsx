@@ -50,6 +50,14 @@ export function PlatformSidebarShell({ children }: Props) {
         <AppButton
           variant="ghost"
           skipWriteGate
+          onPress={() => router.push('/platform/sms')}
+          testID="sidebar-sms-nav"
+        >
+          {t('saas:platform.sms.navLabel')}
+        </AppButton>
+        <AppButton
+          variant="ghost"
+          skipWriteGate
           marginTop="auto"
           onPress={() => router.push('/')}
         >
