@@ -50,6 +50,7 @@ jobs:
           git clone --depth=1 --branch "${{ github.ref_name }}" https://github.com/d-caruso/TableSched.git tablesched-core \
             || git clone --depth=1 --branch main https://github.com/d-caruso/TableSched.git tablesched-core \
             || git clone --depth=1 --branch develop https://github.com/d-caruso/TableSched.git tablesched-core
+        working-directory: ${{ github.workspace }}
 
       - uses: actions/setup-python@v5
         with:
@@ -57,7 +58,7 @@ jobs:
           cache: pip
 
       - name: Install core (editable)
-        run: pip install -e ../tablesched-core/backend
+        run: pip install -e ${{ github.workspace }}/tablesched-core/backend
 
       - name: Install SaaS
         run: pip install -e ".[dev]"
@@ -123,6 +124,7 @@ jobs:
           git clone --depth=1 --branch "${{ github.ref_name }}" https://github.com/d-caruso/TableSched.git tablesched-core \
             || git clone --depth=1 --branch main https://github.com/d-caruso/TableSched.git tablesched-core \
             || git clone --depth=1 --branch develop https://github.com/d-caruso/TableSched.git tablesched-core
+        working-directory: ${{ github.workspace }}
 
       - uses: actions/setup-python@v5
         with:
@@ -130,7 +132,7 @@ jobs:
           cache: pip
 
       - name: Install core (editable)
-        run: pip install -e ../tablesched-core/backend
+        run: pip install -e ${{ github.workspace }}/tablesched-core/backend
 
       - name: Install SaaS
         run: pip install -e ".[dev]"
