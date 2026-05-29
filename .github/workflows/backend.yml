@@ -1,0 +1,127 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      SECRET_KEY: ci-secret-key-not-used-in-production-at-all
+      DJANGO_SETTINGS_MODULE: config.settings.test
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: 127.0.0.1
+      DB_PORT: ${{ secrets.DB_PORT }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install core
+        run: pip install "tablesched-backend @ git+https://github.com/d-caruso/TableSched.git@main#subdirectory=backend"
+
+      - name: Install SaaS
+        run: pip install -e ".[dev]"
+
+      - name: Migrate
+        run: python manage.py migrate_schemas --shared --run-syncdb
+
+      - name: Ruff
+        run: ruff check .
+
+      - name: Mypy
+        run: mypy .
+
+      - name: check --deploy
+        env:
+          PUBLIC_DOMAIN: ci.example.com
+          DJANGO_SETTINGS_MODULE: config.settings.prod
+          SECRET_KEY: ci-secret-key-not-used-in-production-at-least-50-chars-long
+        run: python manage.py check --deploy --settings=config.settings.prod --fail-level=ERROR
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    defaults:
+      run:
+        working-directory: backend
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: 127.0.0.1
+      DB_PORT: ${{ secrets.DB_PORT }}
+      SECRET_KEY: ci-secret-key-not-used-in-production-at-all
+      DJANGO_SETTINGS_MODULE: config.settings.test
+
+    strategy:
+      fail-fast: false
+      matrix:
+        folder:
+          - sms
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install core
+        run: pip install "tablesched-backend @ git+https://github.com/d-caruso/TableSched.git@main#subdirectory=backend"
+
+      - name: Install SaaS
+        run: pip install -e ".[dev]"
+
+      - name: Pytest (${{ matrix.folder }})
+        run: pytest -q tests/${{ matrix.folder }}/

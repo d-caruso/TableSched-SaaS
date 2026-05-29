@@ -13,6 +13,17 @@ dependencies = [
   "tablesched-backend",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-django",
+  "pytest-xdist",
+  "ruff",
+  "mypy",
+  "django-stubs[compatible-mypy]",
+  "responses",
+]
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings.test"
 python_files = ["test_*.py"]
