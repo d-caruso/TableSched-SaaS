@@ -6,9 +6,8 @@ import { AppButton } from '@saas/components/ui/AppButton';
 import { useSmsDeliveryLog, SmsDeliveryLogEntry } from '@saas/lib/api/sms';
 
 export function maskPhone(phone: string): string {
-  const match = phone.match(/^(\+\d{2})(\d+)(\d{4})$/);
-  if (!match) return phone;
-  return `${match[1]}…${match[3]}`;
+  if (!phone.startsWith('+') || phone.length < 6) return phone;
+  return `${phone.slice(0, 3)}…${phone.slice(-4)}`;
 }
 
 function statusColor(status: SmsDeliveryLogEntry['status']): string {
