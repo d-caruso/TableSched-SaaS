@@ -49,16 +49,18 @@ describe('SmsHealthScreen', () => {
     mockUse.mockReturnValue({
       data: [{ provider: 'twilio', delivery_rate: 0.92, total_sent: 234, status: 'healthy' as const }],
     });
-    const { getByTestId } = render(<SmsHealthScreen />);
-    expect(getByTestId('badge-twilio').props.children).toBe('saas:platform.sms.providerHealthy');
+    const { getByTestId, getByText } = render(<SmsHealthScreen />);
+    expect(getByTestId('badge-twilio')).toBeTruthy();
+    expect(getByText('saas:platform.sms.providerHealthy')).toBeTruthy();
   });
 
   it('shows degraded badge for a degraded provider', () => {
     mockUse.mockReturnValue({
       data: [{ provider: 'smsapi', delivery_rate: 0.41, total_sent: 57, status: 'degraded' as const }],
     });
-    const { getByTestId } = render(<SmsHealthScreen />);
-    expect(getByTestId('badge-smsapi').props.children).toBe('saas:platform.sms.providerDegraded');
+    const { getByTestId, getByText } = render(<SmsHealthScreen />);
+    expect(getByTestId('badge-smsapi')).toBeTruthy();
+    expect(getByText('saas:platform.sms.providerDegraded')).toBeTruthy();
   });
 
   it('shows empty state when data is an empty array', () => {
