@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Checkout core (same branch)
-        id: checkout-core
+        id: checkout-core-branch
         uses: actions/checkout@v4
         with:
           repository: d-caruso/TableSched
@@ -54,8 +54,18 @@ jobs:
           path: tablesched-core
         continue-on-error: true
 
+      - name: Checkout core (main fallback)
+        id: checkout-core-main
+        if: steps.checkout-core-branch.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          repository: d-caruso/TableSched
+          ref: main
+          path: tablesched-core
+        continue-on-error: true
+
       - name: Checkout core (develop fallback)
-        if: steps.checkout-core.outcome == 'failure'
+        if: steps.checkout-core-branch.outcome == 'failure' && steps.checkout-core-main.outcome == 'failure'
         uses: actions/checkout@v4
         with:
           repository: d-caruso/TableSched
