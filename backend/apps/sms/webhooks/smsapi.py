@@ -31,7 +31,7 @@ def smsapi_dlr(request: HttpRequest) -> HttpResponse:
         return HttpResponse(status=403)
 
     adapter = SMSAPISMSAdapter()
-    delivery_status = adapter.handle_dlr(dict(request.POST))
+    delivery_status = adapter.handle_dlr(request.POST.dict())
     message_id = delivery_status.message_id
 
     try:
