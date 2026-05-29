@@ -8,7 +8,10 @@ jest.mock('@saas/lib/api/platform', () => ({
   useCancelTenant: jest.fn(),
   useDeleteTenantSchema: jest.fn(),
   usePlatformApiKeysSummary: jest.fn(() => ({ isLoading: false, data: undefined })),
+  usePlatformLifecycleEvents: jest.fn(() => ({ data: undefined })),
+  useCreateImpersonationToken: jest.fn(() => ({ mutateAsync: jest.fn() })),
 }));
+jest.mock('react-native/Libraries/Linking/Linking', () => ({ openURL: jest.fn() }));
 jest.mock('@saas/lib/lifecycle', () => ({ useCanWrite: () => true }));
 jest.mock('@saas/lib/toast', () => ({
   showToast: jest.fn(),

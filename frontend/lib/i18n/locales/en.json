@@ -1,4 +1,16 @@
 {
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "done": "Done",
+    "close": "Close",
+    "back": "Back",
+    "save": "Save",
+    "clear": "Clear",
+    "loading": "Loading…",
+    "open": "Open",
+    "create": "Create"
+  },
   "billing": {
     "title": "Billing",
     "currentPlan": "Current plan",
@@ -69,7 +81,8 @@
     "eventReasonPlatformAdmin": "Platform admin action",
     "eventReasonOwnerCancelled": "Cancelled by owner",
     "pastDueBanner": "Your last payment failed. Update your card to keep your account active.",
-    "updatePayment": "Update payment"
+    "updatePayment": "Update payment",
+    "needHelp": "Need help?"
   },
   "platform": {
     "title": "Platform admin",
@@ -82,7 +95,12 @@
       "filterActive": "Active",
       "filterPastDue": "Past due",
       "filterSuspended": "Suspended",
-      "filterCancelled": "Cancelled"
+      "filterCancelled": "Cancelled",
+      "open": "Open",
+      "sortBy": "Sort by",
+      "sortCreated": "Created",
+      "sortName": "Name",
+      "sortBookings": "Bookings"
     },
     "tenant": {
       "suspendConfirmTitle": "Suspend tenant?",
@@ -94,25 +112,90 @@
       "deleteTypeSlugLabel": "Type the tenant slug to confirm",
       "apiKeysSummaryTitle": "API keys",
       "apiKeysSummaryActiveCount": "{{count}} active key(s).",
-      "apiKeysSummaryRecent": "Most recent: {{name}} — {{date}}"
+      "apiKeysSummaryRecent": "Most recent: {{name}} — {{date}}",
+      "noActiveKeys": "No active keys.",
+      "editSubscription": "Edit subscription",
+      "profileTitle": "Profile",
+      "slug": "Slug",
+      "owner": "Owner",
+      "created": "Created",
+      "subscriptionTitle": "Subscription",
+      "plan": "Plan",
+      "status": "Status",
+      "renews": "Renews",
+      "trialEnds": "Trial ends",
+      "locationOverride": "Location override",
+      "usageTitle": "Usage",
+      "locations": "Locations",
+      "staff": "Staff",
+      "tables": "Tables",
+      "rooms": "Rooms",
+      "bookingsThisMonth": "Bookings this month",
+      "smsToday": "SMS today",
+      "actionsTitle": "Actions",
+      "suspend": "Suspend",
+      "reactivate": "Reactivate",
+      "cancel": "Cancel subscription",
+      "deleteSchema": "Delete schema",
+      "viewLifecycleHistory": "View lifecycle history →",
+      "actionFailed": "Action failed.",
+      "reason": "Reason",
+      "triggeredBy": "Triggered by"
     },
     "subscription": {
       "title": "Subscription overrides",
       "planLabel": "Plan",
       "locationOverrideLabel": "Location limit override",
       "trialEndsAtLabel": "Trial ends at",
-      "statusOverrideDisclosure": "Override status (rare)"
+      "trialEndsAtPlaceholder": "YYYY-MM-DD",
+      "statusOverrideDisclosure": "Override status (rare)",
+      "saveFailed": "Save failed.",
+      "unsavedTitle": "Unsaved changes",
+      "unsavedBody": "Discard changes and go back?",
+      "unsavedStay": "Stay",
+      "unsavedDiscard": "Discard"
     },
     "impersonate": {
+      "button": "Impersonate",
+      "tokenError": "Failed to create impersonation token.",
       "confirmTitle": "Impersonate tenant?",
       "confirmBody": "You are about to access {{tenant}} as a tenant staff member. This action is logged. The session expires in 15 minutes.",
       "banner": "Impersonating {{tenant}}. Actions are logged.",
       "endSession": "End session",
       "callbackInProgress": "Starting impersonation session…",
-      "callbackError": "Impersonation failed. The link may have expired."
+      "callbackError": "Impersonation failed. The link may have expired.",
+      "backToAdmin": "Back to platform admin"
     },
     "actionLog": {
-      "title": "Action log"
+      "title": "Action log",
+      "filterActorPlaceholder": "Actor email",
+      "filterActionPlaceholder": "Action type",
+      "filterTenantPlaceholder": "Tenant slug",
+      "empty": "No actions found.",
+      "showDetail": "Show detail",
+      "hideDetail": "Hide detail"
+    },
+    "sms": {
+      "navLabel": "SMS",
+      "healthTitle": "Provider health",
+      "healthSubtitle": "Last 24 hours",
+      "providerHealthy": "Healthy",
+      "providerDegraded": "Degraded",
+      "deliveryRate": "Delivery rate",
+      "totalSent": "Sent",
+      "deliveryLogTitle": "SMS delivery log",
+      "deliveryLogEmpty": "No messages match the selected filters.",
+      "filterProvider": "Provider",
+      "filterStatus": "Status",
+      "filterDateFrom": "From",
+      "filterDateTo": "To",
+      "statusPending": "Pending",
+      "statusDelivered": "Delivered",
+      "statusFailed": "Failed",
+      "routingTitle": "SMS routing table",
+      "routingEmpty": "No routing rules configured.",
+      "routingDefault": "Default",
+      "errorCode": "Error"
     },
     "toasts": {
       "suspended": "Tenant suspended.",
@@ -146,6 +229,15 @@
     "rateLimitedToast": "API key rate limit reached. Please wait before retrying.",
     "upsellTitle": "API access (Enterprise)",
     "upsellBody": "Programmatic API keys, monthly usage tracking, 100 req/hr · 1,000 req/day per key.",
-    "upsellCta": "Upgrade to Enterprise →"
+    "upsellCta": "Upgrade to Enterprise →",
+    "noKeys": "No API keys yet.",
+    "createError": "Failed to create key.",
+    "revokeError": "Failed to revoke key.",
+    "viewUsage": "Usage",
+    "revoke": "Revoke",
+    "createNamePlaceholder": "e.g. PROD",
+    "callCount": "{{count}} calls",
+    "limitsTitle": "Current limits",
+    "limitsDetail": "Hourly: {{hourly}} · Daily: {{daily}}"
   }
 }

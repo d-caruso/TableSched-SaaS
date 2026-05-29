@@ -59,7 +59,7 @@ export function ConfirmDestructiveModal({
           )}
           <XStack gap="$2" justifyContent="flex-end">
             <AppButton variant="ghost" skipWriteGate onPress={onCancel} testID="modal-cancel-btn">
-              {t('common.cancel', { defaultValue: 'Cancel' })}
+              {t('saas:common.cancel')}
             </AppButton>
             <AppButton
               variant="danger"
@@ -69,7 +69,7 @@ export function ConfirmDestructiveModal({
               onPress={canConfirm ? onConfirm : undefined}
               testID="modal-confirm-btn"
             >
-              {confirmLabel ?? t('common.confirm', { defaultValue: 'Confirm' })}
+              {confirmLabel ?? t('saas:common.confirm')}
             </AppButton>
           </XStack>
         </YStack>

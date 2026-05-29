@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { YStack, XStack, Text, Input } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
 import { ConfirmDestructiveModal } from '@saas/components/platform/ConfirmDestructiveModal';
+import { ApiKeyUsageSheet } from '@saas/components/apiKeys/ApiKeyUsageSheet';
 import {
   useApiKeys,
   useCreateApiKey,
@@ -55,7 +56,7 @@ function RawKeyModal({ data, onClose }: RawKeyModalProps) {
             {t('saas:apiKeys.copyButton')}
           </AppButton>
           <AppButton variant="primary" skipWriteGate onPress={onClose} testID="done-btn">
-            Done
+            {t('saas:common.done')}
           </AppButton>
         </XStack>
       </YStack>
@@ -94,12 +95,12 @@ function CreateModal({ onSubmit, onCancel }: CreateModalProps) {
         <Input
           value={name}
           onChangeText={setName}
-          placeholder="e.g. PROD"
+          placeholder={t('saas:apiKeys.createNamePlaceholder')}
           testID="key-name-input"
         />
         <XStack gap="$2" justifyContent="flex-end">
           <AppButton variant="ghost" skipWriteGate onPress={onCancel}>
-            Cancel
+            {t('saas:common.cancel')}
           </AppButton>
           <AppButton
             variant="primary"
@@ -108,7 +109,7 @@ function CreateModal({ onSubmit, onCancel }: CreateModalProps) {
             onPress={() => name.trim() && onSubmit(name.trim())}
             testID="create-submit-btn"
           >
-            Create
+            {t('saas:common.create')}
           </AppButton>
         </XStack>
       </YStack>
@@ -176,10 +177,10 @@ function KeyRow({ apiKey, onRevoke, onViewUsage }: KeyRowProps) {
       <Text flex={2} color="$colorSubtle">{lastUsed}</Text>
       <XStack gap="$1">
         <AppButton variant="ghost" skipWriteGate onPress={onViewUsage} testID={`view-usage-btn-${apiKey.id}`}>
-          Usage
+          {t('saas:apiKeys.viewUsage')}
         </AppButton>
         <AppButton variant="danger" skipWriteGate onPress={onRevoke} testID={`revoke-btn-${apiKey.id}`}>
-          Revoke
+          {t('saas:apiKeys.revoke')}
         </AppButton>
       </XStack>
     </XStack>
@@ -210,7 +211,7 @@ export default function ApiKeysScreen() {
       const data = await createKey.mutateAsync({ name });
       setCreatedData(data as ApiKeyCreated);
     } catch {
-      showToast('Failed to create key', TOAST_VARIANT.ERROR);
+      showToast(t('saas:apiKeys.createError'), TOAST_VARIANT.ERROR);
     }
   }
 
@@ -222,7 +223,7 @@ export default function ApiKeysScreen() {
       await revokeKey.mutateAsync(id);
       showToast(t('saas:apiKeys.revokedToast'), TOAST_VARIANT.SUCCESS);
     } catch {
-      showToast('Failed to revoke key', TOAST_VARIANT.ERROR);
+      showToast(t('saas:apiKeys.revokeError'), TOAST_VARIANT.ERROR);
     }
   }
 
@@ -245,7 +246,7 @@ export default function ApiKeysScreen() {
       <Text fontSize="$2" color="$colorSubtle">{t('saas:apiKeys.rateLimitNote')}</Text>
 
       {activeKeys.length === 0 ? (
-        <Text color="$colorSubtle" testID="keys-empty">No API keys yet.</Text>
+        <Text color="$colorSubtle" testID="keys-empty">{t('saas:apiKeys.noKeys')}</Text>
       ) : (
         activeKeys.map((key) => (
           <KeyRow
@@ -272,6 +273,21 @@ export default function ApiKeysScreen() {
         onConfirm={handleRevoke}
         onCancel={() => setRevokeTarget(null)}
       />
+
+      {usageTarget && (
+        <YStack
+          position="absolute"
+          top={0} left={0} right={0} bottom={0}
+          backgroundColor="$background"
+          testID="usage-sheet-overlay"
+        >
+          <ApiKeyUsageSheet
+            keyId={usageTarget}
+            keyName={activeKeys.find((k) => k.id === usageTarget)?.name ?? ''}
+            onClose={() => setUsageTarget(null)}
+          />
+        </YStack>
+      )}
     </YStack>
   );
 }

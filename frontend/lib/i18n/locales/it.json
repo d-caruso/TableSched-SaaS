@@ -1,4 +1,16 @@
 {
+  "common": {
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "done": "Fatto",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "save": "Salva",
+    "clear": "Cancella",
+    "loading": "Caricamento…",
+    "open": "Apri",
+    "create": "Crea"
+  },
   "billing": {
     "title": "Fatturazione",
     "currentPlan": "Piano attuale",
@@ -69,7 +81,8 @@
     "eventReasonPlatformAdmin": "Azione amministratore",
     "eventReasonOwnerCancelled": "Cancellato dal proprietario",
     "pastDueBanner": "L'ultimo pagamento non è andato a buon fine. Aggiorna la tua carta per mantenere l'account attivo.",
-    "updatePayment": "Aggiorna pagamento"
+    "updatePayment": "Aggiorna pagamento",
+    "needHelp": "Hai bisogno di aiuto?"
   },
   "platform": {
     "title": "Admin di piattaforma",
@@ -82,7 +95,12 @@
       "filterActive": "Attivo",
       "filterPastDue": "Pagamento scaduto",
       "filterSuspended": "Sospeso",
-      "filterCancelled": "Cancellato"
+      "filterCancelled": "Cancellato",
+      "open": "Apri",
+      "sortBy": "Ordina per",
+      "sortCreated": "Data creazione",
+      "sortName": "Nome",
+      "sortBookings": "Prenotazioni"
     },
     "tenant": {
       "suspendConfirmTitle": "Sospendere il tenant?",
@@ -94,25 +112,90 @@
       "deleteTypeSlugLabel": "Digita lo slug del tenant per confermare",
       "apiKeysSummaryTitle": "Chiavi API",
       "apiKeysSummaryActiveCount": "{{count}} chiave/i attiva/e.",
-      "apiKeysSummaryRecent": "Più recente: {{name}} — {{date}}"
+      "apiKeysSummaryRecent": "Più recente: {{name}} — {{date}}",
+      "noActiveKeys": "Nessuna chiave attiva.",
+      "editSubscription": "Modifica abbonamento",
+      "profileTitle": "Profilo",
+      "slug": "Slug",
+      "owner": "Proprietario",
+      "created": "Creato",
+      "subscriptionTitle": "Abbonamento",
+      "plan": "Piano",
+      "status": "Stato",
+      "renews": "Rinnovo",
+      "trialEnds": "Fine prova",
+      "locationOverride": "Override location",
+      "usageTitle": "Utilizzo",
+      "locations": "Location",
+      "staff": "Staff",
+      "tables": "Tavoli",
+      "rooms": "Sale",
+      "bookingsThisMonth": "Prenotazioni questo mese",
+      "smsToday": "SMS oggi",
+      "actionsTitle": "Azioni",
+      "suspend": "Sospendi",
+      "reactivate": "Riattiva",
+      "cancel": "Cancella abbonamento",
+      "deleteSchema": "Elimina schema",
+      "viewLifecycleHistory": "Visualizza storico →",
+      "actionFailed": "Azione fallita.",
+      "reason": "Motivo",
+      "triggeredBy": "Avviato da"
     },
     "subscription": {
       "title": "Override abbonamento",
       "planLabel": "Piano",
       "locationOverrideLabel": "Override limite location",
       "trialEndsAtLabel": "Fine periodo di prova",
-      "statusOverrideDisclosure": "Override stato (raro)"
+      "trialEndsAtPlaceholder": "AAAA-MM-GG",
+      "statusOverrideDisclosure": "Override stato (raro)",
+      "saveFailed": "Salvataggio fallito.",
+      "unsavedTitle": "Modifiche non salvate",
+      "unsavedBody": "Scartare le modifiche e tornare indietro?",
+      "unsavedStay": "Rimani",
+      "unsavedDiscard": "Scarta"
     },
     "impersonate": {
+      "button": "Impersona",
+      "tokenError": "Impossibile creare il token di impersonificazione.",
       "confirmTitle": "Impersonare il tenant?",
       "confirmBody": "Stai per accedere a {{tenant}} come membro dello staff del tenant. Questa azione viene registrata. La sessione scade in 15 minuti.",
       "banner": "Stai impersonando {{tenant}}. Le azioni vengono registrate.",
       "endSession": "Termina sessione",
       "callbackInProgress": "Avvio della sessione di impersonificazione…",
-      "callbackError": "Impersonificazione fallita. Il link potrebbe essere scaduto."
+      "callbackError": "Impersonificazione fallita. Il link potrebbe essere scaduto.",
+      "backToAdmin": "Torna all'admin di piattaforma"
     },
     "actionLog": {
-      "title": "Log azioni"
+      "title": "Log azioni",
+      "filterActorPlaceholder": "Email attore",
+      "filterActionPlaceholder": "Tipo azione",
+      "filterTenantPlaceholder": "Slug tenant",
+      "empty": "Nessuna azione trovata.",
+      "showDetail": "Mostra dettaglio",
+      "hideDetail": "Nascondi dettaglio"
+    },
+    "sms": {
+      "navLabel": "SMS",
+      "healthTitle": "Stato provider",
+      "healthSubtitle": "Ultime 24 ore",
+      "providerHealthy": "Operativo",
+      "providerDegraded": "Degradato",
+      "deliveryRate": "Tasso di consegna",
+      "totalSent": "Inviati",
+      "deliveryLogTitle": "Log consegne SMS",
+      "deliveryLogEmpty": "Nessun messaggio corrisponde ai filtri selezionati.",
+      "filterProvider": "Provider",
+      "filterStatus": "Stato",
+      "filterDateFrom": "Da",
+      "filterDateTo": "A",
+      "statusPending": "In attesa",
+      "statusDelivered": "Consegnato",
+      "statusFailed": "Fallito",
+      "routingTitle": "Tabella di routing SMS",
+      "routingEmpty": "Nessuna regola di routing configurata.",
+      "routingDefault": "Predefinito",
+      "errorCode": "Errore"
     },
     "toasts": {
       "suspended": "Tenant sospeso.",
@@ -146,6 +229,15 @@
     "rateLimitedToast": "Limite di frequenza API raggiunto. Attendi prima di riprovare.",
     "upsellTitle": "Accesso API (Enterprise)",
     "upsellBody": "Chiavi API programmatiche, monitoraggio utilizzo mensile, 100 req/ora · 1.000 req/giorno per chiave.",
-    "upsellCta": "Passa a Enterprise →"
+    "upsellCta": "Passa a Enterprise →",
+    "noKeys": "Nessuna chiave API.",
+    "createError": "Impossibile creare la chiave.",
+    "revokeError": "Impossibile revocare la chiave.",
+    "viewUsage": "Utilizzo",
+    "revoke": "Revoca",
+    "createNamePlaceholder": "es. PROD",
+    "callCount": "{{count}} chiamate",
+    "limitsTitle": "Limiti attuali",
+    "limitsDetail": "Orario: {{hourly}} · Giornaliero: {{daily}}"
   }
 }

@@ -30,6 +30,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 function TenantRow({ tenant, onOpen }: { tenant: PlatformTenantView; onOpen: () => void }) {
+  const { t } = useTranslation();
   const sub = tenant.subscription;
   return (
     <XStack
@@ -49,7 +50,7 @@ function TenantRow({ tenant, onOpen }: { tenant: PlatformTenantView; onOpen: () 
       </Text>
       <Text flex={1} textAlign="right">{sub.usage.bookings_this_month}</Text>
       <AppButton variant="ghost" skipWriteGate onPress={onOpen}>
-        Open
+        {t('saas:platform.tenants.open')}
       </AppButton>
     </XStack>
   );
@@ -82,7 +83,7 @@ export default function PlatformTenantListScreen() {
           onChangeText={setSearch}
           testID="tenant-search-input"
         />
-        <Text>{t('saas:platform.tenants.filterAll').slice(0, 4)}:</Text>
+        <Text>{t('saas:platform.tenants.sortBy')}:</Text>
         {(['created', 'display_name', 'bookings_this_month'] as const).map((ord) => (
           <AppButton
             key={ord}
@@ -90,7 +91,11 @@ export default function PlatformTenantListScreen() {
             skipWriteGate
             onPress={() => setOrdering(ord)}
           >
-            {ord === 'created' ? 'Created' : ord === 'display_name' ? 'Name' : 'Bookings'}
+            {ord === 'created'
+              ? t('saas:platform.tenants.sortCreated')
+              : ord === 'display_name'
+              ? t('saas:platform.tenants.sortName')
+              : t('saas:platform.tenants.sortBookings')}
           </AppButton>
         ))}
       </XStack>

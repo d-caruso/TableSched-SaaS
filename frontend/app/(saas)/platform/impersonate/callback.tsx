@@ -38,7 +38,7 @@ export default function ImpersonateCallbackScreen() {
           onPress={() => router.push('/platform/tenants')}
           testID="back-to-admin-btn"
         >
-          Back to platform admin
+          {t('saas:platform.impersonate.backToAdmin')}
         </AppButton>
       </YStack>
     );

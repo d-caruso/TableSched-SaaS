@@ -5,8 +5,10 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { YStack, XStack, Text } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
 import { ConfirmDestructiveModal } from '@saas/components/platform/ConfirmDestructiveModal';
+import { ImpersonateButton } from '@saas/components/platform/ImpersonateButton';
 import {
   usePlatformTenant,
+  usePlatformLifecycleEvents,
   useSuspendTenant,
   useReactivateTenant,
   useCancelTenant,
@@ -17,6 +19,8 @@ import { showToast, TOAST_VARIANT } from '@saas/lib/toast';
 
 type ModalAction = 'suspend' | 'cancel' | 'delete' | null;
 
+const RECENT_EVENTS_LIMIT = 5;
+
 export default function TenantDetailScreen() {
   const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -25,17 +29,20 @@ export default function TenantDetailScreen() {
   const [modal, setModal] = useState<ModalAction>(null);
 
   const { data: tenant, isLoading } = usePlatformTenant(tenantId);
+  const { data: lifecyclePages } = usePlatformLifecycleEvents(tenantId);
   const suspend = useSuspendTenant(tenantId);
   const reactivate = useReactivateTenant(tenantId);
   const cancel = useCancelTenant(tenantId);
   const deleteTenant = useDeleteTenantSchema(tenantId);
 
   if (isLoading || !tenant) {
-    return <YStack flex={1} padding="$4"><Text>Loading…</Text></YStack>;
+    return <YStack flex={1} padding="$4"><Text>{t('saas:common.loading')}</Text></YStack>;
   }
 
   const sub = tenant.subscription;
   const status = sub.status;
+
+  const recentEvents = (lifecyclePages?.pages[0]?.results ?? []).slice(0, RECENT_EVENTS_LIMIT);
 
   async function runAction(action: ModalAction) {
     setModal(null);
@@ -52,7 +59,7 @@ export default function TenantDetailScreen() {
         router.push('/platform/tenants');
       }
     } catch {
-      showToast('Action failed', TOAST_VARIANT.ERROR);
+      showToast(t('saas:platform.tenant.actionFailed'), TOAST_VARIANT.ERROR);
     }
   }
 
@@ -65,50 +72,61 @@ export default function TenantDetailScreen() {
             <Text fontSize="$6" fontWeight="700">{tenant.display_name}</Text>
             <Text color="$colorSubtle">{sub.plan.slug} · {status}</Text>
           </YStack>
-          <AppButton
-            variant="primary"
-            skipWriteGate
-            onPress={() => router.push(`/platform/tenants/${tenantId}/subscription`)}
-            testID="edit-subscription-btn"
-          >
-            Edit subscription
-          </AppButton>
+          <XStack gap="$2">
+            <ImpersonateButton
+              tenantId={tenantId}
+              tenantName={tenant.display_name}
+              restaurantId={String(tenantId)}
+            />
+            <AppButton
+              variant="secondary"
+              skipWriteGate
+              onPress={() => router.push(`/platform/tenants/${tenantId}/subscription`)}
+              testID="edit-subscription-btn"
+            >
+              {t('saas:platform.tenant.editSubscription')}
+            </AppButton>
+          </XStack>
         </XStack>
 
         {/* Profile card */}
         <YStack gap="$1" testID="profile-card">
-          <Text fontWeight="600">Profile</Text>
-          <Text>Slug: {tenant.slug}</Text>
-          <Text>Owner: {tenant.owner_email}</Text>
-          <Text>Created: {new Date(tenant.created_at).toLocaleDateString()}</Text>
+          <Text fontWeight="600">{t('saas:platform.tenant.profileTitle')}</Text>
+          <Text>{t('saas:platform.tenant.slug')}: {tenant.slug}</Text>
+          <Text>{t('saas:platform.tenant.owner')}: {tenant.owner_email}</Text>
+          <Text>{t('saas:platform.tenant.created')}: {new Date(tenant.created_at).toLocaleDateString()}</Text>
         </YStack>
 
         {/* Subscription card */}
         <YStack gap="$1" testID="subscription-card">
-          <Text fontWeight="600">Subscription</Text>
-          <Text>Plan: {sub.plan.slug}</Text>
-          <Text>Status: {status}</Text>
-          {sub.current_period_end && <Text>Renews: {new Date(sub.current_period_end).toLocaleDateString()}</Text>}
-          {sub.trial_ends_at && <Text>Trial ends: {new Date(sub.trial_ends_at).toLocaleDateString()}</Text>}
+          <Text fontWeight="600">{t('saas:platform.tenant.subscriptionTitle')}</Text>
+          <Text>{t('saas:platform.tenant.plan')}: {sub.plan.slug}</Text>
+          <Text>{t('saas:platform.tenant.status')}: {status}</Text>
+          {sub.current_period_end && (
+            <Text>{t('saas:platform.tenant.renews')}: {new Date(sub.current_period_end).toLocaleDateString()}</Text>
+          )}
+          {sub.trial_ends_at && (
+            <Text>{t('saas:platform.tenant.trialEnds')}: {new Date(sub.trial_ends_at).toLocaleDateString()}</Text>
+          )}
           {sub.location_limit_override != null && (
-            <Text fontStyle="italic">Location override: {sub.location_limit_override}</Text>
+            <Text fontStyle="italic">{t('saas:platform.tenant.locationOverride')}: {sub.location_limit_override}</Text>
           )}
         </YStack>
 
         {/* Usage snapshot */}
         <YStack gap="$1" testID="usage-snapshot">
-          <Text fontWeight="600">Usage</Text>
-          <Text>Locations: {sub.usage.locations}/{sub.effective_max_locations ?? '∞'}</Text>
-          <Text>Staff: {sub.usage.staff}</Text>
-          <Text>Tables: {sub.usage.tables}</Text>
-          <Text>Rooms: {sub.usage.rooms}</Text>
-          <Text>Bookings this month: {sub.usage.bookings_this_month}</Text>
-          <Text>SMS today: {sub.usage.sms_today}</Text>
+          <Text fontWeight="600">{t('saas:platform.tenant.usageTitle')}</Text>
+          <Text>{t('saas:platform.tenant.locations')}: {sub.usage.locations}/{sub.effective_max_locations ?? '∞'}</Text>
+          <Text>{t('saas:platform.tenant.staff')}: {sub.usage.staff}</Text>
+          <Text>{t('saas:platform.tenant.tables')}: {sub.usage.tables}</Text>
+          <Text>{t('saas:platform.tenant.rooms')}: {sub.usage.rooms}</Text>
+          <Text>{t('saas:platform.tenant.bookingsThisMonth')}: {sub.usage.bookings_this_month}</Text>
+          <Text>{t('saas:platform.tenant.smsToday')}: {sub.usage.sms_today}</Text>
         </YStack>
 
         {/* Lifecycle actions */}
         <YStack gap="$2" testID="lifecycle-actions">
-          <Text fontWeight="600">Actions</Text>
+          <Text fontWeight="600">{t('saas:platform.tenant.actionsTitle')}</Text>
           {status === 'active' && (
             <AppButton
               variant="danger"
@@ -116,7 +134,7 @@ export default function TenantDetailScreen() {
               onPress={() => setModal('suspend')}
               testID="suspend-btn"
             >
-              {t('saas:platform.tenant.suspendConfirmTitle').replace('?', '')}
+              {t('saas:platform.tenant.suspend')}
             </AppButton>
           )}
           {status === 'suspended' && (
@@ -128,7 +146,7 @@ export default function TenantDetailScreen() {
               )}
               testID="reactivate-btn"
             >
-              Reactivate
+              {t('saas:platform.tenant.reactivate')}
             </AppButton>
           )}
           {(status === 'active' || status === 'suspended') && (
@@ -138,7 +156,7 @@ export default function TenantDetailScreen() {
               onPress={() => setModal('cancel')}
               testID="cancel-btn"
             >
-              {t('saas:platform.tenant.cancelConfirmTitle').replace('?', '')}
+              {t('saas:platform.tenant.cancel')}
             </AppButton>
           )}
           {status === 'cancelled' && (
@@ -148,7 +166,7 @@ export default function TenantDetailScreen() {
               onPress={() => setModal('delete')}
               testID="delete-btn"
             >
-              Delete schema
+              {t('saas:platform.tenant.deleteSchema')}
             </AppButton>
           )}
         </YStack>
@@ -156,14 +174,28 @@ export default function TenantDetailScreen() {
         {/* API keys summary (Enterprise only) */}
         <ApiKeysSummaryBlock tenantId={tenantId} tier={sub.plan.slug} />
 
-        {/* Recent lifecycle events link */}
+        {/* Recent lifecycle events (last 5) */}
+        {recentEvents.length > 0 && (
+          <YStack gap="$1" testID="recent-lifecycle-events">
+            <Text fontWeight="600">{t('saas:lifecycle.historyTitle')}</Text>
+            {recentEvents.map((ev) => (
+              <XStack key={ev.id} gap="$2" paddingVertical="$1">
+                <Text fontSize="$2" color="$colorSubtle">
+                  {new Date(ev.created_at).toLocaleDateString()}
+                </Text>
+                <Text fontSize="$2">{ev.from_status ?? '—'} → {ev.to_status}</Text>
+              </XStack>
+            ))}
+          </YStack>
+        )}
+
         <AppButton
           variant="ghost"
           skipWriteGate
           onPress={() => router.push(`/platform/tenants/${tenantId}/lifecycle`)}
           testID="view-lifecycle-btn"
         >
-          View lifecycle history →
+          {t('saas:platform.tenant.viewLifecycleHistory')}
         </AppButton>
       </YStack>
 
