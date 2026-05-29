@@ -33,8 +33,10 @@ def _load_core_settings():
         if not candidate.exists():
             continue
         # Load by absolute path to bypass the 'config' namespace collision.
+        # str() avoids a Python 3.12 pathlib slot-initialization bug when a
+        # PosixPath is stored as module.__file__ and then stringified.
         spec = importlib.util.spec_from_file_location(
-            "_tablesched_core_settings_base", candidate
+            "_tablesched_core_settings_base", str(candidate)
         )
         module = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
         spec.loader.exec_module(module)  # type: ignore[union-attr]
