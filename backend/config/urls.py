@@ -25,7 +25,7 @@ def _load_core_urlconf(filename: str):
         candidate = pathlib.Path(mapping["config"]) / filename
         if not candidate.exists():
             continue
-        spec = importlib.util.spec_from_file_location(f"_core_config_{filename}", candidate)
+        spec = importlib.util.spec_from_file_location(f"_core_config_{filename}", str(candidate))
         module = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
         spec.loader.exec_module(module)  # type: ignore[union-attr]
         return module
