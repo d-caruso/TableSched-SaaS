@@ -60,14 +60,24 @@ INSTALLED_APPS = list(_SHARED_APPS) + [
     "apps.billing",
     "apps.platform",
     "apps.api_access",
+    "apps.sms",
 ] + [app for app in _TENANT_APPS if app not in _SHARED_APPS]
 
 # Plan limit permission class injected into core views via get_plan_limit_permission().
 PLAN_LIMIT_PERMISSION_CLASS = "apps.billing.permissions.PlanLimitPermission"
 
-# SMS quota hook functions — resolve to billing service functions.
+# SMS hook functions — quota/record resolve to billing; send delegates to LCR router.
 SMS_QUOTA_CHECK_FN = "apps.billing.services.check_sms_quota"
 SMS_RECORD_FN = "apps.billing.services.record_sms_sent"
+SMS_SEND_FN = "apps.sms.router.send"
+
+# Least-cost routing table: E.164 prefix → ordered provider list.
+# "default" is used when no prefix matches.
+SMS_ROUTING_TABLE: dict = {
+    "+39": ["smsapi", "infobip", "twilio"],   # Italy
+    "+44": ["infobip", "twilio"],              # UK
+    "default": ["twilio"],
+}
 
 # Tenant suspension hook — resolve to lifecycle service function.
 TENANT_SUSPENSION_CHECK_FN = "apps.billing.lifecycle.tenant_is_active"
