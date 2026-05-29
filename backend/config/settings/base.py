@@ -31,6 +31,11 @@ def _load_core_settings():
         candidate = os.path.join(mapping["config"], "settings", "base.py")
         if not os.path.exists(candidate):
             continue
+        # Skip if this resolves to the current file — SaaS has its own editable
+        # install MAPPING that also contains a 'config' key. We must not load
+        # ourselves recursively.
+        if os.path.normcase(os.path.abspath(candidate)) == os.path.normcase(os.path.abspath(__file__)):
+            continue
         # Load by absolute path to bypass the 'config' namespace collision.
         spec = importlib.util.spec_from_file_location(
             "_tablesched_core_settings_base", candidate
