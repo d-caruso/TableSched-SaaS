@@ -11,6 +11,7 @@ from django.urls import include, path
 from apps.billing.views import stripe_subscription_webhook
 from apps.platform import urls as platform_urls
 from apps.api_access import urls as api_access_urls
+from apps.sms import urls as sms_urls
 
 
 def _load_core_urlconf(filename: str):
@@ -44,6 +45,8 @@ urlpatterns = [
     path("api/v1/platform/", include(platform_urls)),
     # Enterprise API key management.
     path("api/v1/platform/", include(api_access_urls)),
+    # SMS DLR webhooks.
+    path("saas/sms/", include(sms_urls)),
     # All core public URL patterns.
     *_core_public.urlpatterns,
 ]
