@@ -44,7 +44,7 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
 
       <XStack gap="$3" alignItems="center">
         <Text fontSize="$3" fontWeight="600" testID={`rate-${item.provider}`}>
-          {pct}%
+          {t('saas:platform.sms.deliveryRate')}: {pct}%
         </Text>
         <XStack
           backgroundColor={color}
