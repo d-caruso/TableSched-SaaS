@@ -28,13 +28,15 @@ function makeEntry(id: string, overrides: Partial<{ provider: string; status: 'p
 beforeEach(() => jest.clearAllMocks());
 
 describe('maskPhone', () => {
-  it('masks E.164 numbers to 2-digit prefix + … + last 4', () => {
+  it('masks E.164 numbers to first 3 chars + … + last 4', () => {
     expect(maskPhone('+39123456789')).toBe('+39…6789');
     expect(maskPhone('+44987654321')).toBe('+44…4321');
+    expect(maskPhone('+38012345678')).toBe('+38…5678');
   });
 
-  it('returns the original string if it does not match E.164', () => {
+  it('returns the original string if too short or no leading +', () => {
     expect(maskPhone('invalid')).toBe('invalid');
+    expect(maskPhone('+123')).toBe('+123');
   });
 });
 
