@@ -19,16 +19,16 @@ class SMSDeliveryLog(models.Model):
         (STATUS_FAILED, "Failed"),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id: models.UUIDField = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # UUID of core NotificationLog — stored as plain field, no FK (cross-schema).
-    notification_log_id = models.UUIDField(null=True, blank=True, db_index=True)
-    provider = models.CharField(max_length=32)  # "twilio" | "infobip" | "smsapi"
-    provider_message_id = models.CharField(max_length=255, blank=True)
-    status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_PENDING)
-    error_code = models.CharField(max_length=64, blank=True)
-    phone = models.CharField(max_length=32)
-    sent_at = models.DateTimeField(default=timezone.now)
-    delivered_at = models.DateTimeField(null=True, blank=True)
+    notification_log_id: models.UUIDField = models.UUIDField(null=True, blank=True, db_index=True)
+    provider: models.CharField = models.CharField(max_length=32)  # "twilio" | "infobip" | "smsapi"
+    provider_message_id: models.CharField = models.CharField(max_length=255, blank=True)
+    status: models.CharField = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    error_code: models.CharField = models.CharField(max_length=64, blank=True)
+    phone: models.CharField = models.CharField(max_length=32)
+    sent_at: models.DateTimeField = models.DateTimeField(default=timezone.now)
+    delivered_at: models.DateTimeField = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-sent_at"]

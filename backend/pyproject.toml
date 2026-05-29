@@ -20,7 +20,6 @@ dev = [
   "pytest-xdist",
   "ruff",
   "mypy",
-  "django-stubs[compatible-mypy]",
   "types-requests",
   "responses",
 ]
@@ -41,7 +40,4 @@ per-file-ignores = { "config/settings/*.py" = ["E402", "F405", "F821"] }
 [tool.mypy]
 python_version = "3.12"
 ignore_missing_imports = true
-plugins = ["mypy_django_plugin.main"]
-
-[tool.django-stubs]
-django_settings_module = "config.settings.test"
+exclude = ["migrations"]
