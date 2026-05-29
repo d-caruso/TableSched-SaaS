@@ -45,32 +45,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout core (same branch)
-        id: checkout-core-branch
-        uses: actions/checkout@v4
-        with:
-          repository: d-caruso/TableSched
-          ref: ${{ github.ref_name }}
-          path: tablesched-core
-        continue-on-error: true
-
-      - name: Checkout core (main fallback)
-        id: checkout-core-main
-        if: steps.checkout-core-branch.outcome == 'failure'
-        uses: actions/checkout@v4
-        with:
-          repository: d-caruso/TableSched
-          ref: main
-          path: tablesched-core
-        continue-on-error: true
-
-      - name: Checkout core (develop fallback)
-        if: steps.checkout-core-branch.outcome == 'failure' && steps.checkout-core-main.outcome == 'failure'
-        uses: actions/checkout@v4
-        with:
-          repository: d-caruso/TableSched
-          ref: develop
-          path: tablesched-core
+      - name: Checkout core (branch → main → develop)
+        run: |
+          git clone --depth=1 --branch "${{ github.ref_name }}" https://github.com/d-caruso/TableSched.git tablesched-core \
+            || git clone --depth=1 --branch main https://github.com/d-caruso/TableSched.git tablesched-core \
+            || git clone --depth=1 --branch develop https://github.com/d-caruso/TableSched.git tablesched-core
 
       - uses: actions/setup-python@v5
         with:
@@ -139,11 +118,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-        with:
-          repository: d-caruso/TableSched
-          ref: ${{ github.ref_name }}
-          path: tablesched-core
+      - name: Checkout core (branch → main → develop)
+        run: |
+          git clone --depth=1 --branch "${{ github.ref_name }}" https://github.com/d-caruso/TableSched.git tablesched-core \
+            || git clone --depth=1 --branch main https://github.com/d-caruso/TableSched.git tablesched-core \
+            || git clone --depth=1 --branch develop https://github.com/d-caruso/TableSched.git tablesched-core
 
       - uses: actions/setup-python@v5
         with:
