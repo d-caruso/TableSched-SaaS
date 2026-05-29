@@ -45,10 +45,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
+      - name: Checkout core (same branch)
+        id: checkout-core
+        uses: actions/checkout@v4
         with:
           repository: d-caruso/TableSched
           ref: ${{ github.ref_name }}
+          path: tablesched-core
+        continue-on-error: true
+
+      - name: Checkout core (develop fallback)
+        if: steps.checkout-core.outcome == 'failure'
+        uses: actions/checkout@v4
+        with:
+          repository: d-caruso/TableSched
+          ref: develop
           path: tablesched-core
 
       - uses: actions/setup-python@v5
