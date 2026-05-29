@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: d-caruso/TableSched
-          token: ${{ secrets.PAT }}
           path: TableSched
 
       - uses: actions/setup-node@v4
