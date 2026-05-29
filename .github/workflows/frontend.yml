@@ -1,0 +1,56 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TableSched-SaaS/frontend
+
+    steps:
+      # Check out both repos so the local file dependency resolves:
+      # TableSched-SaaS/frontend/package.json has "tablesched-frontend": "file:../../TableSched/frontend"
+      # which requires the core repo at ../../TableSched relative to the SaaS frontend dir.
+      - uses: actions/checkout@v4
+        with:
+          path: TableSched-SaaS
+
+      - uses: actions/checkout@v4
+        with:
+          repository: d-caruso/TableSched
+          token: ${{ secrets.PAT }}
+          path: TableSched
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: TableSched-SaaS/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test -- --ci --passWithNoTests
+
+      - name: Build
+        run: npm run build
