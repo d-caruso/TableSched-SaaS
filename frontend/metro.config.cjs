@@ -14,7 +14,17 @@ config.resolver.nodeModulesPaths = [
 // Custom resolver: enable shadowing of core components
 // When @core/... or tablesched-frontend/... imports are encountered,
 // check for local SaaS override first; if not found, use installed package
+// Packages that must resolve to the core's installation so both the SaaS
+// bundle and core bundle share a single instance (required for React hooks).
+const PINNED_TO_CORE = new Set(["react", "react-dom", "react-native"]);
+
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  // Deduplicate React family: always use the core's copy.
+  if (PINNED_TO_CORE.has(moduleName)) {
+    const filePath = require.resolve(moduleName, { paths: [coreRoot] });
+return { filePath, type: "sourceFile" };
+  }
+
   let relativeImport = null;
 
   if (moduleName.startsWith("tablesched-frontend/")) {
