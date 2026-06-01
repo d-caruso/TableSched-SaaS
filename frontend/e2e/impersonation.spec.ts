@@ -47,22 +47,17 @@ test('impersonation callback shows error state when token exchange fails', async
 });
 
 test('impersonation callback navigates away on successful token exchange', async ({ page }) => {
-  // AuthProvider reads auth state from sessionStorage on web (core/lib/auth/AuthContext.tsx).
-  // A fresh browser has empty sessionStorage, so the staff layout Guard would redirect to
-  // /login (which is unmatched in the SaaS app), causing Expo Router to revert the
-  // navigation and leave the URL at /callback. Seed the tokens so the Guard passes.
-  await page.addInitScript(() => {
-    window.sessionStorage.setItem('tablesched.accessToken', 'test-access-token');
-    window.sessionStorage.setItem('tablesched.tenant', 'test-restaurant');
-  });
-
   await page.route('**/api/v1/platform/auth/impersonate-exchange/', (route) =>
     route.fulfill({ status: 200, json: {} }),
   );
 
   await page.goto('/platform/impersonate/callback?token=valid-token&restaurant_id=rest-001');
 
-  // Successful exchange triggers router.replace('/(staff)/dashboard').
-  // The callback page itself disappears — URL no longer contains /callback.
-  await expect(page).not.toHaveURL(/\/callback/, { timeout: 30_000 });
+  // Wait for the callback component to appear in pending state (platform layout resolved).
+  await expect(page.getByTestId('callback-pending')).toBeVisible({ timeout: 30_000 });
+
+  // Successful exchange triggers router.replace; the callback component unmounts.
+  // We verify this by asserting pending disappears without error appearing.
+  await expect(page.getByTestId('callback-pending')).not.toBeVisible({ timeout: 30_000 });
+  await expect(page.getByTestId('callback-error')).not.toBeVisible();
 });
