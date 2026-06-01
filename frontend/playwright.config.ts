@@ -22,7 +22,7 @@ export default defineConfig({
     // Root returns 404 (no index route in this SaaS app); use the callback
     // page as the readiness probe since it always returns 200.
     url: 'http://localhost:8081/platform/impersonate/callback',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 300_000,
   },
 });
