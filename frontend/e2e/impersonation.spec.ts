@@ -47,12 +47,17 @@ test('impersonation callback shows error state when token exchange fails', async
 });
 
 test('impersonation callback navigates away on successful token exchange', async ({ page }) => {
+  // AuthProvider reads auth state from sessionStorage on web (core/lib/auth/AuthContext.tsx).
+  // A fresh browser has empty sessionStorage, so the staff layout Guard would redirect to
+  // /login (which is unmatched in the SaaS app), causing Expo Router to revert the
+  // navigation and leave the URL at /callback. Seed the tokens so the Guard passes.
+  await page.addInitScript(() => {
+    window.sessionStorage.setItem('tablesched.accessToken', 'test-access-token');
+    window.sessionStorage.setItem('tablesched.tenant', 'test-restaurant');
+  });
+
   await page.route('**/api/v1/platform/auth/impersonate-exchange/', (route) =>
     route.fulfill({ status: 200, json: {} }),
-  );
-  // The redirect target (staff dashboard) needs a session; fulfil the session endpoint.
-  await page.route('**/_allauth/app/v1/auth/session', (route) =>
-    route.fulfill({ json: { organization: null, memberships: [], tenants: [] } }),
   );
 
   await page.goto('/platform/impersonate/callback?token=valid-token&restaurant_id=rest-001');
