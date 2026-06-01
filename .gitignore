@@ -79,6 +79,10 @@ frontend/.tamagui/
 # Expo local dev state (machine-specific, not for version control)
 frontend/.expo/
 
+# Playwright output
+frontend/test-results/
+frontend/playwright-report/
+
 # Claude Code local settings
 .claude/
 
