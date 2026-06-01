@@ -76,6 +76,9 @@ frontend/node_modules/
 # Tamagui build cache
 frontend/.tamagui/
 
+# Expo local dev state (machine-specific, not for version control)
+frontend/.expo/
+
 # Claude Code local settings
 .claude/
 
