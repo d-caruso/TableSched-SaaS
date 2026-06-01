@@ -15,14 +15,27 @@ config.resolver.nodeModulesPaths = [
 // When @core/... or tablesched-frontend/... imports are encountered,
 // check for local SaaS override first; if not found, use installed package
 // Packages that must resolve to the core's installation so both the SaaS
-// bundle and core bundle share a single instance (required for React hooks).
-const PINNED_TO_CORE = new Set(["react", "react-dom", "react-native"]);
+// bundle and core bundle share a single React dispatcher. Covers exact names
+// AND sub-paths (e.g. react-dom/server) because react-dom-server sets up
+// ReactCurrentDispatcher — if that's a different react-dom copy from the one
+// components use, hooks see a null dispatcher.
+const PINNED_PREFIXES = ["react", "react-dom", "react-native"];
+
+function isPinned(moduleName) {
+  return PINNED_PREFIXES.some(
+    (prefix) => moduleName === prefix || moduleName.startsWith(prefix + "/"),
+  );
+}
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   // Deduplicate React family: always use the core's copy.
-  if (PINNED_TO_CORE.has(moduleName)) {
-    const filePath = require.resolve(moduleName, { paths: [coreRoot] });
-return { filePath, type: "sourceFile" };
+  if (isPinned(moduleName)) {
+    try {
+      const filePath = require.resolve(moduleName, { paths: [coreRoot] });
+      return { filePath, type: "sourceFile" };
+    } catch {
+      // Sub-path not present in core — fall through to default resolution.
+    }
   }
 
   let relativeImport = null;

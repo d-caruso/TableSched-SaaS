@@ -1,12 +1,14 @@
+// Wraps core staff layout so Expo Router assigns this file's path as the
+// layout filename (same reason as app/_layout.tsx).
 import { YStack } from 'tamagui';
 import { PastDueBanner } from '@saas/components/billing/PastDueBanner';
+import CoreStaffLayout from '@core/app/(staff)/_layout';
 
-// Re-export core staff layout enhanced with past-due banner
-export { default } from '@core/app/(staff)/_layout';
+export default function StaffLayout() {
+  return <CoreStaffLayout />;
+}
 
-// Shadow the inner layout slot to inject the banner above all staff screens.
-// This wraps the existing Guard + AuthProvider from core by providing a
-// module-level side effect via the saas-slot pattern.
+// Injects PastDueBanner above all staff screens via the saas-slot pattern.
 export function SaaSStaffLayout({ children }: { children: React.ReactNode }) {
   return (
     <YStack flex={1}>

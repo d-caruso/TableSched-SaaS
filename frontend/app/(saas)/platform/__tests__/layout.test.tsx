@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 
-jest.mock('@saas/lib/api/platform', () => ({ useIsPlatformStaff: jest.fn() }));
+jest.mock('@saas/lib/api/platform', () => ({ useAppConfig: jest.fn() }));
 jest.mock('@saas/lib/lifecycle', () => ({ useCanWrite: () => true }));
 jest.mock('@core/lib/auth/AuthContext', () => ({ useAuth: () => ({ organization: { name: 'Test Org' }, tenant: 'test' }) }));
 jest.mock('expo-router', () => ({
@@ -20,22 +20,28 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));
 
-import { useIsPlatformStaff } from '@saas/lib/api/platform';
+import { useAppConfig } from '@saas/lib/api/platform';
 import PlatformLayout from '../_layout';
 
-const mockAllowed = useIsPlatformStaff as jest.Mock;
+const mockUseAppConfig = useAppConfig as jest.Mock;
 
 beforeEach(() => jest.clearAllMocks());
 
 describe('PlatformLayout', () => {
+  it('renders nothing while config is loading', () => {
+    mockUseAppConfig.mockReturnValue({ data: undefined, isLoading: true });
+    const { toJSON } = render(<PlatformLayout />);
+    expect(toJSON()).toBeNull();
+  });
+
   it('redirects to / when not platform staff', () => {
-    mockAllowed.mockReturnValue(false);
+    mockUseAppConfig.mockReturnValue({ data: { features: { platformAdmin: false } }, isLoading: false });
     const { getByTestId } = render(<PlatformLayout />);
     expect(getByTestId('redirect')).toBeTruthy();
   });
 
   it('renders sidebar shell with slot when platform staff', () => {
-    mockAllowed.mockReturnValue(true);
+    mockUseAppConfig.mockReturnValue({ data: { features: { platformAdmin: true } }, isLoading: false });
     const { getByTestId } = render(<PlatformLayout />);
     expect(getByTestId('platform-sidebar')).toBeTruthy();
     expect(getByTestId('slot')).toBeTruthy();
