@@ -43,20 +43,12 @@ describe('useApiKeys', () => {
 describe('useCreateApiKey', () => {
   it('posts to the create endpoint and returns raw_key in result', async () => {
     const created = { ...keyFixture, raw_key: 'tse_FULL_KEY' };
-    mockApi.mockResolvedValue([keyFixture]);
-    const { result: listResult } = renderHook(() => useApiKeys(), { wrapper });
-    await waitFor(() => expect(listResult.current.data).toBeDefined());
-
     mockApi.mockResolvedValueOnce(created);
     const { result } = renderHook(() => useCreateApiKey(), { wrapper });
-    let mutationData: typeof created | undefined;
-    await new Promise<void>((resolve) => {
-      result.current.mutate({ name: 'PROD' }, {
-        onSuccess: (data) => { mutationData = data as typeof created; resolve(); },
-      });
-    });
-    expect(mutationData?.raw_key).toBe('tse_FULL_KEY');
-    expect(mutationData?.name).toBe('PROD');
+    result.current.mutate({ name: 'PROD' });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data?.raw_key).toBe('tse_FULL_KEY');
+    expect(result.current.data?.name).toBe('PROD');
   });
 });
 
@@ -64,9 +56,8 @@ describe('useRevokeApiKey', () => {
   it('calls delete endpoint with the correct id', async () => {
     mockApi.mockResolvedValueOnce(undefined);
     const { result } = renderHook(() => useRevokeApiKey(), { wrapper });
-    await new Promise<void>((resolve) => {
-      result.current.mutate('k1', { onSuccess: () => resolve(), onError: () => resolve() });
-    });
+    result.current.mutate('k1');
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(mockApi).toHaveBeenCalledWith('/api/v1/platform/api-keys/k1/', { method: 'DELETE' });
   });
 });
@@ -75,9 +66,8 @@ describe('useRenameApiKey', () => {
   it('patches the correct endpoint', async () => {
     mockApi.mockResolvedValueOnce({ ...keyFixture, name: 'Renamed' });
     const { result } = renderHook(() => useRenameApiKey(), { wrapper });
-    await new Promise<void>((resolve) => {
-      result.current.mutate({ id: 'k1', name: 'Renamed' }, { onSuccess: () => resolve() });
-    });
+    result.current.mutate({ id: 'k1', name: 'Renamed' });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(mockApi).toHaveBeenCalledWith('/api/v1/platform/api-keys/k1/', {
       method: 'PATCH',
       body: { name: 'Renamed' },
