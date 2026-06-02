@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { YStack, XStack, Text, Input } from 'tamagui';
-import { CARD_STYLE, FOCUS_STYLE, STAFF_MAX_WIDTH } from '@core/constants/styles';
+import { CARD_STYLE, STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { AppButton } from '@saas/components/ui/AppButton';
 import { usePlatformTenants, PlatformTenantView } from '@saas/lib/api/platform';
 
@@ -61,7 +61,7 @@ function TenantRow({ tenant, onOpen }: { tenant: PlatformTenantView; onOpen: () 
         {sub.usage.locations}/{sub.effective_max_locations ?? '∞'}
       </Text>
       <Text flex={1} textAlign="right">{sub.usage.bookings_this_month}</Text>
-      <AppButton variant="ghost" skipWriteGate onPress={onOpen} focusStyle={FOCUS_STYLE}>
+      <AppButton variant="ghost" skipWriteGate onPress={onOpen}>
         {t('saas:platform.tenants.open')}
       </AppButton>
     </XStack>
