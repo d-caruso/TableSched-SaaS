@@ -37,7 +37,7 @@ describe('Index', () => {
 
   it('redirects restaurant staff to /(staff)/dashboard', () => {
     mockUseMe.mockReturnValue({
-      data: { email: 'staff@example.com', platformAdmin: false, role: 'manager' },
+      data: { email: 'staff@example.com', platformAdmin: false, role: null },
       isLoading: false,
     });
     const { getByTestId, getByText } = render(<Index />);

@@ -230,8 +230,8 @@ export default function Index() {
   Redirect destination verified with both `getByTestId('redirect')` (presence) and
   `getByText('<href>')` (correct destination).
 
-  Note: verify `Spinner` is exported from `__mocks__/tamagui.ts` before writing the
-  loading-state assertion (`UNSAFE_getByType`).
+  Fixture note: `app/index.tsx` calls the public-schema `/api/v1/me/`; `role` is always
+  `null` there (no tenant context). Both test fixtures must use `role: null`.
 
 **Commit:** `[TASK] 2 add app/index.tsx routing entry point and test`
 
