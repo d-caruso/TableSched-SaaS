@@ -13,6 +13,7 @@ from uuid import uuid4
 
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
+from django.db import connection
 from django.test import Client
 from django.urls import resolve, set_urlconf
 from django_tenants.utils import schema_context  # type: ignore[import-untyped]
@@ -33,8 +34,14 @@ def tenant_schema(prefix: str) -> Iterator[str]:
         tenant = Restaurant.objects.create(schema_name=schema_name, name="Test Restaurant")
         Domain.objects.create(domain=schema_name, tenant=tenant, is_primary=True)
     call_command("migrate_schemas", schema_name=schema_name, interactive=False, verbosity=0)
-    with schema_context(schema_name):
-        yield schema_name
+    try:
+        with schema_context(schema_name):
+            yield schema_name
+    finally:
+        # transactional_db truncates tables but does not drop dynamically created
+        # schemas; drop it so test schemas don't accumulate in the test database.
+        with connection.cursor() as cursor:
+            cursor.execute(f'DROP SCHEMA IF EXISTS "{schema_name}" CASCADE')
 
 
 def test_me_requires_authentication(public_tenant):
@@ -77,12 +84,12 @@ def test_me_tenant_scope_returns_role(public_tenant):
             user=user, role=StaffMembership.ROLE_MANAGER, is_active=True
         )
 
-    client = Client()
-    client.force_login(user)
-    resp = client.get(f"/api/v1/restaurants/{schema_name}/me/")
+        client = Client()
+        client.force_login(user)
+        resp = client.get(f"/api/v1/restaurants/{schema_name}/me/")
 
-    assert resp.status_code == 200
-    assert resp.json()["role"] == StaffMembership.ROLE_MANAGER
+        assert resp.status_code == 200
+        assert resp.json()["role"] == StaffMembership.ROLE_MANAGER
 
 
 def test_public_routes_resolve():
