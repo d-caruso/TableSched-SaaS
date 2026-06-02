@@ -27,7 +27,7 @@ export function ApiKeyUsageSheet({ keyId, keyName, onClose }: Props) {
       testID="usage-sheet"
     >
       <XStack justifyContent="space-between" alignItems="center">
-        <Text fontSize="$5" fontWeight="700">
+        <Text fontSize="$5" fontWeight="$7">
           {t('saas:apiKeys.usageTitle')} — {keyName}
         </Text>
         <AppButton variant="ghost" skipWriteGate onPress={onClose} testID="usage-close-btn">
@@ -57,7 +57,7 @@ export function ApiKeyUsageSheet({ keyId, keyName, onClose }: Props) {
                   ? t('saas:apiKeys.usageThisMonth')
                   : `${row.year}-${String(row.month).padStart(2, '0')}`}
               </Text>
-              <Text fontWeight="600">
+              <Text fontWeight="$7">
                 {t('saas:apiKeys.callCount', { count: row.call_count })}
               </Text>
             </XStack>
@@ -66,7 +66,7 @@ export function ApiKeyUsageSheet({ keyId, keyName, onClose }: Props) {
       )}
 
       <YStack gap="$1" marginTop="$2" testID="limits-block">
-        <Text fontWeight="600">{t('saas:apiKeys.limitsTitle')}</Text>
+        <Text fontWeight="$7">{t('saas:apiKeys.limitsTitle')}</Text>
         <Text>{t('saas:apiKeys.limitsDetail', { hourly: HOURLY_LIMIT, daily: DAILY_LIMIT })}</Text>
       </YStack>
     </YStack>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { YStack, XStack, Text } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
+import { FIELD_LABEL_STYLE } from '@core/constants/styles';
 import { ConfirmDestructiveModal } from '@saas/components/platform/ConfirmDestructiveModal';
 import { ImpersonateButton } from '@saas/components/platform/ImpersonateButton';
 import {
@@ -69,7 +70,7 @@ export default function TenantDetailScreen() {
         {/* Header */}
         <XStack justifyContent="space-between" alignItems="center">
           <YStack>
-            <Text fontSize="$6" fontWeight="700">{tenant.display_name}</Text>
+            <Text fontSize="$6" fontWeight="$7">{tenant.display_name}</Text>
             <Text color="$colorSubtle">{sub.plan.slug} · {status}</Text>
           </YStack>
           <XStack gap="$2">
@@ -91,7 +92,7 @@ export default function TenantDetailScreen() {
 
         {/* Profile card */}
         <YStack gap="$1" testID="profile-card">
-          <Text fontWeight="600">{t('saas:platform.tenant.profileTitle')}</Text>
+          <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.tenant.profileTitle')}</Text>
           <Text>{t('saas:platform.tenant.slug')}: {tenant.slug}</Text>
           <Text>{t('saas:platform.tenant.owner')}: {tenant.owner_email}</Text>
           <Text>{t('saas:platform.tenant.created')}: {new Date(tenant.created_at).toLocaleDateString()}</Text>
@@ -99,7 +100,7 @@ export default function TenantDetailScreen() {
 
         {/* Subscription card */}
         <YStack gap="$1" testID="subscription-card">
-          <Text fontWeight="600">{t('saas:platform.tenant.subscriptionTitle')}</Text>
+          <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.tenant.subscriptionTitle')}</Text>
           <Text>{t('saas:platform.tenant.plan')}: {sub.plan.slug}</Text>
           <Text>{t('saas:platform.tenant.status')}: {status}</Text>
           {sub.current_period_end && (
@@ -115,7 +116,7 @@ export default function TenantDetailScreen() {
 
         {/* Usage snapshot */}
         <YStack gap="$1" testID="usage-snapshot">
-          <Text fontWeight="600">{t('saas:platform.tenant.usageTitle')}</Text>
+          <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.tenant.usageTitle')}</Text>
           <Text>{t('saas:platform.tenant.locations')}: {sub.usage.locations}/{sub.effective_max_locations ?? '∞'}</Text>
           <Text>{t('saas:platform.tenant.staff')}: {sub.usage.staff}</Text>
           <Text>{t('saas:platform.tenant.tables')}: {sub.usage.tables}</Text>
@@ -126,7 +127,7 @@ export default function TenantDetailScreen() {
 
         {/* Lifecycle actions */}
         <YStack gap="$2" testID="lifecycle-actions">
-          <Text fontWeight="600">{t('saas:platform.tenant.actionsTitle')}</Text>
+          <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.tenant.actionsTitle')}</Text>
           {status === 'active' && (
             <AppButton
               variant="danger"
@@ -177,7 +178,7 @@ export default function TenantDetailScreen() {
         {/* Recent lifecycle events (last 5) */}
         {recentEvents.length > 0 && (
           <YStack gap="$1" testID="recent-lifecycle-events">
-            <Text fontWeight="600">{t('saas:lifecycle.historyTitle')}</Text>
+            <Text {...FIELD_LABEL_STYLE}>{t('saas:lifecycle.historyTitle')}</Text>
             {recentEvents.map((ev) => (
               <XStack key={ev.id} gap="$2" paddingVertical="$1">
                 <Text fontSize="$2" color="$colorSubtle">

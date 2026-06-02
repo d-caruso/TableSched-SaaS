@@ -14,19 +14,19 @@ const mockUse = useSmsProviderHealth as jest.Mock;
 beforeEach(() => jest.clearAllMocks());
 
 describe('healthColor', () => {
-  it('returns $green9 for rate >= 0.90', () => {
-    expect(healthColor(0.9)).toBe('$green9');
-    expect(healthColor(1.0)).toBe('$green9');
+  it('returns $success for rate >= 0.90', () => {
+    expect(healthColor(0.9)).toBe('$success');
+    expect(healthColor(1.0)).toBe('$success');
   });
 
-  it('returns $orange9 for rate 0.70–0.89', () => {
-    expect(healthColor(0.7)).toBe('$orange9');
-    expect(healthColor(0.89)).toBe('$orange9');
+  it('returns $warning for rate 0.70–0.89', () => {
+    expect(healthColor(0.7)).toBe('$warning');
+    expect(healthColor(0.89)).toBe('$warning');
   });
 
-  it('returns $red9 for rate < 0.70', () => {
-    expect(healthColor(0.69)).toBe('$red9');
-    expect(healthColor(0.0)).toBe('$red9');
+  it('returns $danger for rate < 0.70', () => {
+    expect(healthColor(0.69)).toBe('$danger');
+    expect(healthColor(0.0)).toBe('$danger');
   });
 });
 

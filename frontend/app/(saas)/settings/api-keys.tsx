@@ -43,12 +43,12 @@ function RawKeyModal({ data, onClose }: RawKeyModalProps) {
     >
       <YStack
         backgroundColor="$background"
-        borderRadius="$3"
+        borderRadius="$5"
         padding="$4"
         width={360}
         gap="$3"
       >
-        <Text fontSize="$5" fontWeight="700">{t('saas:apiKeys.createdModalTitle')}</Text>
+        <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createdModalTitle')}</Text>
         <Text>{t('saas:apiKeys.createdModalBody')}</Text>
         <Text fontFamily="monospace" testID="raw-key-value">{data.raw_key}</Text>
         <XStack gap="$2" justifyContent="flex-end">
@@ -85,12 +85,12 @@ function CreateModal({ onSubmit, onCancel }: CreateModalProps) {
     >
       <YStack
         backgroundColor="$background"
-        borderRadius="$3"
+        borderRadius="$5"
         padding="$4"
         width={320}
         gap="$3"
       >
-        <Text fontSize="$5" fontWeight="700">{t('saas:apiKeys.createModalTitle')}</Text>
+        <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createModalTitle')}</Text>
         <Text>{t('saas:apiKeys.createModalNameLabel')}</Text>
         <Input
           value={name}
@@ -167,7 +167,7 @@ function KeyRow({ apiKey, onRevoke, onViewUsage }: KeyRowProps) {
           testID={`key-name-edit-${apiKey.id}`}
         />
       ) : (
-        <Text flex={2} fontWeight="600" onPress={() => setEditing(true)} testID={`key-name-${apiKey.id}`}>
+        <Text flex={2} fontWeight="$7" onPress={() => setEditing(true)} testID={`key-name-${apiKey.id}`}>
           {apiKey.name}
         </Text>
       )}
@@ -230,7 +230,7 @@ export default function ApiKeysScreen() {
   return (
     <YStack flex={1} padding="$4" gap="$4" testID="api-keys-screen">
       <XStack justifyContent="space-between" alignItems="center">
-        <Text fontSize="$6" fontWeight="700">{t('saas:apiKeys.title')}</Text>
+        <Text fontSize="$6" fontWeight="$7">{t('saas:apiKeys.title')}</Text>
         <AppButton
           variant="primary"
           skipWriteGate

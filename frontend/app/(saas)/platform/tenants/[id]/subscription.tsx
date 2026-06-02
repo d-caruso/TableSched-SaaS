@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { YStack, XStack, Text, Input } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
+import { FIELD_LABEL_STYLE } from '@core/constants/styles';
 import {
   usePlatformTenant,
   useOverrideSubscription,
@@ -119,11 +120,11 @@ export default function SubscriptionOverridesScreen() {
 
   return (
     <YStack flex={1} padding="$4" gap="$4" testID="subscription-overrides-screen">
-      <Text fontSize="$6" fontWeight="700">{t('saas:platform.subscription.title')}</Text>
+      <Text fontSize="$6" fontWeight="$7">{t('saas:platform.subscription.title')}</Text>
 
       {/* Plan */}
       <YStack gap="$1">
-        <Text fontWeight="600">{t('saas:platform.subscription.planLabel')}</Text>
+        <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.subscription.planLabel')}</Text>
         <XStack gap="$2">
           {PLANS.map((p) => (
             <AppButton
@@ -141,7 +142,7 @@ export default function SubscriptionOverridesScreen() {
 
       {/* Location override */}
       <YStack gap="$1">
-        <Text fontWeight="600">{t('saas:platform.subscription.locationOverrideLabel')}</Text>
+        <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.subscription.locationOverrideLabel')}</Text>
         <XStack gap="$2" alignItems="center">
           <Input
             value={form.locationOverride}
@@ -164,7 +165,7 @@ export default function SubscriptionOverridesScreen() {
 
       {/* Trial ends at */}
       <YStack gap="$1">
-        <Text fontWeight="600">{t('saas:platform.subscription.trialEndsAtLabel')}</Text>
+        <Text {...FIELD_LABEL_STYLE}>{t('saas:platform.subscription.trialEndsAtLabel')}</Text>
         <XStack gap="$2" alignItems="center">
           <Input
             value={form.trialEndsAt}

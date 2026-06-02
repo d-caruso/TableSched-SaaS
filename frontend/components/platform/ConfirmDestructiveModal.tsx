@@ -38,13 +38,13 @@ export function ConfirmDestructiveModal({
       >
         <YStack
           backgroundColor="$background"
-          borderRadius="$3"
+          borderRadius="$5"
           padding="$4"
           width={340}
           gap="$3"
           testID="confirm-modal-content"
         >
-          <Text fontSize="$5" fontWeight="700">{title}</Text>
+          <Text fontSize="$5" fontWeight="$7">{title}</Text>
           <Text>{body}</Text>
           {requireTypedSlug && (
             <YStack gap="$1">

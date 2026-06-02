@@ -25,7 +25,7 @@ export function PlatformSidebarShell({ children }: Props) {
       >
         {/* Header strip */}
         <YStack marginBottom="$2">
-          <Text fontWeight="700">{t('saas:platform.title')}</Text>
+          <Text fontWeight="$7">{t('saas:platform.title')}</Text>
           {userDisplay ? (
             <Text fontSize="$2" color="$colorSubtle" testID="platform-sidebar-user">
               {userDisplay}

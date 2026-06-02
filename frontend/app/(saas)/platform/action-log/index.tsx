@@ -34,7 +34,7 @@ function ActionLogRow({ entry }: { entry: PlatformActionLogEntry }) {
     >
       <XStack gap="$3">
         <Text fontSize="$2" color="$colorSubtle">{date}</Text>
-        <Text fontWeight="600">{entry.action}</Text>
+        <Text fontWeight="$7">{entry.action}</Text>
         <Text>{entry.actor_email}</Text>
         {entry.target_tenant_slug && (
           <Text color="$colorSubtle">→ {entry.target_tenant_slug}</Text>
@@ -61,7 +61,7 @@ export default function ActionLogScreen() {
 
   return (
     <YStack flex={1} padding="$3" gap="$3" testID="action-log-screen">
-      <Text fontSize="$6" fontWeight="700">{t('saas:platform.actionLog.title')}</Text>
+      <Text fontSize="$6" fontWeight="$7">{t('saas:platform.actionLog.title')}</Text>
 
       <XStack gap="$2" flexWrap="wrap">
         <Input
