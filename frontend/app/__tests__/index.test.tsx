@@ -44,4 +44,11 @@ describe('Index', () => {
     expect(getByTestId('redirect')).toBeTruthy();
     expect(getByText('/(staff)/dashboard')).toBeTruthy();
   });
+
+  it('redirects to /(staff)/dashboard when data is undefined (error or unauthenticated)', () => {
+    mockUseMe.mockReturnValue({ data: undefined, isLoading: false });
+    const { getByTestId, getByText } = render(<Index />);
+    expect(getByTestId('redirect')).toBeTruthy();
+    expect(getByText('/(staff)/dashboard')).toBeTruthy();
+  });
 });

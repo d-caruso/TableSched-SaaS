@@ -218,10 +218,12 @@ export default function Index() {
 }
 ```
 
-- `frontend/app/__tests__/index.test.tsx` — new. Three cases:
+- `frontend/app/__tests__/index.test.tsx` — new. Four cases:
   - `isLoading: true` → `Spinner` is rendered
   - `platformAdmin: true` → `Redirect` to `/platform/tenants`
   - `platformAdmin: false` → `Redirect` to `/(staff)/dashboard`
+  - `isLoading: false`, `data: undefined` (error / unauthenticated) → `Redirect` to
+    `/(staff)/dashboard` (staff auth guard then redirects to `/login`)
 
   Mocks: `expo-router` (`Redirect` as a View with `testID`, rendering the `href` as
   text content); `@saas/lib/api/me` (`useMe` as `jest.fn()`). Pattern mirrors
