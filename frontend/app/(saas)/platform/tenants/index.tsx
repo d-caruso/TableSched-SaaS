@@ -10,18 +10,18 @@ const STATUS_FILTERS = ['', 'active', 'past_due', 'suspended', 'cancelled'] as c
 type StatusFilter = typeof STATUS_FILTERS[number];
 
 const STATUS_COLORS: Record<string, string> = {
-  active: '$green9',
-  trialing: '$blue9',
-  past_due: '$orange9',
-  suspended: '$red9',
-  cancelled: '$gray9',
+  active: '$success',
+  trialing: '$brand',
+  past_due: '$warning',
+  suspended: '$danger',
+  cancelled: '$colorSubtle',
 };
 
 function StatusBadge({ status }: { status: string }) {
   return (
     <Text
-      color={STATUS_COLORS[status] ?? '$gray9'}
-      fontWeight="600"
+      color={STATUS_COLORS[status] ?? '$colorSubtle'}
+      fontWeight="$7"
       testID={`status-badge-${status}`}
     >
       {status}
@@ -42,7 +42,7 @@ function TenantRow({ tenant, onOpen }: { tenant: PlatformTenantView; onOpen: () 
       alignItems="center"
       testID={`tenant-row-${tenant.id}`}
     >
-      <Text flex={2} fontWeight="600">{tenant.display_name}</Text>
+      <Text flex={2} fontWeight="$7">{tenant.display_name}</Text>
       <Text flex={1}>{sub.plan.slug}</Text>
       <StatusBadge status={sub.status} />
       <Text flex={1} textAlign="right">
@@ -73,7 +73,7 @@ export default function PlatformTenantListScreen() {
 
   return (
     <YStack flex={1} padding="$3" gap="$3" testID="platform-tenant-list">
-      <Text fontSize="$6" fontWeight="700">{t('saas:platform.tenants.title')}</Text>
+      <Text fontSize="$6" fontWeight="$7">{t('saas:platform.tenants.title')}</Text>
 
       <XStack gap="$2" alignItems="center">
         <Input

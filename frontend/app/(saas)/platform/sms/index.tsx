@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { YStack, XStack, Text } from 'tamagui';
+import { CARD_STYLE } from '@core/constants/styles';
 import { useSmsProviderHealth, ProviderHealth } from '@saas/lib/api/sms';
 
 export function healthColor(rate: number): string {
-  if (rate >= 0.9) return '$green9';
-  if (rate >= 0.7) return '$orange9';
-  return '$red9';
+  if (rate >= 0.9) return '$success';
+  if (rate >= 0.7) return '$warning';
+  return '$danger';
 }
 
 function ProviderCard({ item }: { item: ProviderHealth }) {
@@ -20,14 +21,11 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
 
   return (
     <YStack
-      padding="$3"
-      borderWidth={1}
-      borderColor="$borderColor"
-      borderRadius="$3"
+      {...CARD_STYLE}
       gap="$2"
       testID={`provider-card-${item.provider}`}
     >
-      <Text fontWeight="700" fontSize="$4" textTransform="capitalize">
+      <Text fontWeight="$7" fontSize="$4" textTransform="capitalize">
         {item.provider}
       </Text>
 
@@ -43,7 +41,7 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
       </XStack>
 
       <XStack gap="$3" alignItems="center">
-        <Text fontSize="$3" fontWeight="600" testID={`rate-${item.provider}`}>
+        <Text fontSize="$3" fontWeight="$7" testID={`rate-${item.provider}`}>
           {t('saas:platform.sms.deliveryRate')}: {pct}%
         </Text>
         <XStack
@@ -53,7 +51,7 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
           borderRadius="$2"
           testID={`badge-${item.provider}`}
         >
-          <Text fontSize="$2" color="white">{label}</Text>
+          <Text fontSize="$2" color="$background">{label}</Text>
         </XStack>
         <Text fontSize="$2" color="$colorSubtle" testID={`sent-${item.provider}`}>
           {t('saas:platform.sms.totalSent')}: {item.total_sent}
@@ -71,7 +69,7 @@ export default function SmsHealthScreen() {
   return (
     <ScrollView testID="sms-health-screen">
       <YStack padding="$3" gap="$3">
-        <Text fontSize="$6" fontWeight="700">{t('saas:platform.sms.healthTitle')}</Text>
+        <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.healthTitle')}</Text>
         <Text fontSize="$3" color="$colorSubtle">{t('saas:platform.sms.healthSubtitle')}</Text>
 
         {providers.length === 0 ? (

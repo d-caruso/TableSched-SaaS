@@ -13,7 +13,7 @@ export function ApiKeysSummaryBlock({ tenantId, tier }: Props) {
 
   return (
     <YStack gap="$1" testID="api-keys-summary-block">
-      <Text fontWeight="600">{t('saas:platform.tenant.apiKeysSummaryTitle')}</Text>
+      <Text fontWeight="$7">{t('saas:platform.tenant.apiKeysSummaryTitle')}</Text>
       <Text>
         {t('saas:platform.tenant.apiKeysSummaryActiveCount', {
           count: data.active_count,

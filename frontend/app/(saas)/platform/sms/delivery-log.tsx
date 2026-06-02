@@ -11,9 +11,9 @@ export function maskPhone(phone: string): string {
 }
 
 function statusColor(status: SmsDeliveryLogEntry['status']): string {
-  if (status === 'delivered') return '$green9';
-  if (status === 'pending') return '$orange9';
-  return '$red9';
+  if (status === 'delivered') return '$success';
+  if (status === 'pending') return '$warning';
+  return '$danger';
 }
 
 const STATUS_OPTIONS = ['all', 'pending', 'delivered', 'failed'];
@@ -44,10 +44,10 @@ function DeliveryLogRow({ entry }: { entry: SmsDeliveryLogEntry }) {
         borderRadius="$2"
         testID={`row-status-${entry.id}`}
       >
-        <Text fontSize="$2" color="white">{t(`saas:platform.sms.status${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}`)}</Text>
+        <Text fontSize="$2" color="$background">{t(`saas:platform.sms.status${entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}`)}</Text>
       </XStack>
       {entry.error_code !== '' && (
-        <Text fontSize="$2" color="$red9" testID={`row-error-${entry.id}`}>
+        <Text fontSize="$2" color="$dangerText" testID={`row-error-${entry.id}`}>
           {t('saas:platform.sms.errorCode')}: {entry.error_code}
         </Text>
       )}
@@ -73,7 +73,7 @@ export default function SmsDeliveryLogScreen() {
 
   return (
     <YStack flex={1} padding="$3" gap="$3" testID="delivery-log-screen">
-      <Text fontSize="$6" fontWeight="700">{t('saas:platform.sms.deliveryLogTitle')}</Text>
+      <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.deliveryLogTitle')}</Text>
 
       <XStack gap="$2" flexWrap="wrap">
         <YStack gap="$1">

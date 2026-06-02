@@ -17,7 +17,7 @@ function RoutingRow({ entry }: { entry: RoutingEntry }) {
       gap="$4"
       testID={`routing-row-${entry.prefix}`}
     >
-      <Text fontSize="$3" fontWeight="600" minWidth={80} testID={`routing-prefix-${entry.prefix}`}>
+      <Text fontSize="$3" fontWeight="$7" minWidth={80} testID={`routing-prefix-${entry.prefix}`}>
         {prefixLabel}
       </Text>
       <Text fontSize="$3" testID={`routing-chain-${entry.prefix}`}>
@@ -40,7 +40,7 @@ export default function SmsRoutingScreen() {
   return (
     <ScrollView testID="sms-routing-screen">
       <YStack padding="$3" gap="$3">
-        <Text fontSize="$6" fontWeight="700">{t('saas:platform.sms.routingTitle')}</Text>
+        <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.routingTitle')}</Text>
 
         {sorted.length === 0 ? (
           <Text color="$colorSubtle" testID="routing-empty">

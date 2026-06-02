@@ -29,7 +29,7 @@ function EventCard({ event }: { event: PlatformLifecycleEvent }) {
     >
       <Text fontSize="$2" color="$colorSubtle">{date}</Text>
       <XStack gap="$2">
-        <Text fontWeight="600">
+        <Text fontWeight="$7">
           {event.from_status ?? '—'} → {event.to_status}
         </Text>
       </XStack>
@@ -56,7 +56,7 @@ export default function TenantLifecycleScreen() {
 
   return (
     <YStack flex={1} padding="$3" gap="$3" testID="tenant-lifecycle-screen">
-      <Text fontSize="$5" fontWeight="700">{t('saas:lifecycle.historyTitle')}</Text>
+      <Text fontSize="$5" fontWeight="$7">{t('saas:lifecycle.historyTitle')}</Text>
       {events.length === 0 ? (
         <Text color="$colorSubtle" testID="lifecycle-empty">—</Text>
       ) : (
