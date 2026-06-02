@@ -85,7 +85,7 @@ export function StepDone({ tenant, draft, onDone, onNewBooking }: StepDoneProps)
         <YStack
           width={72}
           height={72}
-          borderRadius={36}
+          borderRadius={99}
           backgroundColor="$brand"
           alignItems="center"
           justifyContent="center"

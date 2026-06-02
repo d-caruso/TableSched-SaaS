@@ -18,13 +18,13 @@ export function BookingFormFlow(props: Props) {
   if (isCancelled) {
     return (
       <YStack
-        backgroundColor="$red2"
+        backgroundColor="$dangerSubtle"
         borderRadius="$3"
         padding="$4"
         gap="$2"
         testID="booking-cancelled-banner"
       >
-        <Text fontSize="$4" color="$red11" textAlign="center">
+        <Text fontSize="$4" color="$dangerText" textAlign="center">
           {t('saas:lifecycle.cancelledCustomerBanner')}
         </Text>
       </YStack>

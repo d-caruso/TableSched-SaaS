@@ -19,13 +19,13 @@ export function ImpersonationBanner() {
 
   return (
     <XStack
-      backgroundColor="$red9"
+      backgroundColor="$danger"
       padding="$2"
       justifyContent="space-between"
       alignItems="center"
       testID="impersonation-banner"
     >
-      <Text color="white">{t('saas:platform.impersonate.banner', { tenant: '' }).trim()}</Text>
+      <Text color="$background">{t('saas:platform.impersonate.banner', { tenant: '' }).trim()}</Text>
       <AppButton
         variant="ghost"
         skipWriteGate

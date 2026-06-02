@@ -31,7 +31,7 @@ function OrgAdminBadge() {
       alignSelf="flex-start"
       marginBottom="$2"
     >
-      <Text fontSize="$1" color="$brand" fontWeight="700">
+      <Text fontSize="$1" color="$brand" fontWeight="$7">
         {t('staff.role.orgAdmin')}
       </Text>
     </XStack>
@@ -62,7 +62,7 @@ function DashboardSidebar() {
               backgroundColor={isActive ? '$brandSubtle' : 'transparent'}
             >
               <Text
-                fontWeight={isActive ? '700' : '400'}
+                fontWeight={isActive ? '$7' : '$4'}
                 color={isActive ? '$brand' : '$color'}
               >
                 {t(item.labelKey)}

@@ -14,7 +14,7 @@ export default function FloorScreen() {
     <YStack flex={1}>
       {atLimit && (
         <YStack
-          backgroundColor="$orange2"
+          backgroundColor="$dangerSubtle"
           borderRadius="$3"
           padding="$3"
           marginHorizontal="$4"
@@ -22,7 +22,7 @@ export default function FloorScreen() {
           gap="$2"
           testID="table-limit-banner"
         >
-          <Text fontSize="$3" color="$orange11">
+          <Text fontSize="$3" color="$warning">
             {t('saas:limits.tablesReached', { cap })}
           </Text>
           <AppButton
