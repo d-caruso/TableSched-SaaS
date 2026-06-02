@@ -21,22 +21,22 @@ export function PastDueBanner() {
 
   return (
     <XStack
-      backgroundColor="$orange3"
+      backgroundColor="$dangerSubtle"
       borderBottomWidth={1}
-      borderColor="$orange6"
+      borderColor="$dangerBorder"
       padding="$3"
       gap="$3"
       alignItems="center"
       justifyContent="space-between"
       testID="past-due-banner"
     >
-      <Text fontSize="$3" color="$orange11" flex={1}>
+      <Text fontSize="$3" color="$warning" flex={1}>
         {t('saas:lifecycle.pastDueBanner')}
       </Text>
       <Text
         fontSize="$3"
-        color="$orange11"
-        fontWeight="700"
+        color="$warning"
+        fontWeight="$7"
         onPress={handleUpdatePayment}
         cursor="pointer"
       >

@@ -2,6 +2,7 @@ import { Linking, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Spinner, Text, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
+import { CARD_STYLE } from '@core/constants/styles';
 import { usePlans } from '@saas/lib/api/plans';
 import { useStartCheckout } from '@saas/lib/api/billing';
 import type { PlanView } from '@saas/lib/api/plans';
@@ -20,20 +21,16 @@ function PlanCard({ plan, onChoose, loading }: {
 
   return (
     <YStack
-      backgroundColor="$background"
-      borderRadius="$4"
-      borderWidth={1}
-      borderColor="$borderColor"
-      padding="$4"
+      {...CARD_STYLE}
       gap="$3"
     >
       <YStack gap="$1">
-        <Text fontSize="$6" fontWeight="700">{plan.display_name}</Text>
+        <Text fontSize="$6" fontWeight="$7">{plan.display_name}</Text>
         <Text fontSize="$5" color="$brandDark">
           {formatPrice(plan.price_cents)}
-          <Text fontSize="$3" color="$color10">{t('saas:billing.perMonth')}</Text>
+          <Text fontSize="$3" color="$placeholderColor">{t('saas:billing.perMonth')}</Text>
         </Text>
-        <Text fontSize="$3" color="$color10">{t(descKey)}</Text>
+        <Text fontSize="$3" color="$placeholderColor">{t(descKey)}</Text>
       </YStack>
 
       <AppButton variant="primary" onPress={onChoose} loading={loading}>
@@ -72,16 +69,16 @@ export default function UpgradeScreen() {
 
   return (
     <YStack flex={1} padding="$4" gap="$4">
-      <Text fontSize="$7" fontWeight="700">{t('saas:billing.upgradeTitle')}</Text>
-      <Text fontSize="$4" color="$color10">{t('saas:billing.upgradeSubtitle')}</Text>
+      <Text fontSize="$7" fontWeight="$7">{t('saas:billing.upgradeTitle')}</Text>
+      <Text fontSize="$4" color="$placeholderColor">{t('saas:billing.upgradeSubtitle')}</Text>
 
       {showTrialBanner && (
         <YStack
-          backgroundColor="$blue2"
+          backgroundColor="$brandSubtle"
           borderRadius="$3"
           padding="$3"
         >
-          <Text fontSize="$3" color="$blue10">
+          <Text fontSize="$3" color="$brand">
             {t('saas:signup.trialBanner', { days: 30 })}
           </Text>
         </YStack>

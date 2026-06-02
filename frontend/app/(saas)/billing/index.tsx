@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform } from 'react-native';
 import { Separator, Spinner, Text, XStack, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
+import { CARD_STYLE, FIELD_LABEL_STYLE } from '@core/constants/styles';
 import { useSubscription, useStartPortalSession } from '@saas/lib/api/billing';
 
 function UsageRow({ label, value }: { label: string; value: string }) {
   return (
     <XStack justifyContent="space-between" paddingVertical="$2">
-      <Text color="$color10">{label}</Text>
-      <Text fontWeight="600">{value}</Text>
+      <Text {...FIELD_LABEL_STYLE}>{label}</Text>
+      <Text fontWeight="$7">{value}</Text>
     </XStack>
   );
 }
@@ -51,17 +52,13 @@ export default function BillingScreen() {
     <YStack flex={1} padding="$4" gap="$4">
       {/* Plan card */}
       <YStack
-        backgroundColor="$background"
-        borderRadius="$4"
-        borderWidth={1}
-        borderColor="$borderColor"
-        padding="$4"
+        {...CARD_STYLE}
         gap="$2"
       >
         <XStack justifyContent="space-between" alignItems="center">
-          <Text fontSize="$6" fontWeight="700">{tierLabel}</Text>
+          <Text fontSize="$6" fontWeight="$7">{tierLabel}</Text>
           {data.tier !== 'free' && data.current_period_end && (
-            <Text fontSize="$3" color="$color10">
+            <Text fontSize="$3" color="$placeholderColor">
               {t('saas:billing.renewsOn', {
                 date: new Date(data.current_period_end).toLocaleDateString(),
               })}
@@ -70,7 +67,7 @@ export default function BillingScreen() {
         </XStack>
 
         {data.status === 'trialing' && data.trial_ends_at && (
-          <Text fontSize="$3" color="$orange10">
+          <Text fontSize="$3" color="$warning">
             {t('saas:billing.trialEndsIn', {
               days: Math.ceil(
                 (new Date(data.trial_ends_at).getTime() - Date.now()) / 86_400_000,
@@ -82,14 +79,10 @@ export default function BillingScreen() {
 
       {/* Usage summary */}
       <YStack
-        backgroundColor="$background"
-        borderRadius="$4"
-        borderWidth={1}
-        borderColor="$borderColor"
-        padding="$4"
+        {...CARD_STYLE}
         gap="$1"
       >
-        <Text fontSize="$5" fontWeight="600" marginBottom="$2">
+        <Text fontSize="$5" fontWeight="$7" marginBottom="$2">
           {t('saas:billing.usageTitle')}
         </Text>
         <UsageRow
