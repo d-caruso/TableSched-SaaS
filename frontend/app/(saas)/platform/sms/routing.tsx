@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { YStack, XStack, Text } from 'tamagui';
+import { STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { useSmsRoutingTable, RoutingEntry } from '@saas/lib/api/sms';
 
 function RoutingRow({ entry }: { entry: RoutingEntry }) {
@@ -39,16 +40,18 @@ export default function SmsRoutingScreen() {
 
   return (
     <ScrollView testID="sms-routing-screen">
-      <YStack padding="$3" gap="$3">
-        <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.routingTitle')}</Text>
+      <YStack alignItems="center" paddingVertical="$6" paddingHorizontal="$4">
+        <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" gap="$3">
+          <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.routingTitle')}</Text>
 
-        {sorted.length === 0 ? (
-          <Text color="$colorSubtle" testID="routing-empty">
-            {t('saas:platform.sms.routingEmpty')}
-          </Text>
-        ) : (
-          sorted.map((entry) => <RoutingRow key={entry.prefix} entry={entry} />)
-        )}
+          {sorted.length === 0 ? (
+            <Text color="$colorSubtle" testID="routing-empty">
+              {t('saas:platform.sms.routingEmpty')}
+            </Text>
+          ) : (
+            sorted.map((entry) => <RoutingRow key={entry.prefix} entry={entry} />)
+          )}
+        </YStack>
       </YStack>
     </ScrollView>
   );

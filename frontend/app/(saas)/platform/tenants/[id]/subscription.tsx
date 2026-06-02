@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { YStack, XStack, Text, Input } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
-import { FIELD_LABEL_STYLE } from '@core/constants/styles';
+import { FIELD_LABEL_STYLE, STAFF_MAX_WIDTH } from '@core/constants/styles';
 import {
   usePlatformTenant,
   useOverrideSubscription,
@@ -119,7 +119,8 @@ export default function SubscriptionOverridesScreen() {
   }
 
   return (
-    <YStack flex={1} padding="$4" gap="$4" testID="subscription-overrides-screen">
+    <YStack flex={1} alignItems="center" paddingVertical="$6" paddingHorizontal="$4" testID="subscription-overrides-screen">
+     <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" gap="$4">
       <Text fontSize="$6" fontWeight="$7">{t('saas:platform.subscription.title')}</Text>
 
       {/* Plan */}
@@ -226,6 +227,7 @@ export default function SubscriptionOverridesScreen() {
           {t('saas:common.save')}
         </AppButton>
       </XStack>
+     </YStack>
     </YStack>
   );
 }

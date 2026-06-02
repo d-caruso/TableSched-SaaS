@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 
 jest.mock('@saas/lib/api/platform', () => ({ usePlatformActionLog: jest.fn() }));
 jest.mock('@saas/lib/lifecycle', () => ({ useCanWrite: () => true }));
+jest.mock('@expo/vector-icons', () => ({ Ionicons: () => null }));
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));

@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { FlatList } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { YStack, XStack, Text } from 'tamagui';
+import { STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { usePlatformLifecycleEvents, PlatformLifecycleEvent } from '@saas/lib/api/platform';
 
 function snakeToCamel(s: string): string {
@@ -55,20 +56,28 @@ export default function TenantLifecycleScreen() {
   const events = data?.pages.flatMap((p) => p.results) ?? [];
 
   return (
-    <YStack flex={1} padding="$3" gap="$3" testID="tenant-lifecycle-screen">
-      <Text fontSize="$5" fontWeight="$7">{t('saas:lifecycle.historyTitle')}</Text>
-      {events.length === 0 ? (
-        <Text color="$colorSubtle" testID="lifecycle-empty">—</Text>
-      ) : (
-        <FlatList
-          data={events}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => <EventCard event={item} />}
-          onEndReached={() => { if (hasNextPage && !isFetchingNextPage) fetchNextPage(); }}
-          onEndReachedThreshold={0.3}
-          testID="lifecycle-list"
-        />
-      )}
+    <YStack
+      flex={1}
+      alignItems="center"
+      paddingVertical="$6"
+      paddingHorizontal="$4"
+      testID="tenant-lifecycle-screen"
+    >
+      <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" flex={1} gap="$3">
+        <Text fontSize="$5" fontWeight="$7">{t('saas:lifecycle.historyTitle')}</Text>
+        {events.length === 0 ? (
+          <Text color="$colorSubtle" testID="lifecycle-empty">—</Text>
+        ) : (
+          <FlatList
+            data={events}
+            keyExtractor={(item) => String(item.id)}
+            renderItem={({ item }) => <EventCard event={item} />}
+            onEndReached={() => { if (hasNextPage && !isFetchingNextPage) fetchNextPage(); }}
+            onEndReachedThreshold={0.3}
+            testID="lifecycle-list"
+          />
+        )}
+      </YStack>
     </YStack>
   );
 }

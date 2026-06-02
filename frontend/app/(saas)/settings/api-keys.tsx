@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { YStack, XStack, Text, Input } from 'tamagui';
+import { YStack, XStack, Text, Input, Sheet } from 'tamagui';
+import { STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { AppButton } from '@saas/components/ui/AppButton';
 import { ConfirmDestructiveModal } from '@saas/components/platform/ConfirmDestructiveModal';
 import { ApiKeyUsageSheet } from '@saas/components/apiKeys/ApiKeyUsageSheet';
@@ -15,6 +17,32 @@ import {
 import { showToast, TOAST_VARIANT } from '@saas/lib/toast';
 
 const MAX_ACTIVE_KEYS = 5;
+
+// ---------------------------------------------------------------------------
+// Shared dialog surface — single tokenised scrim via Sheet.Overlay, radius $5,
+// focus handling supplied by the Sheet primitive. Replaces the prior
+// hand-rolled translucent overlays.
+// ---------------------------------------------------------------------------
+
+type DialogSheetProps = { open: boolean; onClose: () => void; testID: string; children: ReactNode };
+
+function DialogSheet({ open, onClose, testID, children }: DialogSheetProps) {
+  return (
+    <Sheet
+      open={open}
+      onOpenChange={(val: boolean) => { if (!val) onClose(); }}
+      snapPoints={[45]}
+      dismissOnSnapToBottom
+      modal
+    >
+      <Sheet.Overlay />
+      <Sheet.Frame padding="$4" gap="$3" borderRadius="$5" role="dialog" testID={testID}>
+        <Sheet.Handle />
+        {children}
+      </Sheet.Frame>
+    </Sheet>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Post-create modal — shows raw key once
@@ -33,34 +61,19 @@ function RawKeyModal({ data, onClose }: RawKeyModalProps) {
   }
 
   return (
-    <YStack
-      position="absolute"
-      top={0} left={0} right={0} bottom={0}
-      backgroundColor="rgba(0,0,0,0.6)"
-      justifyContent="center"
-      alignItems="center"
-      testID="raw-key-modal"
-    >
-      <YStack
-        backgroundColor="$background"
-        borderRadius="$5"
-        padding="$4"
-        width={360}
-        gap="$3"
-      >
-        <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createdModalTitle')}</Text>
-        <Text>{t('saas:apiKeys.createdModalBody')}</Text>
-        <Text fontFamily="monospace" testID="raw-key-value">{data.raw_key}</Text>
-        <XStack gap="$2" justifyContent="flex-end">
-          <AppButton variant="secondary" skipWriteGate onPress={handleCopy} testID="copy-btn">
-            {t('saas:apiKeys.copyButton')}
-          </AppButton>
-          <AppButton variant="primary" skipWriteGate onPress={onClose} testID="done-btn">
-            {t('saas:common.done')}
-          </AppButton>
-        </XStack>
-      </YStack>
-    </YStack>
+    <DialogSheet open onClose={onClose} testID="raw-key-modal">
+      <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createdModalTitle')}</Text>
+      <Text>{t('saas:apiKeys.createdModalBody')}</Text>
+      <Text fontFamily="monospace" testID="raw-key-value">{data.raw_key}</Text>
+      <XStack gap="$2" justifyContent="flex-end">
+        <AppButton variant="secondary" skipWriteGate onPress={handleCopy} testID="copy-btn">
+          {t('saas:apiKeys.copyButton')}
+        </AppButton>
+        <AppButton variant="primary" skipWriteGate onPress={onClose} testID="done-btn">
+          {t('saas:common.done')}
+        </AppButton>
+      </XStack>
+    </DialogSheet>
   );
 }
 
@@ -75,45 +88,30 @@ function CreateModal({ onSubmit, onCancel }: CreateModalProps) {
   const [name, setName] = useState('');
 
   return (
-    <YStack
-      position="absolute"
-      top={0} left={0} right={0} bottom={0}
-      backgroundColor="rgba(0,0,0,0.6)"
-      justifyContent="center"
-      alignItems="center"
-      testID="create-key-modal"
-    >
-      <YStack
-        backgroundColor="$background"
-        borderRadius="$5"
-        padding="$4"
-        width={320}
-        gap="$3"
-      >
-        <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createModalTitle')}</Text>
-        <Text>{t('saas:apiKeys.createModalNameLabel')}</Text>
-        <Input
-          value={name}
-          onChangeText={setName}
-          placeholder={t('saas:apiKeys.createNamePlaceholder')}
-          testID="key-name-input"
-        />
-        <XStack gap="$2" justifyContent="flex-end">
-          <AppButton variant="ghost" skipWriteGate onPress={onCancel}>
-            {t('saas:common.cancel')}
-          </AppButton>
-          <AppButton
-            variant="primary"
-            skipWriteGate
-            disabled={name.trim().length === 0}
-            onPress={() => name.trim() && onSubmit(name.trim())}
-            testID="create-submit-btn"
-          >
-            {t('saas:common.create')}
-          </AppButton>
-        </XStack>
-      </YStack>
-    </YStack>
+    <DialogSheet open onClose={onCancel} testID="create-key-modal">
+      <Text fontSize="$5" fontWeight="$7">{t('saas:apiKeys.createModalTitle')}</Text>
+      <Text>{t('saas:apiKeys.createModalNameLabel')}</Text>
+      <Input
+        value={name}
+        onChangeText={setName}
+        placeholder={t('saas:apiKeys.createNamePlaceholder')}
+        testID="key-name-input"
+      />
+      <XStack gap="$2" justifyContent="flex-end">
+        <AppButton variant="ghost" skipWriteGate onPress={onCancel}>
+          {t('saas:common.cancel')}
+        </AppButton>
+        <AppButton
+          variant="primary"
+          skipWriteGate
+          disabled={name.trim().length === 0}
+          onPress={() => name.trim() && onSubmit(name.trim())}
+          testID="create-submit-btn"
+        >
+          {t('saas:common.create')}
+        </AppButton>
+      </XStack>
+    </DialogSheet>
   );
 }
 
@@ -228,7 +226,8 @@ export default function ApiKeysScreen() {
   }
 
   return (
-    <YStack flex={1} padding="$4" gap="$4" testID="api-keys-screen">
+    <YStack flex={1} alignItems="center" paddingVertical="$6" paddingHorizontal="$4" testID="api-keys-screen">
+     <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" gap="$4">
       <XStack justifyContent="space-between" alignItems="center">
         <Text fontSize="$6" fontWeight="$7">{t('saas:apiKeys.title')}</Text>
         <AppButton
@@ -257,6 +256,7 @@ export default function ApiKeysScreen() {
           />
         ))
       )}
+     </YStack>
 
       {showCreate && (
         <CreateModal onSubmit={handleCreate} onCancel={() => setShowCreate(false)} />

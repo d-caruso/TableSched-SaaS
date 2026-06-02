@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { YStack, XStack, Text } from 'tamagui';
-import { CARD_STYLE } from '@core/constants/styles';
+import { CARD_STYLE, STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { useSmsProviderHealth, ProviderHealth } from '@saas/lib/api/sms';
 
 export function healthColor(rate: number): string {
@@ -25,8 +25,8 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
       gap="$2"
       testID={`provider-card-${item.provider}`}
     >
-      <Text fontWeight="$7" fontSize="$4" textTransform="capitalize">
-        {item.provider}
+      <Text fontWeight="$7" fontSize="$4">
+        {t(`saas:platform.sms.providerLabels.${item.provider}`, item.provider)}
       </Text>
 
       {/* Progress bar */}
@@ -68,17 +68,19 @@ export default function SmsHealthScreen() {
 
   return (
     <ScrollView testID="sms-health-screen">
-      <YStack padding="$3" gap="$3">
-        <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.healthTitle')}</Text>
-        <Text fontSize="$3" color="$colorSubtle">{t('saas:platform.sms.healthSubtitle')}</Text>
+      <YStack alignItems="center" paddingVertical="$6" paddingHorizontal="$4">
+        <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" gap="$3">
+          <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.healthTitle')}</Text>
+          <Text fontSize="$3" color="$colorSubtle">{t('saas:platform.sms.healthSubtitle')}</Text>
 
-        {providers.length === 0 ? (
-          <Text color="$colorSubtle" testID="health-empty">—</Text>
-        ) : (
-          providers.map((item) => (
-            <ProviderCard key={item.provider} item={item} />
-          ))
-        )}
+          {providers.length === 0 ? (
+            <Text color="$colorSubtle" testID="health-empty">—</Text>
+          ) : (
+            providers.map((item) => (
+              <ProviderCard key={item.provider} item={item} />
+            ))
+          )}
+        </YStack>
       </YStack>
     </ScrollView>
   );
