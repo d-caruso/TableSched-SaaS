@@ -163,7 +163,7 @@ New hook calling `GET /api/v1/me/`. Follows the same pattern as `useAppConfig()`
 
 ```ts
 import { useQuery } from '@tanstack/react-query';
-import { apiRequest } from '<same import as lib/api/platform.ts>';
+import { apiRequest } from '@core/lib/api/client';
 
 export type Me = {
   email: string;
@@ -179,9 +179,6 @@ export function useMe() {
   });
 }
 ```
-
-Note: confirm the `apiRequest` import path by checking `lib/api/platform.ts` before
-writing — use the identical import.
 
 **Commit:** `[TASK] 1 add useMe hook`
 
@@ -226,9 +223,12 @@ export default function Index() {
   - `platformAdmin: true` → `Redirect` to `/platform/tenants`
   - `platformAdmin: false` → `Redirect` to `/(staff)/dashboard`
 
-  Mocks: `expo-router` (`Redirect` as a View with `testID`), `@saas/lib/api/me`
-  (`useMe` as `jest.fn()`). Pattern mirrors
+  Mocks: `expo-router` (`Redirect` as a View with `testID`, rendering the `href` as
+  text content); `@saas/lib/api/me` (`useMe` as `jest.fn()`). Pattern mirrors
   `app/(saas)/platform/__tests__/layout.test.tsx`.
+
+  Redirect destination verified with both `getByTestId('redirect')` (presence) and
+  `getByText('<href>')` (correct destination).
 
   Note: verify `Spinner` is exported from `__mocks__/tamagui.ts` before writing the
   loading-state assertion (`UNSAFE_getByType`).
