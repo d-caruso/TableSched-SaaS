@@ -47,8 +47,8 @@ Reused, not rebuilt: `IsPlatformStaff` (`apps/platform/permissions.py`) for
 |---|---|---|
 | 1 | SaaS public urlconf foundation | `backend/config/urls_public.py` (new), `backend/config/urls.py` |
 | 2 | `MeView` + dual (public/tenant) mount | `backend/apps/platform/views_me.py` (new), `backend/config/urls_public.py`, `backend/config/urls.py` |
-| 3 | Tests (auth, public, tenant role, routing regression) | `backend/tests/platform/test_me.py` (new) |
-| 4 | Dev ergonomics + docs | `backend/Makefile` (new), `docs/ARCHITECTURE_OVERVIEW.md` or SaaS docs |
+| 3 | Tests (auth, public, tenant role, routing regression) | `backend/tests/platform/test_me.py`, `conftest.py`, `__init__.py` (new) |
+| 4 | Dev ergonomics + docs | `backend/Makefile` (new), `docs/ARCHITECTURE_OVERVIEW.md` |
 
 ---
 
@@ -59,9 +59,12 @@ Create `backend/config/urls_public.py`, mirroring the loader pattern already in
 patterns, then append the SaaS public routes (`platform`, `api_access`, billing
 subscription webhook, `sms`). Because SaaS now *has* this module,
 `PUBLIC_SCHEMA_URLCONF="config.urls_public"` resolves to it (local submodule shadows
-the editable fall-through) — **no settings change**. Remove the duplicated SaaS public
-routes from `config/urls.py` (the tenant/ROOT urlconf) so each urlconf carries only its
-schema's routes; verify tenant routing still resolves after the move.
+the editable fall-through) — **no settings change**. Relocate the misplaced SaaS public
+routes out of `config/urls.py` (the tenant/ROOT urlconf): before this work they lived
+*only* there, where public-schema requests never reach them. The tenant urlconf keeps
+reusing core's public patterns (`*_core_public.urlpatterns`, which carry the `api/v1/`
+prefix that tenant requests arrive with after the subfolder strip), so tenant routing
+still resolves after the move.
 
 This both fixes the platform/billing/SMS public-routing 404 and gives `/me/` a home
 (its public mount is added in Task 2).
@@ -105,8 +108,9 @@ Mount the same view twice:
 
 ## Task 3 — Tests
 
-New `backend/tests/platform/test_me.py` (+ `backend/tests/platform/__init__.py`);
-session auth via `client.force_login`; English-only data. Cases:
+New `backend/tests/platform/test_me.py` (+ `backend/tests/platform/__init__.py` and
+`backend/tests/platform/conftest.py`, which holds the `public_tenant` / `staff_user` /
+`platform_user` fixtures); session auth via `client.force_login`; English-only data. Cases:
 1. Unauthenticated → 403.
 2. Restaurant staff (not in `platform_staff`), public context → 200,
    `platformAdmin=false`, `role=null`.
@@ -116,7 +120,8 @@ session auth via `client.force_login`; English-only data. Cases:
 5. Routing regression: `/api/v1/me/` and `/api/v1/platform/tenants/` resolve under the
    new public urlconf (guards the 404 gap from returning).
 
-**Files:** `backend/tests/platform/test_me.py` (new), `backend/tests/platform/__init__.py` (new).
+**Files:** `backend/tests/platform/test_me.py` (new), `backend/tests/platform/conftest.py` (new),
+`backend/tests/platform/__init__.py` (new).
 
 **Commit:** `[TEST] 3 add tests for /me/ and public-routing regression`
 
@@ -128,18 +133,29 @@ session auth via `client.force_login`; English-only data. Cases:
 
 ```makefile
 PY = ../../TableSched/.venv/bin/python
-run:     ; $(PY) manage.py runserver
-migrate: ; $(PY) manage.py migrate_schemas
-test:    ; $(PY) -m pytest
-shell:   ; $(PY) manage.py shell
+
+.PHONY: run migrate test shell lint typecheck
+
+run:
+	$(PY) manage.py runserver
+migrate:
+	$(PY) manage.py migrate_schemas
+test:
+	$(PY) -m pytest
+shell:
+	$(PY) manage.py shell
+lint:
+	$(PY) -m ruff check .
+typecheck:
+	$(PY) -m mypy .
 ```
 
 Update architecture docs for the new endpoint + the public/tenant urlconf split, and
 cross-link `../me-endpoint-analysis.md` and `../adr-001-session-vs-jwt-authentication.md`.
 
-**Files:** `backend/Makefile` (new), `docs/ARCHITECTURE_OVERVIEW.md` (or SaaS docs).
+**Files:** `backend/Makefile` (new), `docs/ARCHITECTURE_OVERVIEW.md`.
 
-**Commit:** `[TASK] 4 add Makefile and document /me/ endpoint`
+**Commit:** `[TASK] 4 add Makefile for SaaS backend dev shortcuts`
 
 ---
 

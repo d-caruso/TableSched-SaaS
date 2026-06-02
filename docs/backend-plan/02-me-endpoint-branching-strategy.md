@@ -15,7 +15,8 @@ References:
   tarball) + Postgres + `config.settings.test`, as `backend.yml` sets up.
 - **English-only test data** ("Restaurant X", never "Ristorante X").
 - **Each task branch lifecycle:** create from parent → implement → commit → pre-merge
-  checks → push → merge into parent.
+  checks → push → merge into parent. Merges use `--no-ff` so every task keeps an
+  explicit merge commit on the parent (clear task boundaries / traceability).
 - **Files < 500 lines**; the view stays < 50 lines.
 - **Progress markers:** ❌ not done · ✅ done. Update in place as work completes.
 
@@ -35,7 +36,14 @@ pytest tests/platform/test_me.py
 pytest
 ```
 
-All checks must pass (0 errors, 0 failures) before merging.
+Ruff and pytest must be clean (0 errors, 0 failures) before merging.
+
+For mypy the gate is **no new errors versus the `develop` baseline**, not an
+absolute zero: that baseline includes pre-existing, unrelated errors in
+`apps/billing` and `apps/sms` (e.g. `_ST` attribute access and missing `requests`
+stubs), which this feature must not add to. Per the Global Rules, those
+pre-existing errors are fixed on a separate `fix/*` branch, not bundled here.
+Verify by comparing `mypy .` on the feature branch against `origin/develop`.
 
 ---
 
@@ -67,7 +75,7 @@ git push -u origin feature/saas-me-endpoint
 
 ---
 
-### ❌ Task 1 — SaaS public urlconf foundation
+### ✅ Task 1 — SaaS public urlconf foundation
 
 **Branch:** `task/saas-me-endpoint-Task1-public-urlconf` — from `feature/saas-me-endpoint`
 
@@ -96,13 +104,13 @@ pytest -q
 ```bash
 git push origin task/saas-me-endpoint-Task1-public-urlconf
 git checkout feature/saas-me-endpoint
-git merge task/saas-me-endpoint-Task1-public-urlconf
+git merge --no-ff task/saas-me-endpoint-Task1-public-urlconf
 git push origin feature/saas-me-endpoint
 ```
 
 ---
 
-### ❌ Task 2 — `MeView` + dual mount
+### ✅ Task 2 — `MeView` + dual mount
 
 **Branch:** `task/saas-me-endpoint-Task2-meview` — from `feature/saas-me-endpoint`
 
@@ -133,13 +141,13 @@ pytest -q
 ```bash
 git push origin task/saas-me-endpoint-Task2-meview
 git checkout feature/saas-me-endpoint
-git merge task/saas-me-endpoint-Task2-meview
+git merge --no-ff task/saas-me-endpoint-Task2-meview
 git push origin feature/saas-me-endpoint
 ```
 
 ---
 
-### ❌ Task 3 — Tests
+### ✅ Task 3 — Tests
 
 **Branch:** `task/saas-me-endpoint-Task3-tests` — from `feature/saas-me-endpoint`
 
@@ -171,13 +179,13 @@ pytest -q
 ```bash
 git push origin task/saas-me-endpoint-Task3-tests
 git checkout feature/saas-me-endpoint
-git merge task/saas-me-endpoint-Task3-tests
+git merge --no-ff task/saas-me-endpoint-Task3-tests
 git push origin feature/saas-me-endpoint
 ```
 
 ---
 
-### ❌ Task 4 — Dev ergonomics + docs
+### ✅ Task 4 — Dev ergonomics + docs
 
 **Branch:** `task/saas-me-endpoint-Task4-makefile-docs` — from `feature/saas-me-endpoint`
 
@@ -192,7 +200,7 @@ See [`02-me-endpoint.md`](./02-me-endpoint.md) §Task 4.
 **Commit:**
 ```bash
 git add backend/Makefile
-git commit -m "[TASK] 4 add Makefile and document /me/ endpoint"
+git commit -m "[TASK] 4 add Makefile for SaaS backend dev shortcuts"
 ```
 
 **Pre-merge checks:**
@@ -206,7 +214,7 @@ pytest -q
 ```bash
 git push origin task/saas-me-endpoint-Task4-makefile-docs
 git checkout feature/saas-me-endpoint
-git merge task/saas-me-endpoint-Task4-makefile-docs
+git merge --no-ff task/saas-me-endpoint-Task4-makefile-docs
 git push origin feature/saas-me-endpoint
 ```
 
@@ -226,6 +234,6 @@ All checks must pass. Then — with explicit confirmation:
 
 ```bash
 git checkout develop
-git merge feature/saas-me-endpoint
+git merge --no-ff feature/saas-me-endpoint
 git push origin develop
 ```
