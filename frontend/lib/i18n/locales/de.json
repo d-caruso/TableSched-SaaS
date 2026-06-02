@@ -1,4 +1,8 @@
 {
+  "booking": {
+    "confirmedSubtitle": "Danke, {{name}}!",
+    "newBooking": "Weitere Reservierung vornehmen"
+  },
   "common": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",

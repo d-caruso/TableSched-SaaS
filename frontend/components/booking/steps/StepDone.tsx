@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { Spinner, Text, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
@@ -90,14 +91,14 @@ export function StepDone({ tenant, draft, onDone, onNewBooking }: StepDoneProps)
           alignItems="center"
           justifyContent="center"
         >
-          <Text fontSize={36} color="$background">✓</Text>
+          <Ionicons name="checkmark" size={40} color="#ffffff" testID="step-done-check" />
         </YStack>
         <YStack alignItems="center" gap="$2">
           <Text fontSize="$7" fontWeight="$8" color="$brand">
             {t('booking.page.bookingConfirmed')}
           </Text>
           <Text fontSize="$4" color="$placeholderColor" textAlign="center">
-            {draft.name ? t('booking.page.booking_confirmed_subtitle', { name: draft.name, defaultValue: `Thank you, ${draft.name}!` }) : ''}
+            {draft.name ? t('saas:booking.confirmedSubtitle', { name: draft.name }) : ''}
           </Text>
         </YStack>
         {onNewBooking ? (
@@ -109,7 +110,7 @@ export function StepDone({ tenant, draft, onDone, onNewBooking }: StepDoneProps)
             fontSize={PRIMARY_ACTION_FONT_SIZE}
             onPress={onNewBooking}
           >
-            {t('booking.page.new_booking', { defaultValue: 'Make another booking' })}
+            {t('saas:booking.newBooking')}
           </AppButton>
         ) : null}
       </YStack>
