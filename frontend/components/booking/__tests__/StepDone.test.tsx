@@ -4,6 +4,7 @@ import { render, waitFor } from '@testing-library/react-native';
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));
+jest.mock('@expo/vector-icons', () => ({ Ionicons: () => null }));
 jest.mock('@core/lib/api/endpoints', () => ({ publicApi: { createBooking: jest.fn() } }));
 jest.mock('@core/components/ui/AppButton', () => ({
   AppButton: ({ children }: { children: React.ReactNode }) => children,

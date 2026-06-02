@@ -1,4 +1,8 @@
 {
+  "booking": {
+    "confirmedSubtitle": "Grazie, {{name}}!",
+    "newBooking": "Prenota di nuovo"
+  },
   "common": {
     "cancel": "Annulla",
     "confirm": "Conferma",

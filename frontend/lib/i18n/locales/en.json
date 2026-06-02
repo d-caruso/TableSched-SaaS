@@ -1,4 +1,8 @@
 {
+  "booking": {
+    "confirmedSubtitle": "Thank you, {{name}}!",
+    "newBooking": "Make another booking"
+  },
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
