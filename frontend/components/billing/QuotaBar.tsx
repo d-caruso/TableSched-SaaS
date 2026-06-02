@@ -12,6 +12,9 @@ export type QuotaLevel = 'ok' | 'warning' | 'danger';
  * so the bar and its labels never disagree.
  */
 export function quotaLevel(ratio: number): QuotaLevel {
+  // 0/0 (zero cap, zero usage) yields NaN; treat as empty/ok. Infinity (usage
+  // against a zero cap) falls through to the `>= 1` danger branch as expected.
+  if (Number.isNaN(ratio)) return 'ok';
   if (ratio >= 1) return 'danger';
   if (ratio >= 0.8) return 'warning';
   return 'ok';
@@ -38,7 +41,8 @@ export const QUOTA_TEXT_COLOR: Record<QuotaLevel, string> = {
 type Props = { ratio: number; testID?: string };
 
 export function QuotaBar({ ratio, testID }: Props) {
-  const clamped = Math.min(Math.max(ratio, 0), 1);
+  // Guard NaN (0/0) before clamping, else the width becomes the invalid `"NaN%"`.
+  const clamped = Number.isFinite(ratio) ? Math.min(Math.max(ratio, 0), 1) : ratio > 0 ? 1 : 0;
   return (
     <YStack
       height={6}
