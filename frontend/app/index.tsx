@@ -3,9 +3,9 @@ import { Spinner, YStack } from 'tamagui';
 import { useMe } from '@saas/lib/api/me';
 
 export default function Index() {
-  const { data, isLoading } = useMe();
+  const { data, isPending } = useMe();
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <YStack flex={1} alignItems="center" justifyContent="center">
         <Spinner size="large" />

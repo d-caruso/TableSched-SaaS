@@ -20,7 +20,7 @@ beforeEach(() => jest.clearAllMocks());
 
 describe('Index', () => {
   it('shows a spinner while loading', () => {
-    mockUseMe.mockReturnValue({ data: undefined, isLoading: true });
+    mockUseMe.mockReturnValue({ data: undefined, isPending: true });
     const { UNSAFE_getByType } = render(<Index />);
     expect(UNSAFE_getByType(Spinner)).toBeTruthy();
   });
@@ -28,7 +28,7 @@ describe('Index', () => {
   it('redirects platform staff to /platform/tenants', () => {
     mockUseMe.mockReturnValue({
       data: { email: 'admin@example.com', platformAdmin: true, role: null },
-      isLoading: false,
+      isPending: false,
     });
     const { getByTestId, getByText } = render(<Index />);
     expect(getByTestId('redirect')).toBeTruthy();
@@ -38,7 +38,7 @@ describe('Index', () => {
   it('redirects restaurant staff to /(staff)/dashboard', () => {
     mockUseMe.mockReturnValue({
       data: { email: 'staff@example.com', platformAdmin: false, role: null },
-      isLoading: false,
+      isPending: false,
     });
     const { getByTestId, getByText } = render(<Index />);
     expect(getByTestId('redirect')).toBeTruthy();
