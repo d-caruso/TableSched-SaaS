@@ -356,7 +356,7 @@ export default function SettingsScreen() {
                   {activeConfig.label}
                 </AppButton>
                 {activeConfig.mutation.isSuccess && (
-                  <Text fontSize="$5" color="$success" fontWeight="$6">
+                  <Text fontSize="$5" color="$success" fontWeight="$7">
                     {t('staff.settings.saved')}
                   </Text>
                 )}

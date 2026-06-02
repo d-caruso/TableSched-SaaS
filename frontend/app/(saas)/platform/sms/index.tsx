@@ -30,7 +30,7 @@ function ProviderCard({ item }: { item: ProviderHealth }) {
       </Text>
 
       {/* Progress bar */}
-      <XStack height={8} borderRadius="$2" backgroundColor="$color4" testID={`bar-track-${item.provider}`}>
+      <XStack height={8} borderRadius="$2" backgroundColor="$borderColor" testID={`bar-track-${item.provider}`}>
         <XStack
           height={8}
           borderRadius="$2"
