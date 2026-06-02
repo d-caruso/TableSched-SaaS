@@ -122,6 +122,7 @@ Two modal mechanisms, two scrim alphas, and modal radius `$3` instead of the doc
 
 - `app/(saas)/platform/tenants/index.tsx:20–30` — local `StatusBadge` (bare colored text, forbidden ramps) instead of core `StatusBadge` pill.
 - `components/floor/RoomTabs.tsx` — a third tab visual language (pill boxes, raw `minWidth/height` 106/54/126) that matches neither core `FilterTabs` nor `SegmentedControl` (active = `2px $brand` bottom border).
+  - **Resolution (Phase 2 §6a): intentional divergence.** The pill-box treatment is kept as a deliberate floor-plan affordance — each tab reads as a tappable "room button," which the bottom-border tab languages do not convey, and the row also hosts an add-room affordance that `FilterTabs`/`SegmentedControl` (fixed option sets) cannot express. The raw pixel values were promoted to named constants (`ROOM_TAB_MIN_WIDTH`/`ADD_ROOM_MIN_WIDTH`/`ROOM_TAB_HEIGHT`) and `FOCUS_STYLE` was added to both interactive elements.
 - `components/platform/PlatformSidebarShell.tsx:19` — fixed sidebar `width={200}` vs core `ResponsiveShell`'s `260`.
 - `components/ui/AppButton.tsx` — a full copy of core `AppButton` plus a `useCanWrite` write-gate. Acceptable in intent, but it duplicates the entire implementation and will drift; prefer wrapping core `AppButton`.
 

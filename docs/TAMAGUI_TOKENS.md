@@ -50,9 +50,10 @@ All other visual props, variants, focus ring, and sizing are identical to core
 `AppButton`. Use `skipWriteGate` for any control that must stay live in a
 read-only (suspended/cancelled/past-due) tenant.
 
-> **Note:** this component currently duplicates the core implementation rather
-> than wrapping it (tracked in `docs/UX-critique-report.md` §2.7). The token and
-> variant behaviour must stay in lockstep with core `AppButton`.
+> **Note:** this component is a thin wrapper around core `AppButton` — it
+> delegates all variant/focus/sizing/loading behaviour to core and only layers
+> the write-gate on top, so token and variant behaviour stay in lockstep
+> automatically.
 
 ### Lifecycle shell surfaces
 
