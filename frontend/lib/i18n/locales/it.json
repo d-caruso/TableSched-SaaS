@@ -87,6 +87,13 @@
   "platform": {
     "title": "Admin di piattaforma",
     "returnToRestaurant": "Torna al mio ristorante",
+    "subscriptionStatus": {
+      "active": "Attivo",
+      "trialing": "In prova",
+      "past_due": "Scaduto",
+      "suspended": "Sospeso",
+      "cancelled": "Annullato"
+    },
     "tenants": {
       "title": "Tenant",
       "empty": "Nessun tenant trovato.",
@@ -195,7 +202,12 @@
       "routingTitle": "Tabella di routing SMS",
       "routingEmpty": "Nessuna regola di routing configurata.",
       "routingDefault": "Predefinito",
-      "errorCode": "Errore"
+      "errorCode": "Errore",
+      "providerLabels": {
+        "twilio": "Twilio",
+        "infobip": "Infobip",
+        "smsapi": "SMSAPI"
+      }
     },
     "toasts": {
       "suspended": "Tenant sospeso.",

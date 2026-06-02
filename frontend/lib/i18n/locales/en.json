@@ -87,6 +87,13 @@
   "platform": {
     "title": "Platform admin",
     "returnToRestaurant": "Return to my restaurant",
+    "subscriptionStatus": {
+      "active": "Active",
+      "trialing": "Trialing",
+      "past_due": "Past due",
+      "suspended": "Suspended",
+      "cancelled": "Cancelled"
+    },
     "tenants": {
       "title": "Tenants",
       "empty": "No tenants found.",
@@ -195,7 +202,12 @@
       "routingTitle": "SMS routing table",
       "routingEmpty": "No routing rules configured.",
       "routingDefault": "Default",
-      "errorCode": "Error"
+      "errorCode": "Error",
+      "providerLabels": {
+        "twilio": "Twilio",
+        "infobip": "Infobip",
+        "smsapi": "SMSAPI"
+      }
     },
     "toasts": {
       "suspended": "Tenant suspended.",
