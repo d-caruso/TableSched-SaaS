@@ -10,9 +10,14 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));
 
+import { useMedia } from 'tamagui';
 import { PlatformSidebarShell } from '../PlatformSidebarShell';
 
-beforeEach(() => jest.clearAllMocks());
+// ResponsiveShell renders the sidebar only on wide viewports; simulate one.
+beforeEach(() => {
+  jest.clearAllMocks();
+  (useMedia as jest.Mock).mockReturnValue({ gtMd: true });
+});
 
 describe('PlatformSidebarShell', () => {
   it('renders the SMS nav button', () => {

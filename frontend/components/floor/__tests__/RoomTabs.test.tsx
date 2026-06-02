@@ -6,7 +6,7 @@ jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string, opts?: Record<string, unknown>) => opts ? `${k}:${JSON.stringify(opts)}` : k }),
 }));
-jest.mock('@core/constants/styles', () => ({ PRESS_STYLE: {} }));
+jest.mock('@core/constants/styles', () => ({ PRESS_STYLE: {}, FOCUS_STYLE: {} }));
 
 import { useLimitState } from '@saas/lib/limits';
 import { RoomTabs } from '../RoomTabs';

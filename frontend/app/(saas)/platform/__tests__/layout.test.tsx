@@ -20,12 +20,17 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));
 
+import { useMedia } from 'tamagui';
 import { useAppConfig } from '@saas/lib/api/platform';
 import PlatformLayout from '../_layout';
 
 const mockUseAppConfig = useAppConfig as jest.Mock;
 
-beforeEach(() => jest.clearAllMocks());
+// ResponsiveShell renders the sidebar only on wide viewports; simulate one.
+beforeEach(() => {
+  jest.clearAllMocks();
+  (useMedia as jest.Mock).mockReturnValue({ gtMd: true });
+});
 
 describe('PlatformLayout', () => {
   it('renders nothing while config is loading', () => {
