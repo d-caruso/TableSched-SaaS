@@ -19,7 +19,7 @@ function EventRow({ eventType, reason, createdAt }: { eventType: string; reason:
   const date = new Date(createdAt).toLocaleDateString();
   return (
     <XStack paddingVertical="$2" borderBottomWidth={1} borderBottomColor="$borderColor" gap="$3">
-      <Text flex={1} fontWeight="600">{eventType}</Text>
+      <Text flex={1} fontWeight="$7">{eventType}</Text>
       <Text flex={2} color="$colorSubtle">{reasonLabel}</Text>
       <Text color="$colorSubtle">{date}</Text>
     </XStack>
@@ -44,7 +44,7 @@ export function LifecycleHistoryTab() {
 
   return (
     <YStack padding="$4" gap="$2" testID="lifecycle-history-tab">
-      <Text fontSize="$5" fontWeight="700" marginBottom="$2">
+      <Text fontSize="$5" fontWeight="$7" marginBottom="$2">
         {t('saas:lifecycle.historyTitle')}
       </Text>
       {sorted.length === 0 ? (

@@ -21,15 +21,15 @@ export function SuspendedShell() {
   return (
     <YStack flex={1} testID="suspended-shell">
       <XStack
-        backgroundColor="$red3"
+        backgroundColor="$dangerSubtle"
         borderBottomWidth={1}
-        borderColor="$red6"
+        borderColor="$dangerBorder"
         padding="$3"
         gap="$3"
         alignItems="center"
         justifyContent="space-between"
       >
-        <Text fontSize="$3" color="$red11" flex={1}>
+        <Text fontSize="$3" color="$dangerText" flex={1}>
           {t('saas:lifecycle.suspendedBanner')}
         </Text>
         <AppButton

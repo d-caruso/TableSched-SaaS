@@ -43,7 +43,7 @@ export function RoomTabs({ rooms, activeId, onSelect, onAddRoom }: Props) {
           >
             <Text
               fontSize="$6"
-              fontWeight={selected ? '$7' : '$6'}
+              fontWeight={selected ? '$7' : '$4'}
               color={selected ? '$background' : '$placeholderColor'}
             >
               {room.name}
@@ -66,7 +66,7 @@ export function RoomTabs({ rooms, activeId, onSelect, onAddRoom }: Props) {
         cursor={atLimit ? 'not-allowed' : 'pointer'}
         pressStyle={atLimit ? undefined : PRESS_STYLE}
       >
-        <Text fontSize="$6" fontWeight="$5" color="$placeholderColor">
+        <Text fontSize="$6" fontWeight="$4" color="$placeholderColor">
           {atLimit
             ? t('saas:limits.roomsReached', { cap })
             : t('staff.floor.addRoom')}

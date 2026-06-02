@@ -36,11 +36,11 @@ export function CancelledShell({ cancelledAt }: Props) {
       gap="$4"
       testID="cancelled-shell"
     >
-      <Text fontSize="$7" fontWeight="700" textAlign="center">
+      <Text fontSize="$7" fontWeight="$7" textAlign="center">
         {t('saas:lifecycle.cancelledTitle')}
       </Text>
 
-      <Text fontSize="$4" color="$color10" textAlign="center">
+      <Text fontSize="$4" color="$colorSubtle" textAlign="center">
         {t('saas:lifecycle.cancelledBody', { date, daysRemaining: days })}
       </Text>
 
