@@ -12,6 +12,10 @@ import importlib.util
 import os
 import sys
 
+from django.urls import path
+
+from apps.platform.views_me import MeView
+
 
 def _load_core_urlconf(filename: str):
     """Load a core config URL module by absolute path via editable install MAPPING."""
@@ -34,6 +38,9 @@ def _load_core_urlconf(filename: str):
 _core_public = _load_core_urlconf("urls_public.py")
 
 urlpatterns = [
+    # Identity endpoint (tenant schema → real StaffMembership role).
+    # Served at /api/v1/restaurants/<slug>/me/ after the subfolder prefix strip.
+    path("me/", MeView.as_view(), name="me"),
     # All core public URL patterns (carry the api/v1/ prefix tenant requests use).
     *_core_public.urlpatterns,
 ]
