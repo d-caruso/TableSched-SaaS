@@ -4,6 +4,7 @@ import { Text, XStack, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
 import { CARD_STYLE } from '@core/constants/styles';
 import { useSubscription } from '@saas/lib/api/billing';
+import { QuotaBar } from './QuotaBar';
 
 export function SmsQuotaBlock() {
   const { t } = useTranslation();
@@ -36,7 +37,6 @@ export function SmsQuotaBlock() {
   const quota = data.limits.sms_daily_quota;
   const used = data.usage.sms_today;
   const overage = Math.max(0, used - quota);
-  const pct = Math.min(used / quota, 1);
 
   return (
     <YStack
@@ -51,14 +51,7 @@ export function SmsQuotaBlock() {
         <Text fontSize="$3">{used} / {quota}</Text>
       </XStack>
 
-      <YStack height={6} borderRadius="$2" backgroundColor="$brandSubtle" overflow="hidden">
-        <YStack
-          height={6}
-          borderRadius="$2"
-          backgroundColor={overage > 0 ? '$warning' : '$brand'}
-          width={`${Math.round(pct * 100)}%` as `${number}%`}
-        />
-      </YStack>
+      <QuotaBar ratio={used / quota} />
 
       <Text fontSize="$2" color="$placeholderColor">{t('saas:sms.poolResetNote')}</Text>
 

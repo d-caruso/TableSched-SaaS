@@ -5,6 +5,7 @@ jest.mock('@saas/lib/api/billing', () => ({
   useSubscription: jest.fn(),
   useStartPortalSession: jest.fn(() => ({ mutateAsync: jest.fn(), isPending: false })),
 }));
+jest.mock('@saas/lib/lifecycle', () => ({ useCanWrite: () => true }));
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (k: string) => k }),
 }));

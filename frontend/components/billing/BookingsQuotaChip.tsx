@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Text, XStack, YStack } from 'tamagui';
 import { useSubscription } from '@saas/lib/api/billing';
+import { QuotaBar } from './QuotaBar';
 
 function getVariant(used: number, cap: number): 'neutral' | 'warning' | 'error' {
   const pct = used / cap;
@@ -9,22 +10,12 @@ function getVariant(used: number, cap: number): 'neutral' | 'warning' | 'error' 
   return 'neutral';
 }
 
+// Text colour escalates with the quota state; the bar itself uses the shared
+// QuotaBar treatment (brand → warning → danger).
 const VARIANT_COLORS = {
   neutral: '$colorSubtle',
   warning: '$warning',
   error:   '$dangerText',
-} as const;
-
-const TRACK_COLORS = {
-  neutral: '$success',
-  warning: '$warning',
-  error:   '$danger',
-} as const;
-
-const FILL_COLORS = {
-  neutral: '$success',
-  warning: '$warning',
-  error:   '$danger',
 } as const;
 
 export function BookingsQuotaChip() {
@@ -37,7 +28,6 @@ export function BookingsQuotaChip() {
   const cap = data.limits.max_bookings_per_month;
   const used = data.usage.bookings_this_month;
   const variant = getVariant(used, cap);
-  const pct = Math.min(used / cap, 1);
 
   return (
     <YStack gap="$1" testID="bookings-quota-chip">
@@ -49,19 +39,7 @@ export function BookingsQuotaChip() {
           {used} / {cap}
         </Text>
       </XStack>
-      <YStack
-        height={6}
-        borderRadius="$2"
-        backgroundColor={TRACK_COLORS[variant]}
-        overflow="hidden"
-      >
-        <YStack
-          height={6}
-          borderRadius="$2"
-          backgroundColor={FILL_COLORS[variant]}
-          width={`${Math.round(pct * 100)}%` as `${number}%`}
-        />
-      </YStack>
+      <QuotaBar ratio={used / cap} />
       {variant === 'error' && (
         <Text fontSize="$2" color="$dangerText">
           {t('saas:limits.locationsReached', { cap })}

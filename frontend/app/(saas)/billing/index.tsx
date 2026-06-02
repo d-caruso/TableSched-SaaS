@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Linking, Platform } from 'react-native';
 import { Separator, Spinner, Text, XStack, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
-import { CARD_STYLE, FIELD_LABEL_STYLE } from '@core/constants/styles';
+import { CARD_STYLE, FIELD_LABEL_STYLE, PAGE_MAX_WIDTH } from '@core/constants/styles';
 import { useSubscription, useStartPortalSession } from '@saas/lib/api/billing';
 
 function UsageRow({ label, value }: { label: string; value: string }) {
@@ -49,7 +49,8 @@ export default function BillingScreen() {
   }
 
   return (
-    <YStack flex={1} padding="$4" gap="$4">
+    <YStack flex={1} alignItems="center" paddingVertical="$6" paddingHorizontal="$4">
+     <YStack maxWidth={PAGE_MAX_WIDTH} width="100%" gap="$4">
       {/* Plan card */}
       <YStack
         {...CARD_STYLE}
@@ -144,6 +145,7 @@ export default function BillingScreen() {
           </>
         )}
       </YStack>
+     </YStack>
     </YStack>
   );
 }
