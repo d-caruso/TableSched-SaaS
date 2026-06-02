@@ -4,7 +4,7 @@ import { Text, XStack, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
 import { CARD_STYLE } from '@core/constants/styles';
 import { useSubscription } from '@saas/lib/api/billing';
-import { QuotaBar } from './QuotaBar';
+import { QuotaBar, quotaLevel, QUOTA_TEXT_COLOR } from './QuotaBar';
 
 export function SmsQuotaBlock() {
   const { t } = useTranslation();
@@ -37,6 +37,7 @@ export function SmsQuotaBlock() {
   const quota = data.limits.sms_daily_quota;
   const used = data.usage.sms_today;
   const overage = Math.max(0, used - quota);
+  const level = quotaLevel(used / quota);
 
   return (
     <YStack
@@ -47,8 +48,8 @@ export function SmsQuotaBlock() {
       <Text fontSize="$4" fontWeight="$7">{t('saas:sms.quotaTitle')}</Text>
 
       <XStack justifyContent="space-between">
-        <Text fontSize="$3" color="$placeholderColor">{t('saas:billing.smsToday')}</Text>
-        <Text fontSize="$3">{used} / {quota}</Text>
+        <Text fontSize="$3" color={QUOTA_TEXT_COLOR[level]}>{t('saas:billing.smsToday')}</Text>
+        <Text fontSize="$3" color={QUOTA_TEXT_COLOR[level]}>{used} / {quota}</Text>
       </XStack>
 
       <QuotaBar ratio={used / quota} />

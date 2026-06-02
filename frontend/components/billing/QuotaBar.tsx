@@ -28,6 +28,13 @@ export function quotaFillColor(ratio: number): string {
   return FILL_COLOR[quotaLevel(ratio)];
 }
 
+/** Usage-text colour shared by every quota block, keyed off the same level. */
+export const QUOTA_TEXT_COLOR: Record<QuotaLevel, string> = {
+  ok:      '$colorSubtle',
+  warning: '$warning',
+  danger:  '$dangerText',
+};
+
 type Props = { ratio: number; testID?: string };
 
 export function QuotaBar({ ratio, testID }: Props) {

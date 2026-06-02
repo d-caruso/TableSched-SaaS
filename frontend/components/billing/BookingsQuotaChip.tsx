@@ -1,15 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Text, XStack, YStack } from 'tamagui';
 import { useSubscription } from '@saas/lib/api/billing';
-import { QuotaBar, quotaLevel, type QuotaLevel } from './QuotaBar';
-
-// Text colour escalates with the quota state, keyed off the same `quotaLevel`
-// thresholds the bar fill uses, so text and bar never disagree.
-const TEXT_COLORS: Record<QuotaLevel, string> = {
-  ok:      '$colorSubtle',
-  warning: '$warning',
-  danger:  '$dangerText',
-};
+import { QuotaBar, quotaLevel, QUOTA_TEXT_COLOR } from './QuotaBar';
 
 export function BookingsQuotaChip() {
   const { t } = useTranslation();
@@ -25,10 +17,10 @@ export function BookingsQuotaChip() {
   return (
     <YStack gap="$1" testID="bookings-quota-chip">
       <XStack justifyContent="space-between">
-        <Text fontSize="$3" color={TEXT_COLORS[level]}>
+        <Text fontSize="$3" color={QUOTA_TEXT_COLOR[level]}>
           {t('saas:billing.bookingsThisMonth')}
         </Text>
-        <Text fontSize="$3" color={TEXT_COLORS[level]}>
+        <Text fontSize="$3" color={QUOTA_TEXT_COLOR[level]}>
           {used} / {cap}
         </Text>
       </XStack>
