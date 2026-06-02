@@ -41,10 +41,13 @@ DLR webhooks) returned 404 on the public schema.
    and the public `/api/v1/me/` mount.
 
 Because the module now exists locally, `PUBLIC_SCHEMA_URLCONF = "config.urls_public"`
-resolves to it. `config/urls.py` (ROOT/tenant) keeps splatting core's public
-patterns (`_core_public.urlpatterns`) — those carry the `api/v1/` prefix that
-tenant requests arrive with after the subfolder strip — plus the tenant `/me/`
-mount.
+resolves to it. `config/urls.py` (ROOT/tenant) loads core's **tenant** patterns
+(`_load_core_urlconf("urls.py")`, unprefixed — e.g. `bookings/`) plus the tenant
+`/me/` mount. After `TenantSubfolderMiddleware` strips
+`api/v1/restaurants/<slug>/`, the remainder matches these, giving clean
+single-prefix URLs like `/api/v1/restaurants/<slug>/bookings/`. Public-only
+endpoints (admin, allauth, the Stripe webhook, health probes) live solely in
+`config.urls_public` and are **not** exposed per tenant.
 
 | URL | urlconf | Schema |
 |---|---|---|
