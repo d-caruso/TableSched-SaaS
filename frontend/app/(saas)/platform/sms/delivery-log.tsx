@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { YStack, XStack, Text, Input } from 'tamagui';
+import { STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { AppButton } from '@saas/components/ui/AppButton';
 import { useSmsDeliveryLog, SmsDeliveryLogEntry } from '@saas/lib/api/sms';
 
@@ -72,7 +73,14 @@ export default function SmsDeliveryLogScreen() {
   const entries = data?.pages.flatMap((p) => p.results) ?? [];
 
   return (
-    <YStack flex={1} padding="$3" gap="$3" testID="delivery-log-screen">
+    <YStack
+      flex={1}
+      alignItems="center"
+      paddingVertical="$6"
+      paddingHorizontal="$4"
+      testID="delivery-log-screen"
+    >
+      <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" flex={1} gap="$3">
       <Text fontSize="$6" fontWeight="$7">{t('saas:platform.sms.deliveryLogTitle')}</Text>
 
       <XStack gap="$2" flexWrap="wrap">
@@ -138,6 +146,7 @@ export default function SmsDeliveryLogScreen() {
           testID="delivery-log-list"
         />
       )}
+      </YStack>
     </YStack>
   );
 }

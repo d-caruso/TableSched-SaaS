@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { YStack, XStack, Text } from 'tamagui';
 import { AppButton } from '@saas/components/ui/AppButton';
-import { FIELD_LABEL_STYLE } from '@core/constants/styles';
+import { FIELD_LABEL_STYLE, STAFF_MAX_WIDTH } from '@core/constants/styles';
 import { ConfirmDestructiveModal } from '@saas/components/platform/ConfirmDestructiveModal';
 import { ImpersonateButton } from '@saas/components/platform/ImpersonateButton';
 import {
@@ -66,7 +66,8 @@ export default function TenantDetailScreen() {
 
   return (
     <ScrollView testID="tenant-detail-scroll">
-      <YStack padding="$4" gap="$4">
+      <YStack alignItems="center" paddingVertical="$6" paddingHorizontal="$4">
+       <YStack maxWidth={STAFF_MAX_WIDTH} width="100%" gap="$4">
         {/* Header */}
         <XStack justifyContent="space-between" alignItems="center">
           <YStack>
@@ -198,6 +199,7 @@ export default function TenantDetailScreen() {
         >
           {t('saas:platform.tenant.viewLifecycleHistory')}
         </AppButton>
+       </YStack>
       </YStack>
 
       {/* Modals */}
