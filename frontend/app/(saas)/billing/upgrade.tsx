@@ -2,7 +2,7 @@ import { Linking, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Spinner, Text, YStack } from 'tamagui';
 import { AppButton } from '@core/components/ui/AppButton';
-import { CARD_STYLE } from '@core/constants/styles';
+import { CARD_STYLE, PAGE_MAX_WIDTH } from '@core/constants/styles';
 import { usePlans } from '@saas/lib/api/plans';
 import { useStartCheckout } from '@saas/lib/api/billing';
 import type { PlanView } from '@saas/lib/api/plans';
@@ -68,7 +68,8 @@ export default function UpgradeScreen() {
   }
 
   return (
-    <YStack flex={1} padding="$4" gap="$4">
+    <YStack flex={1} alignItems="center" paddingVertical="$6" paddingHorizontal="$4">
+     <YStack maxWidth={PAGE_MAX_WIDTH} width="100%" gap="$4">
       <Text fontSize="$7" fontWeight="$7">{t('saas:billing.upgradeTitle')}</Text>
       <Text fontSize="$4" color="$placeholderColor">{t('saas:billing.upgradeSubtitle')}</Text>
 
@@ -92,6 +93,7 @@ export default function UpgradeScreen() {
           loading={checkoutMutation.isPending}
         />
       ))}
+     </YStack>
     </YStack>
   );
 }

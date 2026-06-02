@@ -1,6 +1,7 @@
 import { Linking, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Text, XStack } from 'tamagui';
+import { AppButton } from '@saas/components/ui/AppButton';
 import { useSubscription, useStartPortalSession } from '@saas/lib/api/billing';
 
 export function PastDueBanner() {
@@ -22,26 +23,27 @@ export function PastDueBanner() {
   return (
     <XStack
       backgroundColor="$dangerSubtle"
-      borderBottomWidth={1}
+      borderWidth={1}
       borderColor="$dangerBorder"
+      borderRadius="$4"
       padding="$3"
       gap="$3"
       alignItems="center"
       justifyContent="space-between"
       testID="past-due-banner"
     >
-      <Text fontSize="$3" color="$warning" flex={1}>
+      <Text fontSize="$3" color="$dangerText" fontWeight="$7" flex={1}>
         {t('saas:lifecycle.pastDueBanner')}
       </Text>
-      <Text
-        fontSize="$3"
-        color="$warning"
-        fontWeight="$7"
+      <AppButton
+        variant="primary"
+        skipWriteGate
+        loading={portalMutation.isPending}
         onPress={handleUpdatePayment}
-        cursor="pointer"
+        testID="past-due-cta"
       >
         {t('saas:lifecycle.updatePayment')}
-      </Text>
+      </AppButton>
     </XStack>
   );
 }
