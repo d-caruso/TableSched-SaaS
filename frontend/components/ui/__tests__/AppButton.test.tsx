@@ -51,4 +51,26 @@ describe('AppButton (SaaS shadow)', () => {
     const btn = UNSAFE_getByType(Button);
     expect(btn.props.disabled).toBe(false);
   });
+
+  it('delegates onPress to the core button', () => {
+    mockUseCanWrite.mockReturnValue(true);
+    const onPress = jest.fn();
+    const { UNSAFE_getByType } = render(
+      <AppButton variant="primary" onPress={onPress}>Save</AppButton>
+    );
+    const { Button } = require('tamagui');
+    const btn = UNSAFE_getByType(Button);
+    expect(btn.props.onPress).toBe(onPress);
+  });
+
+  it('delegates loading state to the core button (Spinner shown, disabled)', () => {
+    mockUseCanWrite.mockReturnValue(true);
+    const { UNSAFE_getByType } = render(
+      <AppButton variant="primary" loading>Save</AppButton>
+    );
+    const { Button, Spinner } = require('tamagui');
+    const btn = UNSAFE_getByType(Button);
+    expect(btn.props.disabled).toBe(true);
+    expect(UNSAFE_getByType(Spinner)).toBeTruthy();
+  });
 });
