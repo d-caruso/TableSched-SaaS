@@ -50,6 +50,7 @@
     "roomsReached": "Limite sale raggiunto ({{cap}}). Aggiorna per aggiungerne altre.",
     "staffReached": "Limite staff raggiunto ({{cap}}). Aggiorna per aggiungerne altri.",
     "locationsReached": "Limite locali raggiunto ({{cap}}). Aggiorna per aggiungerne altri.",
+    "bookingsReached": "Limite prenotazioni mensili raggiunto ({{cap}}). Aggiorna per averne di più.",
     "bookingsReachedCustomer": "Questo ristorante ha raggiunto il limite di prenotazioni per questo mese. Riprova il mese prossimo.",
     "upgradeLink": "Aggiorna"
   },

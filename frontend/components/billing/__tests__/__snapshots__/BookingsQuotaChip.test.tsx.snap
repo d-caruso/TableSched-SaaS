@@ -18,7 +18,7 @@ exports[`BookingsQuotaChip renders error chip at 100% 1`] = `
     <View />
   </View>
   <Text>
-    saas:limits.locationsReached:{"cap":50}
+    saas:limits.bookingsReached:{"cap":50}
   </Text>
 </View>
 `;

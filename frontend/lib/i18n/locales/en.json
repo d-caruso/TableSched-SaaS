@@ -50,6 +50,7 @@
     "roomsReached": "Room limit reached ({{cap}}). Upgrade to add more.",
     "staffReached": "Staff limit reached ({{cap}}). Upgrade to add more.",
     "locationsReached": "Location limit reached ({{cap}}). Upgrade to add more.",
+    "bookingsReached": "Monthly booking limit reached ({{cap}}). Upgrade for more.",
     "bookingsReachedCustomer": "This restaurant has reached its booking capacity for this month. Please try again next month.",
     "upgradeLink": "Upgrade"
   },

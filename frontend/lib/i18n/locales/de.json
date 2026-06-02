@@ -50,6 +50,7 @@
     "roomsReached": "Raumlimit erreicht ({{cap}}). Upgraden Sie für mehr.",
     "staffReached": "Personallimit erreicht ({{cap}}). Upgraden Sie für mehr.",
     "locationsReached": "Standortlimit erreicht ({{cap}}). Upgraden Sie für mehr.",
+    "bookingsReached": "Monatliches Buchungslimit erreicht ({{cap}}). Upgraden Sie für mehr.",
     "bookingsReachedCustomer": "Dieses Restaurant hat sein Buchungskontingent für diesen Monat ausgeschöpft. Bitte versuchen Sie es nächsten Monat erneut.",
     "upgradeLink": "Upgraden"
   },

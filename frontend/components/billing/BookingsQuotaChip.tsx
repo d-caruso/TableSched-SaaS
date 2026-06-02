@@ -42,7 +42,7 @@ export function BookingsQuotaChip() {
       <QuotaBar ratio={used / cap} />
       {variant === 'error' && (
         <Text fontSize="$2" color="$dangerText">
-          {t('saas:limits.locationsReached', { cap })}
+          {t('saas:limits.bookingsReached', { cap })}
         </Text>
       )}
     </YStack>
