@@ -1,4 +1,10 @@
-"""SaaS URL configuration — extends core public URLs with billing endpoints."""
+"""SaaS tenant (ROOT) URL configuration.
+
+Serves the per-tenant restaurant schema. After ``TenantSubfolderMiddleware``
+strips the ``api/v1/restaurants/<slug>/`` prefix, requests arrive as
+``api/v1/...``; core's public patterns carry that prefix, so they are reused
+here. SaaS public-schema routes live in ``config.urls_public`` instead.
+"""
 
 from __future__ import annotations
 
@@ -6,12 +12,9 @@ import importlib.util
 import os
 import sys
 
-from django.urls import include, path
+from django.urls import path
 
-from apps.billing.views import stripe_subscription_webhook
-from apps.platform import urls as platform_urls
-from apps.api_access import urls as api_access_urls
-from apps.sms import urls as sms_urls
+from apps.platform.views_me import MeView
 
 
 def _load_core_urlconf(filename: str):
@@ -35,18 +38,9 @@ def _load_core_urlconf(filename: str):
 _core_public = _load_core_urlconf("urls_public.py")
 
 urlpatterns = [
-    # SaaS-specific subscription webhook.
-    path(
-        "api/v1/billing/webhooks/stripe/subscription/",
-        stripe_subscription_webhook,
-        name="stripe-subscription-webhook",
-    ),
-    # Platform admin API.
-    path("api/v1/platform/", include(platform_urls)),
-    # Enterprise API key management.
-    path("api/v1/platform/", include(api_access_urls)),
-    # SMS DLR webhooks.
-    path("saas/sms/", include(sms_urls)),
-    # All core public URL patterns.
+    # Identity endpoint (tenant schema → real StaffMembership role).
+    # Served at /api/v1/restaurants/<slug>/me/ after the subfolder prefix strip.
+    path("me/", MeView.as_view(), name="me"),
+    # All core public URL patterns (carry the api/v1/ prefix tenant requests use).
     *_core_public.urlpatterns,
 ]
