@@ -118,7 +118,7 @@ session auth via `client.force_login`; English-only data. Cases:
 
 **Files:** `backend/tests/platform/test_me.py` (new), `backend/tests/platform/__init__.py` (new).
 
-**Commit:** `[TASK] 3 add tests for /me/ and public-routing regression`
+**Commit:** `[TEST] 3 add tests for /me/ and public-routing regression`
 
 ---
 
