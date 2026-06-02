@@ -10,21 +10,21 @@ function getVariant(used: number, cap: number): 'neutral' | 'warning' | 'error' 
 }
 
 const VARIANT_COLORS = {
-  neutral: '$color10',
-  warning: '$orange10',
-  error:   '$red10',
+  neutral: '$colorSubtle',
+  warning: '$warning',
+  error:   '$dangerText',
 } as const;
 
 const TRACK_COLORS = {
-  neutral: '$green5',
-  warning: '$orange5',
-  error:   '$red5',
+  neutral: '$success',
+  warning: '$warning',
+  error:   '$danger',
 } as const;
 
 const FILL_COLORS = {
-  neutral: '$green9',
-  warning: '$orange9',
-  error:   '$red9',
+  neutral: '$success',
+  warning: '$warning',
+  error:   '$danger',
 } as const;
 
 export function BookingsQuotaChip() {
@@ -51,19 +51,19 @@ export function BookingsQuotaChip() {
       </XStack>
       <YStack
         height={6}
-        borderRadius={3}
+        borderRadius="$2"
         backgroundColor={TRACK_COLORS[variant]}
         overflow="hidden"
       >
         <YStack
           height={6}
-          borderRadius={3}
+          borderRadius="$2"
           backgroundColor={FILL_COLORS[variant]}
           width={`${Math.round(pct * 100)}%` as `${number}%`}
         />
       </YStack>
       {variant === 'error' && (
-        <Text fontSize="$2" color="$red10">
+        <Text fontSize="$2" color="$dangerText">
           {t('saas:limits.locationsReached', { cap })}
         </Text>
       )}
