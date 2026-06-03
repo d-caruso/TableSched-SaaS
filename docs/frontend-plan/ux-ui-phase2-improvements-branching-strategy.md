@@ -5,8 +5,10 @@
 All work is in `frontend/`. This phase depends on `feature/ux-ui-phase1-foundation` being
 merged into `feature/ux-ui-improvements` first — all SaaS colours, weights, radii, cards, and
 field labels must already conform to the core token system. This phase covers user-facing / craft / a11y /
-i18n fixes. No new tokens/constants are created; SaaS consumes `@core` (components included:
-`StatusBadge`, `ConfirmDialog`, `IconButton`, `FilterTabs`, `ResponsiveShell`, core `AppButton`).
+i18n fixes. No new tokens/constants are created; SaaS consumes `@core` (components reused:
+core `AppButton`, `ResponsiveShell`, `BookingFormFlow`). Dialogs and the status pill are built
+on the Tamagui `Sheet` primitive and semantic tokens, since core `ConfirmDialog` has no body
+slot and core `StatusBadge` is hardwired to `BookingStatus`.
 
 Planning doc: `ux-ui-phase2-improvements.md` (concern-organized rulebook).
 
@@ -134,22 +136,27 @@ Branched from `feature/ux-ui-phase2-improvements` **after Task 1 merges** (consu
 `subscriptionStatus` + provider labels). Implements planning **§1, §2, §3, §4, §7** for the
 platform/settings file set:
 - `app/(saas)/platform/tenants/index.tsx` — §1 (wrap list in `CARD_STYLE` + max-width;
-  replace local `StatusBadge` :20–30 with core `StatusBadge` pill; anchor filter/sort
-  controls in a toolbar strip); §2 (`FOCUS_STYLE` on tappable rows); §3 (`STAFF_MAX_WIDTH`
-  page shell); §7 (`t('saas:platform.subscriptionStatus.<status>')` for the badge label,
-  remove leftover `STATUS_COLORS`)
+  render subscription status as a local `StatusBadge` pill mirroring the core pill shape with
+  semantic background tokens — `STATUS_PILL_BG` — since core `StatusBadge` is hardwired to
+  `BookingStatus`; anchor filter/sort controls in a toolbar strip); §2 (`FOCUS_STYLE` on
+  tappable rows); §3 (`STAFF_MAX_WIDTH` page shell); §7 (`t('saas:platform.subscriptionStatus.<status>')`
+  for the pill label, `STATUS_COLORS` removed)
 - `app/(saas)/platform/tenants/[id]/{index,subscription,lifecycle}.tsx` — §3 (`STAFF_MAX_WIDTH`)
 - `app/(saas)/platform/sms/index.tsx` — §3 (`STAFF_MAX_WIDTH`); §7 (translated provider label :30)
 - `app/(saas)/platform/sms/{delivery-log,routing}.tsx` — §3 (`STAFF_MAX_WIDTH`)
 - `app/(saas)/platform/action-log/index.tsx` — §3 (`STAFF_MAX_WIDTH`); §7 (`→` glyph :40 → icon)
-- `app/(saas)/settings/api-keys.tsx` — §4 (migrate the two overlay modals onto core
-  `ConfirmDialog` / shared dialog; single scrim); §2 (focus via dialog); §3 (`STAFF_MAX_WIDTH`)
-- `components/platform/ConfirmDestructiveModal.tsx` — §4 (migrate onto core `ConfirmDialog`,
-  pass slug-confirm body as children; single scrim); §2 (focus via dialog)
+- `app/(saas)/settings/api-keys.tsx` — §4 (migrate the two overlay modals onto a shared
+  `Sheet`-based dialog with a single tokenised scrim — `Sheet.Overlay`, radius `$5` — since core
+  `ConfirmDialog` has no body slot for the key-reveal/create forms); §2 (dialog actions are
+  focus-ringed `AppButton`s); §3 (`STAFF_MAX_WIDTH`)
+- `components/platform/ConfirmDestructiveModal.tsx` — §4 (build on the shared `Sheet` dialog
+  primitive with the slug-confirm input in the body and a single tokenised scrim, since core
+  `ConfirmDialog` has no body slot); §2 (dialog actions are focus-ringed `AppButton`s)
 
 Use core page-shell pattern from `ux-ui-phase2-improvements.md` §3; import `CARD_STYLE`,
-`FOCUS_STYLE`, `STAFF_MAX_WIDTH` from `@core/constants/styles`; `StatusBadge`/`ConfirmDialog`/
-`IconButton` from `@core/components/...`.
+`FOCUS_STYLE`, `STAFF_MAX_WIDTH` from `@core/constants/styles`. The status pill and dialogs are
+built locally on the Tamagui `Sheet` primitive with semantic tokens (core `StatusBadge`/
+`ConfirmDialog` are not reusable here).
 
 **Verification:**
 - `npm run typecheck` passes

@@ -11,9 +11,10 @@ accessibility, page-shell max-width adoption, modal consolidation, quota-progres
 standardisation, tab/sidebar alignment, i18n completeness, and the `AppButton` refactor.
 
 No new feature work — only the documented gaps. **No new tokens or constants** are created;
-SaaS continues to consume `@core`. Where this phase reuses a core *component* (`StatusBadge`,
-`ConfirmDialog`, `IconButton`, `FilterTabs`, `ResponsiveShell`, core `AppButton`), import it
-from `@core/components/...` rather than rebuilding.
+SaaS continues to consume `@core`. The core *components* reused are `ResponsiveShell`, core
+`AppButton`, and `BookingFormFlow` (imported from `@core/components/...`). Core `StatusBadge`
+and `ConfirmDialog` are not reusable here (see §1b, §4), so the status pill and dialogs are
+built locally on the Tamagui `Sheet` primitive with semantic tokens.
 
 > Baseline reference: `docs/TAMAGUI_TOKENS.md` → `~/Projects/TableSched/docs/TAMAGUI_TOKENS.md`.
 
@@ -33,17 +34,19 @@ On wide admin viewports it stretches edge-to-edge.
 - Keep the `FlatList` for virtualisation; the `CARD_STYLE` wrapper goes on the container
   around it, not per row.
 
-### 1b. Replace the local `StatusBadge` with the core pill — `tenants/index.tsx:20–30`
+### 1b. Render the subscription-status pill — `tenants/index.tsx`
 
-The local `StatusBadge` (lines 20–30) is bare coloured text. Replace it with core
-`StatusBadge` (a bg+fg pill). If the core `StatusBadge` status union does not include the
-SaaS subscription statuses (`active`, `trialing`, `past_due`, `suspended`, `cancelled`),
-render a thin local pill that **reuses the core pill shape and semantic tokens**
-(`$success`/`$brand`/`$warning`/`$danger`/`$colorSubtle` backgrounds at subtle opacity),
-not the built-in ramps. Remove the `STATUS_COLORS` map left over from Phase 1.
+Core `StatusBadge` is hardwired to `BookingStatus` and does not cover the SaaS subscription
+statuses (`active`, `trialing`, `past_due`, `suspended`, `cancelled`), so render a thin local
+`StatusBadge` pill that mirrors the core pill shape: solid semantic-token backgrounds
+(`STATUS_PILL_BG` → `$success`/`$brand`/`$warning`/`$danger`/`$colorSubtle`) with `$background`
+foreground text — no built-in ramps. The `STATUS_COLORS` map left over from Phase 1 is removed.
 
 ```tsx
-import { StatusBadge } from '@core/components/ui/StatusBadge';
+const STATUS_PILL_BG = {
+  active: '$success', trialing: '$brand', past_due: '$warning',
+  suspended: '$danger', cancelled: '$colorSubtle',
+};
 // ...
 <StatusBadge status={sub.status} label={t(`saas:platform.subscriptionStatus.${sub.status}`)} />
 ```
@@ -76,7 +79,7 @@ Apply to:
 | `components/floor/RoomTabs.tsx` | both `YStack`s (room tab `:26–43`, add-room `:54–68`) |
 | `components/billing/PastDueBanner.tsx` | the `onPress` `Text` `:36` — see §5 (becomes an `AppButton`, which already has focus) |
 | `app/(saas)/platform/tenants/index.tsx` | the tappable `TenantRow` (if the row itself is pressable) |
-| modal overlays (`ConfirmDestructiveModal.tsx`, `api-keys.tsx`) | superseded by §4 (`ConfirmDialog` supplies focus) |
+| modal overlays (`ConfirmDestructiveModal.tsx`, `api-keys.tsx`) | superseded by §4 — the dialog actions are `AppButton`s, which already carry the focus ring |
 
 Also ensure tappable text meets the 44×44 minimum: where a bare `Text` is the touch
 target, wrap it in core `IconButton` (icon-only actions) or give it adequate padding /
@@ -116,24 +119,21 @@ import { PAGE_MAX_WIDTH } from '@core/constants/styles'; // or STAFF_MAX_WIDTH
 
 ---
 
-## 4. Modal consolidation → core `ConfirmDialog` (audit §2.6)
+## 4. Modal consolidation → shared `Sheet` dialog (audit §2.6)
 
 Two divergent modal mechanisms exist with two scrim alphas:
 - `components/platform/ConfirmDestructiveModal.tsx` — RN `Modal` + `rgba(0,0,0,0.5)`.
 - `app/(saas)/settings/api-keys.tsx:35–43,77–85` — `position:absolute` overlays + `rgba(0,0,0,0.6)`.
 
-Migrate both onto the core `ConfirmDialog` (per the core component inventory). Where a
-modal carries custom body content (the slug-typed confirmation in `ConfirmDestructiveModal`,
-the created-key reveal in `api-keys.tsx`), pass it as children/body to the shared dialog
-rather than rebuilding the surface.
+Core `ConfirmDialog` has no body slot for the custom content these modals carry (the
+slug-typed confirmation in `ConfirmDestructiveModal`, the created-key reveal in `api-keys.tsx`),
+so build both on the shared Tamagui `Sheet` dialog primitive instead — one dialog surface, not two.
 
-- Single, consistent scrim (use whatever `ConfirmDialog` provides; do not hand-roll
-  `rgba(...)`).
-- Modal content radius `$5` (already set in Phase 1 §7 for the interim state).
-- `ConfirmDialog` supplies focus handling, satisfying §2 for these surfaces.
-
-If `ConfirmDialog` cannot host the API-key reveal (read-only display + copy action), keep a
-single SaaS modal component built on the same dialog primitive — do not keep two.
+- Single, consistent scrim via `Sheet.Overlay`; no hand-rolled `rgba(...)`.
+- Modal content radius `$5` (already set in Phase 1 §7).
+- `role="dialog"` + `modal` on the `Sheet`; the dialog's actions are `AppButton`s, which
+  carry the §2 focus ring. (The `Sheet` primitive does not implement a JS focus-trap; that is
+  not required by §2, which covers focus *rings* on interactive elements.)
 
 ---
 
@@ -167,20 +167,16 @@ tenant is in a restricted state.
 
 ### 6a. `RoomTabs` — `components/floor/RoomTabs.tsx`
 
-Align the bespoke tab visuals to the core tab language. Either:
-- adopt the core `FilterTabs` / `SegmentedControl` active-state treatment
-  (`2px $brand` bottom border, `$brand` active label), **or**
-- if the pill-box treatment is a deliberate floor-plan affordance, add a one-line note in
-  `docs/UX-critique-report.md` recording the intentional divergence.
-
-Replace the raw `minWidth`/`height` pixel values (106/54/126) with token-based sizing or a
-named constant if they remain.
+The pill-box tab treatment is a deliberate floor-plan affordance, so it keeps its visual
+language rather than adopting core `FilterTabs`/`SegmentedControl`; the intentional divergence
+is recorded in `docs/UX-critique-report.md`. The raw `minWidth`/`height` pixel values are
+replaced with named constants (`ROOM_TAB_MIN_WIDTH`, `ADD_ROOM_MIN_WIDTH`, `ROOM_TAB_HEIGHT`),
+and `FOCUS_STYLE` is spread on both interactive `YStack`s (§2).
 
 ### 6b. `PlatformSidebarShell` — `components/platform/PlatformSidebarShell.tsx:19`
 
-Sidebar `width={200}` diverges from core `ResponsiveShell`'s `260`. Either set it to `260`
-or reuse `ResponsiveShell` directly (preferred — it also gives the responsive narrow-screen
-collapse for free).
+The sidebar reuses core `ResponsiveShell` directly (260px), which also provides the
+responsive narrow-screen collapse.
 
 ---
 
@@ -208,16 +204,16 @@ provider-label map to all three SaaS locale files. Run the existing i18n parity 
 `useCanWrite` write-gate. The copy will drift from core. Refactor it to a thin wrapper:
 
 ```tsx
+import type { ComponentProps } from 'react';
 import { AppButton as CoreAppButton } from '@core/components/ui/AppButton';
 import { useCanWrite } from '@saas/lib/lifecycle';
-import type { ComponentProps } from 'react';
 
-type Props = ComponentProps<typeof CoreAppButton> & { skipWriteGate?: boolean };
+type AppButtonProps = ComponentProps<typeof CoreAppButton> & { skipWriteGate?: boolean };
 
-export function AppButton({ skipWriteGate = false, variant = 'primary', ...props }: Props) {
+export function AppButton({ variant = 'primary', skipWriteGate = false, disabled, ...props }: AppButtonProps) {
   const canWrite = useCanWrite();
   const writeGated = !skipWriteGate && !canWrite && variant !== 'ghost';
-  return <CoreAppButton variant={variant} {...props} disabled={props.disabled || props.loading || writeGated} />;
+  return <CoreAppButton variant={variant} disabled={disabled || writeGated} {...props} />;
 }
 ```
 
@@ -255,8 +251,8 @@ Visual checks (run dev server):
 - Keyboard focus shows a brand outline on rows/tabs.
 
 **Modals:**
-- Destructive-confirm and API-key modals render via the shared dialog, single scrim,
-  `$5` radius; focus is trapped.
+- Destructive-confirm and API-key modals render via the shared `Sheet` dialog (`role="dialog"`,
+  single scrim, `$5` radius); dialog actions show the brand focus ring (no JS focus-trap).
 
 **Billing:**
 - Quota bars use one consistent brand→warning→danger treatment.
@@ -264,8 +260,8 @@ Visual checks (run dev server):
   even in restricted state).
 
 **Floor / sidebar:**
-- `RoomTabs` matches the core tab treatment (or the divergence is documented).
-- Platform sidebar is 260px / uses `ResponsiveShell`.
+- `RoomTabs` keeps its pill-box treatment (intentional divergence documented); focus ring on tabs.
+- Platform sidebar uses `ResponsiveShell` (260px).
 
 **Booking `StepDone`:**
 - Success/error states use icon components (no literal glyphs); no English leaks under a

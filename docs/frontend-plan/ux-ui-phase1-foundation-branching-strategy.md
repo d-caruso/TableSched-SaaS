@@ -47,7 +47,7 @@ Phase 2 reuses the same worktree (see its branching doc).
   `npm run typecheck`, `npm run lint`, and `npm test` must pass with no errors.
 - **Global concern gates (completeness proof)** — run on the full feature branch before
   merge into `feature/ux-ui-improvements`; each must return zero matches:
-  - Built-in colour ramps: `grep -rnE '\$(red|orange|blue|green|gray)[0-9]+|\$color1[0-9]' frontend/app frontend/components` → zero
+  - Built-in colour ramps: `grep -rnE '\$(red|orange|blue|green|gray)[0-9]+|\$color[0-9]' frontend/app frontend/components` → zero
   - Raw font weights: `grep -rnE 'fontWeight="(600|700)"' frontend/app frontend/components` → zero
   - Off-scale radius: `grep -rn 'borderRadius={3}' frontend/app frontend/components` → zero
   - Raw `color="white"`: `grep -rn 'color="white"' frontend/app frontend/components` → zero
@@ -128,7 +128,7 @@ Add imports `CARD_STYLE`, `FIELD_LABEL_STYLE` from `@core/constants/styles` wher
 - `npm run typecheck` passes
 - `npm test -- components/billing` then any touched billing screen tests
 - Scoped greps return zero within these files:
-  `grep -nE '\$(orange|blue|green|gray)[0-9]+|\$color1[0-9]' <files>`,
+  `grep -nE '\$(orange|blue|green|gray)[0-9]+|\$color[0-9]' <files>`,
   `grep -nE 'fontWeight="(600|700)"' <files>`, `grep -n 'borderRadius={3}' <files>`
 - Visual: quota chip/SMS block render brand/warning/danger (no blue/orange/green); cards
   have `$5` padding + `$4` radius; bold text renders bold
