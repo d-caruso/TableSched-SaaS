@@ -19,7 +19,20 @@ config.resolver.nodeModulesPaths = [
 // AND sub-paths (e.g. react-dom/server) because react-dom-server sets up
 // ReactCurrentDispatcher — if that's a different react-dom copy from the one
 // components use, hooks see a null dispatcher.
-const PINNED_PREFIXES = ["react", "react-dom", "react-native"];
+//
+// tamagui / @tamagui are pinned for the same reason: core ships its own
+// nested tamagui copy, so without this SaaS bundles a second physical copy.
+// createTamagui() in tamagui.config.ts only configures the copy it imports,
+// leaving core components rendering an unconfigured instance ("Can't find
+// Tamagui configuration"). Pinning to core's copy yields one configured
+// singleton shared by both SaaS and core components.
+const PINNED_PREFIXES = [
+  "react",
+  "react-dom",
+  "react-native",
+  "tamagui",
+  "@tamagui",
+];
 
 function isPinned(moduleName) {
   return PINNED_PREFIXES.some(
