@@ -32,6 +32,13 @@ const PINNED_PREFIXES = [
   "react-native",
   "tamagui",
   "@tamagui",
+  // expo-router / react-navigation are pinned for the same singleton reason:
+  // the navigation context object is identity-compared across the copy that
+  // mounts the navigator and the copy a component reads via useNavigation. With
+  // two copies, SaaS's <Redirect> (in app/index.tsx) reads an empty context and
+  // throws "Couldn't find a navigation object". One copy = one shared context.
+  "expo-router",
+  "@react-navigation",
 ];
 
 function isPinned(moduleName) {
@@ -41,6 +48,15 @@ function isPinned(moduleName) {
 }
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  // SPIKE: redirect Expo Router's route-context module to our merged context
+  // (SaaS app/ ∪ core app/) so core routes are exposed without shadow files.
+  if (moduleName === "expo-router/_ctx") {
+    return {
+      filePath: path.resolve(__dirname, "expo-router-ctx.js"),
+      type: "sourceFile",
+    };
+  }
+
   // Deduplicate React family: always use the core's copy.
   if (isPinned(moduleName)) {
     try {
