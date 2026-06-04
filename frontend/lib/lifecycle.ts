@@ -1,11 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useSubscription } from '@saas/lib/api/billing';
 import { showToast, TOAST_VARIANT } from '@saas/lib/toast';
+import { useBackendStatus } from '@core/lib/backendStatus/BackendStatusContext';
 
 const WRITE_ALLOWED_STATUSES = ['active', 'trialing', 'past_due'] as const;
 
 export function useCanWrite(): boolean {
+  const { isReachable } = useBackendStatus();
   const { data } = useSubscription();
+  if (!isReachable) return false;
   if (!data) return true;
   return (WRITE_ALLOWED_STATUSES as readonly string[]).includes(data.status);
 }

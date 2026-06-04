@@ -7,12 +7,17 @@ jest.mock('@saas/lib/toast', () => ({
   showToast: jest.fn(),
   TOAST_VARIANT: { INFO: 'info', SUCCESS: 'success', ERROR: 'error' },
 }));
+jest.mock('@core/lib/backendStatus/BackendStatusContext', () => ({
+  useBackendStatus: jest.fn(() => ({ isReachable: true })),
+}));
 
 import { useSubscription } from '@saas/lib/api/billing';
 import { showToast } from '@saas/lib/toast';
+import { useBackendStatus } from '@core/lib/backendStatus/BackendStatusContext';
 import { useCanWrite, installSuspensionErrorHandler } from '../lifecycle';
 
 const mockUseSubscription = useSubscription as jest.Mock;
+const mockUseBackendStatus = useBackendStatus as jest.Mock;
 const mockShowToast = showToast as jest.Mock;
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -37,6 +42,13 @@ describe('useCanWrite', () => {
     mockUseSubscription.mockReturnValue({ data: undefined });
     const { result } = renderHook(() => useCanWrite(), { wrapper });
     expect(result.current).toBe(true);
+  });
+
+  it('returns false when backend is unreachable regardless of subscription status', () => {
+    mockUseBackendStatus.mockReturnValueOnce({ isReachable: false });
+    mockUseSubscription.mockReturnValue({ data: { status: 'active' } });
+    const { result } = renderHook(() => useCanWrite(), { wrapper });
+    expect(result.current).toBe(false);
   });
 });
 
