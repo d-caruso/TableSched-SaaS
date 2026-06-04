@@ -19,6 +19,8 @@ import { TamaguiProvider } from 'tamagui';
 import { I18nProvider } from '@core/lib/i18n/I18nProvider';
 import { ConsentProvider } from '@core/lib/consent/ConsentContext';
 import { AuthProvider } from '@core/lib/auth/AuthContext';
+import { BackendStatusProvider } from '@core/lib/backendStatus/BackendStatusContext';
+import { BackendStatusBanner } from '@core/components/ui/BackendStatusBanner';
 import { tamaguiConfig } from '@/tamagui.config';
 
 const queryClient = new QueryClient({
@@ -43,9 +45,12 @@ export default function RootLayout() {
         <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
           <I18nProvider>
             <AuthProvider>
-              <ConsentProvider>
-                <Slot />
-              </ConsentProvider>
+              <BackendStatusProvider>
+                <ConsentProvider>
+                  <BackendStatusBanner />
+                  <Slot />
+                </ConsentProvider>
+              </BackendStatusProvider>
             </AuthProvider>
           </I18nProvider>
         </TamaguiProvider>
